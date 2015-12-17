@@ -12,6 +12,10 @@ import org.apache.tapestry5.ioc.services.ApplicationDefaults;
 import org.apache.tapestry5.ioc.services.SymbolProvider;
 import org.apache.tapestry5.services.*;
 import org.slf4j.Logger;
+import tapestry.easyinvoice.data.ClientDAO;
+import tapestry.easyinvoice.data.ClientIMPL;
+import tapestry.easyinvoice.data.DashboardDAO;
+import tapestry.easyinvoice.data.DashboardIMPL;
 
 /**
  * This module is automatically included as part of the Tapestry IoC Registry,
@@ -22,11 +26,17 @@ public class AppModule {
 
     public static void bind(ServiceBinder binder) {
         // binder.bind(MyServiceInterface.class, MyServiceImpl.class);
+        binder.bind(ClientDAO.class, ClientIMPL.class);
+        binder.bind(DashboardDAO.class, DashboardIMPL.class);
 
 // Make bind() calls on the binder object to define most IoC services.
         // Use service builder methods (example below) when the implementation
         // is provided inline, or requires more initialization than simply
         // invoking the constructor.
+    }
+
+    public void contributeComponentRequestHandler(OrderedConfiguration<ComponentRequestFilter> configuration) {
+        configuration.addInstance("PageProtectionFilter", PageProtectionFilter.class);
     }
 
     public static void contributeFactoryDefaults(
@@ -50,6 +60,7 @@ public class AppModule {
         // you can extend this list of locales (it's a comma separated series of locale names;
         // the first locale name is the default when there's no reasonable match).
         configuration.add(SymbolConstants.SUPPORTED_LOCALES, "en");
+        configuration.add(SymbolConstants.HMAC_PASSPHRASE, "dfap[fwafwiwef-qigq");
     }
 
     /**

@@ -6,21 +6,28 @@ and open the template in the editor.
 /* 
     Created on : Nov 21, 2015, 10:31:12 AM
     Author     : dejan
+
+
+Changes on top of original theme:
+@brand-primary : #1c4ea2 
+
 */
 p{white-space: pre;}
 /* SPACING */ 
 .row{}
 .spacer{padding:1em 0;}
-#header-bar{padding-top:2em;}
-.sub-menu{margin-left: 1em;}
+#header-bar{margin-bottom:1em;}
+.sub-menu{margin-left: 1em;background-color: #ffffff;border-color: #ffffff;color:#18bc9c}
+#main-menu{margin-top:1em;padding-bottom: 1em;}
+#logo-small{}
 
 /* COLORS */ 
 
-/* MAIN BLUE : #1c4ea2 */
 .blue{background-color: #afd9ee;}
+.green{background-color: #18bc9c;}
 .grey{background-color: #cccccc;}
-.alert-dismissable{background-color: tomato;}
-.border_btm{border-bottom: #afd9ee 2px solid;}
+.alert-dismissable{background-color: tomato;color:#ffffff}
+.border_btm{border-bottom: #afd9ee 1px solid;}
 
 /* FONTS */
 label{font-weight:normal;}
@@ -32,4 +39,4 @@ label{font-weight:normal;}
 .alert-dismissable h4{display: none;}
 
 /* MAIN MENU */
-.nav-pills li a{padding-left:20px; padding-right: 20px;color:#0099ff;}
+.nav-pills li a{padding-left:20px; padding-right: 20px;margin-right:2em;}

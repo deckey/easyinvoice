@@ -2,17 +2,24 @@ package tapestry.easyinvoice.pages;
 
 import org.apache.tapestry5.annotations.InjectComponent;
 import org.apache.tapestry5.annotations.Property;
+import org.apache.tapestry5.annotations.SessionState;
 import org.apache.tapestry5.beaneditor.Validate;
-import org.apache.tapestry5.corelib.components.Errors;
 import org.apache.tapestry5.corelib.components.Form;
-import org.apache.tapestry5.ioc.Messages;
 import org.apache.tapestry5.ioc.annotations.Inject;
+import tapestry.easyinvoice.data.DashboardDAO;
+import tapestry.easyinvoice.entities.Member;
 
 /**
  * Start page of application EasyInvoice.
  */
 public class Index {
+    
+    @Inject
+    private DashboardDAO dashboardDao;
 
+    @SessionState
+    private Member loggedInUser;
+    
     @Property
     @Validate("required")
     private String memberPassword;
@@ -24,12 +31,9 @@ public class Index {
     @InjectComponent("loginForm")
     private Form form;
 
-    boolean validateUser(String uName, String pWord) {
-        return (uName.equals("admin") && pWord.equals("admin"));
-    }
-
     Object onValidateFromLoginForm() {
-        if (validateUser(memberUsername, memberPassword)) {
+        if(dashboardDao.validateMember(memberUsername, memberPassword)) {
+            loggedInUser = dashboardDao.findMemberByUsername(memberUsername);
             return Dashboard.class;
         } else {
             form.recordError("Invalid username or password!");

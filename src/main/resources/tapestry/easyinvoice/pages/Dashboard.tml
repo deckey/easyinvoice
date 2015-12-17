@@ -8,6 +8,12 @@
         <t:header/>
         <t:mainmenu/>
         
-        Dashboard
+        Client and registration test
+        <br/>
+        <t:eventlink t:event="createClient">Create client</t:eventlink>
+        <br/>
+        <t:grid t:source="clients"/><br/>
+        <t:grid t:source="registrations"/>
+        
     </body>
 </html>

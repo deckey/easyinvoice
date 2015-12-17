@@ -6,9 +6,9 @@
         <div class="row border_btm " id="header-bar">
             <div class="col-xs-6">
                 <!--LOGO-->
-                <a href="Dashboard">
-                    <img class="img-responsive" src="${context:images/easyinvoice_logo_small.png}"/>
-                </a>
+                <t:eventlink t:event="EnterAdminArea">
+                    <img class="img-responsive" id="logo-small" src="${context:images/easyinvoice_logo_small.png}"/>
+                </t:eventlink>
             </div>
             <div class="col-xs-6 ">
                 <div class="row spacer"/>
@@ -16,7 +16,7 @@
                     <t:eventlink t:event="logout" class="btn btn-info btn-xs  pull-right">Logout</t:eventlink>
                 </div>
                 <div class="row">
-                    <h5 class=" pull-right">Welcome back, <b>admin</b></h5>
+                    <h5 class=" pull-right">Welcome back, <b>${loggedUser}</b></h5>
                 </div>
             </div>
         </div>

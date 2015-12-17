@@ -2,9 +2,8 @@
       xmlns:t="http://tapestry.apache.org/schema/tapestry_5_4.xsd"
       xmlns:p="tapestry:parameter">
     <t:content>
-        <t:pagelink t:page="${link}" class="btn btn-md sub-menu">
+        <a t:type="pagelink" t:page="${link}" >
             <img src="${context:images/icons/plus.png}" style="border-radius:10px;"/>
-            ${linkText}
-        </t:pagelink>
+            ${linkText}</a>
     </t:content>
 </html>
