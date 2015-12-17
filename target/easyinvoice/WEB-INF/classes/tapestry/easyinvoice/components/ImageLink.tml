@@ -1,0 +1,9 @@
+<html t:type="layout"
+      xmlns:t="http://tapestry.apache.org/schema/tapestry_5_4.xsd"
+      xmlns:p="tapestry:parameter">
+    <t:content>
+        <a t:type="pagelink" t:page="${link}" >
+            <img src="${context:images/icons/plus.png}" style="border-radius:10px;"/>
+            ${linkText}</a>
+    </t:content>
+</html>

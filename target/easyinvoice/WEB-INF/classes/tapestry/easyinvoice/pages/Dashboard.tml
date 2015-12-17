@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html t:type="layout" 
+      title="EasyInvoice : Dashboard" 
+      xmlns:t="http://tapestry.apache.org/schema/tapestry_5_4.xsd"
+      xmlns:p="tapestry:parameter">
+   
+    <body>
+        <t:header/>
+        <t:mainmenu/>
+        
+        Client and registration test
+        <br/>
+        <t:eventlink t:event="createClient">Create client</t:eventlink>
+        <br/>
+        <t:grid t:source="clients"/><br/>
+        <t:grid t:source="registrations"/>
+        
+    </body>
+</html>

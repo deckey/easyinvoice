@@ -1,0 +1,26 @@
+<html t:type="layout" 
+      xmlns:t="http://tapestry.apache.org/schema/tapestry_5_4.xsd"
+      xmlns:p="tapestry:parameter">
+    <t:content>
+        <div class="row" id="main-menu">
+            <nav class="col-xs-12 col-sm-6">
+                <ul class="nav nav-pills">
+                    <t:loop t:source="pageNames" value="pageName">
+                        <li role="presentation" class="${classForPage}">
+                            <t:pagelink t:page="${pageName}">${pageLabel}</t:pagelink>
+                        </li>
+                    </t:loop>
+                </ul>
+            </nav>
+            <nav class="col-xs-12 col-sm-6">
+                <ul class="nav nav-pills pull-right">
+                    <t:loop t:source="subPageNames" value="subPageName">
+                        <li class="${classForSubPage}">
+                            <t:imagelink link="${subPageName}" linkText="${subPageLabel}"/>
+                        </li>
+                    </t:loop>
+                </ul>
+            </nav>
+        </div>
+    </t:content>
+</html>

@@ -1,0 +1,10 @@
+<!DOCTYPE html>
+<html t:type="layout" 
+      title="EasyInvoice : Edit client" 
+      xmlns:t="http://tapestry.apache.org/schema/tapestry_5_4.xsd"
+      xmlns:p="tapestry:parameter">
+   
+    <body>
+        Edit client
+    </body>
+</html>

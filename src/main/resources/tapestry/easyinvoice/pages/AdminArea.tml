@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html t:type="layout" 
+      title="EasyInvoice : Admin Area" 
+      xmlns:t="http://tapestry.apache.org/schema/tapestry_5_4.xsd"
+      xmlns:p="tapestry:parameter">
+   
+    <body>
+        <t:header/>
+        <t:mainmenu/>
+        <div class="row">
+            <h4>Admin area: </h4>
+            <t:beaneditform t:id="addMemberForm" t:object="member" exclude="memberId" submitLabel="Create member" class="col-sm-4">
+                <t:errors/>
+            </t:beaneditform>
+        </div>
+        <div class="row">
+            <t:grid t:source="members" add="Action" row="rowmember" >
+                <p:actionCell>
+                    <t:eventlink t:event="deleteMember" t:context="rowmember.memberId">Delete</t:eventlink>
+                    <br/>
+                    <t:eventlink t:event="EditMember" t:context="rowmember">Edit</t:eventlink>
+                </p:actionCell>
+            </t:grid>
+        </div>
+    </body>
+</html>
+

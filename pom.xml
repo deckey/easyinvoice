@@ -16,24 +16,13 @@
             <version>${tapestry-release-version}</version>
         </dependency>
 
-        <!-- Include the Log4j implementation for the SLF4J logging framework -->
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-log4j12</artifactId>
-            <version>${slf4j-release-version}</version>
-        </dependency>
-        
         <!--HIBERNATE-->
         <dependency>
             <groupId>org.apache.tapestry</groupId>
             <artifactId>tapestry-hibernate</artifactId>
             <version>${tapestry-release-version}</version>
         </dependency>
-        <dependency>
-            <groupId>org.hsqldb</groupId>
-            <artifactId>hsqldb</artifactId>
-            <version>2.3.2</version>
-        </dependency>
+       
         <!-- MySQL database driver -->
         <dependency>
             <groupId>mysql</groupId>
@@ -47,7 +36,13 @@
             <artifactId>slf4j-log4j12</artifactId>
             <version>${slf4j-release-version}</version>
         </dependency>
-
+        
+        <!-- AUTHORIZATION -->
+        <dependency>
+            <groupId>javax.annotation</groupId>
+            <artifactId>javax.annotation-api</artifactId>
+            <version>1.2</version>
+        </dependency>
         <!-- Uncomment this to add support resource minification and runtime compilation -->
         <!--
         <dependency>
