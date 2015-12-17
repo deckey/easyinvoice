@@ -1,0 +1,21 @@
+<html t:type="layout" 
+      xmlns:t="http://tapestry.apache.org/schema/tapestry_5_4.xsd"
+      xmlns:p="tapestry:parameter">
+    <t:content>
+        <div class="row">
+            <nav class="col-xs-12 col-sm-6">
+                <ul class="nav nav-pills">
+                    <t:loop t:source="pageNames" value="pageName">
+                        <li role="presentation" class="${classForPage}">
+                            <t:pagelink t:page="${pageName}">${pageLabel}</t:pagelink>
+                        </li>
+                    </t:loop>
+                </ul>
+            </nav>
+            <div class="col-xs-12 col-sm-6">
+                <t:imagelink t:linkText="New client" t:link="add/AddClient"/>
+                <t:imagelink t:linkText="Add invoice" t:link="add/AddInvoice"/>
+            </div>
+        </div>
+    </t:content>
+</html>
