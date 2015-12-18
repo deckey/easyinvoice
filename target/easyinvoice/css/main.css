@@ -20,13 +20,15 @@ p{white-space: pre;}
 .sub-menu{margin-left: 1em;background-color: #ffffff;border-color: #ffffff;color:#18bc9c}
 #main-menu{margin-top:1em;padding-bottom: 1em;}
 #logo-small{}
+.frame{padding:2em;}
+.border{border:#afd9ee 2px solid;}
 
 /* COLORS */ 
 
 .blue{background-color: #afd9ee;}
 .green{background-color: #18bc9c;}
-.grey{background-color: #cccccc;}
-.alert-dismissable{background-color: tomato;color:#ffffff}
+.grey{background-color: rgba(150,150,150,0.2);}
+.alert-dismissable.alert-danger{background-color: tomato;color:#ffffff}
 .border_btm{border-bottom: #afd9ee 1px solid;}
 
 /* FONTS */
@@ -34,7 +36,7 @@ label{font-weight:normal;}
 
 /* COMPONENTS */
 /* Login Form */
-#loginForm{background-color: #afd9ee; padding:3em; border-radius: 20px;margin-top:10%;}
+#loginForm{background-color: rgba(175,217,238,0.5); padding:3em; border-radius: 20px;margin-top:10%;}
 #loginBtn{margin-right: 1em;}
 .alert-dismissable h4{display: none;}
 

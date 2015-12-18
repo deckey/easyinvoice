@@ -26,8 +26,11 @@ public class Client implements Serializable {
     @Column(name = "clientId")
     private Integer clientId;
 
-    @Column(name = "clientName")
-    private String clientName;
+    @Column(name = "clientCompany")
+    private String clientCompany;
+    
+    @Column(name = "clientContact")
+    private String clientContact;
 
     @Column(name = "clientPhone")
     private String clientPhone;
@@ -55,11 +58,11 @@ public class Client implements Serializable {
     public Client() {
     }
 
-    public Client(String clientName, String clientPhone, String clientEmail, double clientAmount, String clientIndustry, String clientWebsite) {
-        this.clientName = clientName;
+    public Client(String clientCompany, String clientContact, String clientPhone, String clientEmail, String clientIndustry, String clientWebsite) {
+        this.clientCompany = clientCompany;
+        this.clientContact = clientContact;
         this.clientPhone = clientPhone;
         this.clientEmail = clientEmail;
-        this.clientAmount = clientAmount;
         this.clientIndustry = clientIndustry;
         this.clientWebsite = clientWebsite;
     }
@@ -72,12 +75,20 @@ public class Client implements Serializable {
         this.clientId = clientId;
     }
 
-    public String getClientName() {
-        return clientName;
+    public String getClientCompany() {
+        return clientCompany;
     }
 
-    public void setClientName(String clientName) {
-        this.clientName = clientName;
+    public void setClientCompany(String clientCompany) {
+        this.clientCompany = clientCompany;
+    }
+
+    public String getClientContact() {
+        return clientContact;
+    }
+
+    public void setClientContact(String clientContact) {
+        this.clientContact = clientContact;
     }
 
     public String getClientPhone() {
@@ -135,5 +146,12 @@ public class Client implements Serializable {
     public void setInvoices(Set<Invoice> invoices) {
         this.invoices = invoices;
     }
+
+    @Override
+    public String toString() {
+        return this.clientCompany +" company";
+    }
+    
+    
     
 }

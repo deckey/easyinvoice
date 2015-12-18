@@ -7,13 +7,16 @@
     <body>
         <t:header/>
         <t:mainmenu/>
-        <div class="row">
+        <div class="row ">
+            <t:alerts/>
             <h4>Admin area: </h4>
-            <t:beaneditform t:id="addMemberForm" t:object="member" exclude="memberId" submitLabel="Create member" class="col-sm-4">
+            <t:beaneditform t:id="addMemberForm" t:object="member" exclude="memberId" submitLabel="Add / Edit member" class="col-sm-4 frame border ">
                 <t:errors/>
             </t:beaneditform>
         </div>
+        <div class="row spacer"/>
         <div class="row">
+            <h4>Existing members: </h4>
             <t:grid t:source="members" add="Action" row="rowmember" >
                 <p:actionCell>
                     <t:eventlink t:event="deleteMember" t:context="rowmember.memberId">Delete</t:eventlink>

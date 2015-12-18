@@ -5,6 +5,7 @@
  */
 package tapestry.easyinvoice.data;
 
+import java.util.ArrayList;
 import java.util.List;
 import org.apache.tapestry5.ioc.annotations.Inject;
 import org.hibernate.Session;

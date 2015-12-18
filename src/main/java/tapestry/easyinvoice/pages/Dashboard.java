@@ -53,7 +53,7 @@ public class Dashboard {
 
     @CommitAfter
     void onCreateClient() {
-        Client client1 = new Client("clientName", "clientPhone", "clientEmail", 450, "clientIndustry", "clientWebsite");
+        Client client1 = new Client("clientCompany1", "clientContact1", "clientPhone", "clientEmail", "clientIndustry1", "clientWebsite");
         Registration registration1 = new Registration("client1Address", "client1City", "client1 country", "client1shipping", "client1ShippingCity", "client1shipCountry", "some notes");
 
         client1.setRegistration(registration1);
@@ -61,7 +61,7 @@ public class Dashboard {
 
         clientDao.addClient(client1);
 
-        Client client2 = new Client("clientName2", "clientPhone2", "clientEmail2", 450, "clientIndustry2", "clientWebsite2");
+        Client client2 = new Client("clientCompany2", "clientContact2", "clientPhone2", "clientEmail2", "clientIndustry2", "clientWebsite2");
         Set<Invoice> invoices2 = new HashSet<>();
 
         Invoice invoice1 = new Invoice("description1", new Date(), new Date(), InvoiceStatus.Open, 400, "USD");
@@ -75,15 +75,5 @@ public class Dashboard {
         client2.setInvoices(invoices2);
 
         clientDao.addClient(client2);
-    }
-    
-    
-
-    public Set<Invoice> getClientInvoices() {
-        Client client2 = clientDao.findClientById(2);
-        if (client2 == null) {
-            return null;
-        }
-        return client2.getInvoices();
     }
 }

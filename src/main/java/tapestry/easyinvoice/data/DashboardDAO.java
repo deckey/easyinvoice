@@ -13,7 +13,7 @@ import tapestry.easyinvoice.entities.Member;
  * @author Dejan Ivanovic divanovic3d@gmail.com
  */
 public interface DashboardDAO {
-
+    
     public void deleteMember(Integer id);
 
     public Member findMemberByUsername(String uName);
