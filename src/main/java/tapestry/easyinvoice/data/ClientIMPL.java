@@ -6,10 +6,13 @@
 package tapestry.easyinvoice.data;
 
 import java.util.List;
+import java.util.Set;
 import org.apache.tapestry5.ioc.annotations.Inject;
 import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;
 import tapestry.easyinvoice.entities.Client;
+import tapestry.easyinvoice.entities.Invoice;
+import tapestry.easyinvoice.entities.Service;
 
 /**
  *
@@ -23,6 +26,12 @@ public class ClientIMPL implements ClientDAO {
     @Override
     public void addClient(Client client) {
         dbs.persist(client);
+    }
+
+    @Override
+    public void deleteClient(Integer id) {
+        Client client = findClientById(id);
+        dbs.delete(client);
     }
 
     @Override

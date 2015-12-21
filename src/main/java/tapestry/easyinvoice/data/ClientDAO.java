@@ -16,6 +16,8 @@ public interface ClientDAO {
     
     public void addClient(Client client);
     
+    public void deleteClient(Integer id);
+    
     public List<Client> getAllClients();
     
     public Client findClientById(Integer id);

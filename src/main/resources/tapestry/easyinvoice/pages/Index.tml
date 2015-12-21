@@ -18,7 +18,7 @@
                         <label for="memberPassword" class="control-label">Password</label>
                         <input t:type="passwordfield" t:id="memberPassword" class="form-control" t:value="memberPassword"/>
                     </div>
-                    <t:submit class="btn btn-primary pull-right" t:id="loginBtn" value="Submit"/>
+                    <t:submit class="btn btn-primary pull-right" t:id="loginBtn" value="Login"/>
                 </t:form>
             </div>
         </div>

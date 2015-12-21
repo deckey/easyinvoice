@@ -7,41 +7,56 @@
         <t:header/>
         <t:mainmenu/>
         <div class="row border_btm">
-            <div class="col-xs-10">
+            <div class="col-xs-6">
                 <h4> New invoice</h4>
             </div>
-            <div class="col-xs-2 pull-right">
-                <h4> Preview icon</h4>
+            <div class="col-xs-6">
+                <h4 class='text-right'> Preview icon</h4>
             </div>
         </div>
         
-        <div class="row blue frame">
-            <t:form t:id="addInvoiceForm">
-                <div class="col-sm-3">
-                    <label >Select client</label>
-                    <t:select model="clients" t:value="client"/>
+        <div class="row frame">
+            <form t:type="form" id="addInvoiceForm" t:id="addInvoiceForm">
+                <div class="row ">
+                    <div class="col-xs-6 col-sm-3 form-group">
+                        <label >* Select client</label>
+                        <t:select id="selectClientField" model="clients" t:value="client" class="form-control"/>
+                    </div>
+                    <div class="col-xs-6 col-sm-2 col-sm-offset-1 form-group">
+                        <label >* Invoice # </label>
+                        <t:textfield t:value="invoiceNumber" type="text" class="form-control"/>
+                    </div> 
+                    <div class="col-xs-6  col-sm-2 form-group">
+                        <label >* Issue date</label>
+                        <t:datefield  t:value="issueDate" id="issueDateField" class="form-control"/>
+                    </div>
+                    <div class="col-xs-6 col-sm-2 form-group">
+                        <label >* Due in</label>
+                        <t:datefield  t:value="dueDate" id="dueDateField" class="form-control"/>
+                    </div> 
+                    <div class="col-xs-6 col-sm-2 form-group">
+                        <label >Currency</label>
+                        <t:select model="currencies" t:id="currency" value="currency" class="form-control" />
+                    </div> 
                 </div>
-                <div class="col-sm-2">
-                    <label >Invoice # <t:eventlink>
-                            <img src="${context:images/icons/refresh.png}"/>
-                        </t:eventlink>
-                    </label>
-                    <t:textfield t:value="invoiceNumber" />
+                <div class="row ">
+                    <!--SERVICE ENTRY-->
+                    <div class="form-group col-sm-6">
+                        <label for="serviceDescription">* Invoice description:</label>
+                        <input t:type="textfield" t:id="serviceDescription" value="serviceDescription"/>
+                    </div> 
+                    <div class="form-group col-sm-2">
+                        <label for="addInvoiceBtn" class="invisible">spacer</label>
+                        <t:eventlink t:event="addInvoice" t:id="addInvoiceBtn" class="form-control btn btn-default">Add invoice</t:eventlink>
+                    </div>
                 </div>
-                
-                <div class="col-sm-2">
-                    <label >Issue date</label>
-                    <t:datefield t:value="issueDate"/>
-                </div>
-                <div class="col-sm-2">
-                    <label >Due date</label>
-                    <t:select model="dueDates" value="dueDate"/>
-                </div>
-                <div class="col-sm-2">
-                    <label >Currency</label>
-                    <t:select model="currencies" value="currency"/>
-                </div>
-            </t:form>
+            </form>
+                   
+            <!--SERVICE LIST-->
+            <div class="row">
+                <t:grid source="invoiceServices"/>
+            </div>
+            
         </div>
     </body>
 </html>

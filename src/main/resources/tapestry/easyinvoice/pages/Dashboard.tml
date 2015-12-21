@@ -12,8 +12,11 @@
         <br/>
         <t:eventlink t:event="createClient">Create client</t:eventlink>
         <br/>
-        <t:grid t:source="clients"/><br/>
+        <t:grid t:source="clients"/>
+        <br/>
         <t:grid t:source="registrations"/>
+        <br/>
+        <t:grid t:source="services"/>
         
     </body>
 </html>
