@@ -6,25 +6,19 @@
 package tapestry.easyinvoice.pages.add;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import org.apache.tapestry5.PersistenceConstants;
-import org.apache.tapestry5.annotations.InjectComponent;
 import org.apache.tapestry5.annotations.Persist;
 import org.apache.tapestry5.annotations.Property;
 import org.apache.tapestry5.beaneditor.Validate;
-import org.apache.tapestry5.corelib.components.Form;
-import org.apache.tapestry5.hibernate.annotations.CommitAfter;
 import org.apache.tapestry5.ioc.annotations.Inject;
 import tapestry.easyinvoice.data.ClientDAO;
 import tapestry.easyinvoice.entities.Client;
 import tapestry.easyinvoice.entities.Invoice;
 import tapestry.easyinvoice.entities.Service;
 import tapestry.easyinvoice.model.InvoiceCurrency;
-import tapestry.easyinvoice.model.InvoiceStatus;
 
 /**
  *
@@ -36,49 +30,49 @@ public class AddInvoice {
     //TODO: Logic for adding services 
     // Client service and properties/* Checkbox */
     @Property
-    @Persist(PersistenceConstants.FLASH)
-    private boolean checkboxValue;
+    @Persist
+    @Validate("required")
+    private Client client;
 
     @Inject
     private ClientDAO clientDao;
 
     @Property
     private List<Client> clients;
-
-    @InjectComponent("addInvoiceForm")
-    private Form form;
+//
+//    @InjectComponent("addInvoiceForm")
+//    private Form form;
 
     //Invoice fields:
     @Property
-    @Validate("required")
     @Persist
-    private Client client;
-
-    @Property
     @Validate("required")
-    @Persist
     private InvoiceCurrency currency;
 
-    @Validate("required")
     @Property
     @Persist
+    @Validate("required")
     private Date dueDate;
 
     @Property
     @Persist
+    @Validate("required")
     private Date issueDate;
 
     @Property
+    @Persist
     private Invoice invoice;
 
     @Property
     private Set<Invoice> invoices;
 
     @Property
-    private String invoiceNumber;
+    @Persist
+    @Validate("required")
+    private String invoiceDescription;
 
     @Property
-    private Service service;
+    private String invoiceNumber;
 
     @Property
     @Validate("required")
@@ -87,6 +81,9 @@ public class AddInvoice {
     @Property
     @Validate("required")
     private Integer serviceAmount;
+
+    @Property
+    private Service service;
 
     @Property
     @Persist
@@ -102,66 +99,67 @@ public class AddInvoice {
     }
 
     void onPrepare() {
-
-        if (clients == null) {
-            clients = new ArrayList<>();
+        if (invoice == null) {
+            invoice = new Invoice();
         }
         if (client == null) {
             client = clients.get(0);
         }
-        if (services == null) {
-            services = new HashSet<>();
-        }
-        if (service == null) {
-            service = new Service();
-        }
-        if (invoices == null) {
-            invoices = new HashSet<>();
-        }
-        if (invoice == null) {
-            invoice = new Invoice();
-        }
-        System.out.println("CLIENT..." + client);
-        System.out.println("INVOICES.." + invoices);
-        System.out.println("INVOICE..." + invoice);
-        System.out.println("SERVICES..." + services);
-        System.out.println("SERVICE..." + service);
         issueDate = issueDate == null ? new Date() : issueDate;
         invoiceNumber = getInvoiceNumberFormat();
-
     }
 
     void onActivate() {
         clients = clientDao.getAllClients();
-
-    }
-
-    public Set<Service> getInvoiceServices() {
-        return invoice.getServices();
-    }
-
-    void onClearServices() {
-        services.clear();
-    }
-
-    //TODO: FIX ADDING SERVICES AND FINALIZE INVOICE CREATION
-    @CommitAfter
-    void onSubmitFromAddInvoiceForm() {
-        Invoice invoice = new Invoice(invoiceNumber, issueDate, dueDate, currency.toString());
-        Service service = new Service(serviceDescription, 30);
-        service.setInvoice(invoice);
-        services.add(service);
-        
-        invoice.setServices(services);
-        invoice.setClient(client);
-        invoices.add(invoice);
-        
-        client.setInvoices(invoices);
         service = new Service();
     }
-    
-    void onAddInvoice(){
+
+    void onSubmitFromAddInvoiceForm() {
+
+    }
+
+    void onSubmitFromAddServiceForm() {
+        System.out.println("SERVICE..." + service);
+        service.setServiceAmount(serviceAmount);
+        service.setServiceDescription(serviceDescription);
+        service.setInvoice(invoice);
+        services.add(service);
+        invoice.setServices(services);
         
+        
+        invoice.setInvoiceNumber(invoiceNumber);
+        invoice.setInvoiceDescription(invoiceDescription);
+        invoice.setInvoiceIssueDate(issueDate);
+        invoice.setInvoiceDueDate(dueDate);
+        invoice.setInvoiceCurrency(currency);
+        invoice.setClient(client);
+
+//        invoice.getServices().add(service);
+//        System.out.println("INVOICE..."+invoice);
+    }
+
+    void onDeleteServices() {
+        services.clear();
+        invoice.setServices(services);
+    }
+
+//TODO: FIX ADDING SERVICES AND FINALIZE INVOICE CREATION
+//    @CommitAfter
+//    void onSubmitFromAddInvoiceForm() {
+////        Service service = new Service(serviceDescription, 30);
+////        service.setInvoice(invoice);
+////
+////        invoice.setClient(client);
+////        invoices.add(invoice);
+////
+////        client.setInvoices(invoices);
+////        service = new Service();
+//    }
+    void onAddInvoice() {
+//        System.out.println("ADDING INVOICE...");
+//        Invoice invoice1 = new Invoice(invoiceNumber, issueDate, dueDate, invoiceNumber);
+//        System.out.println("INVOICE..." + invoice1);
+
     }
 
 }

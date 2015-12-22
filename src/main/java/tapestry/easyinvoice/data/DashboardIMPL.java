@@ -5,12 +5,13 @@
  */
 package tapestry.easyinvoice.data;
 
-import java.util.ArrayList;
 import java.util.List;
 import org.apache.tapestry5.ioc.annotations.Inject;
 import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;
+import tapestry.easyinvoice.entities.Invoice;
 import tapestry.easyinvoice.entities.Member;
+import tapestry.easyinvoice.entities.Service;
 
 /**
  *
@@ -20,6 +21,18 @@ public class DashboardIMPL implements DashboardDAO {
 
     @Inject
     private Session dbs;
+
+    @Override
+    public void addInvoice(Invoice invoice) {
+        dbs.persist(invoice);
+    }
+
+    @Override
+    public void addService(Service service) {
+        dbs.persist(service);
+    }
+    
+    
     
     @Override
     public void deleteMember(Integer id) {

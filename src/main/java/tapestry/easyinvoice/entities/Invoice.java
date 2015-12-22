@@ -2,6 +2,7 @@ package tapestry.easyinvoice.entities;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -17,6 +18,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import org.apache.tapestry5.ioc.annotations.Inject;
+import tapestry.easyinvoice.model.InvoiceCurrency;
 import tapestry.easyinvoice.model.InvoiceStatus;
 
 /**
@@ -54,7 +56,7 @@ public class Invoice implements Serializable {
     private double invoiceAmount;
 
     @Column(name = "invoiceCurrency")
-    private String invoiceCurrency;
+    private InvoiceCurrency invoiceCurrency;
 
     @ManyToOne
     @JoinColumn(name = "invoiceClientId")
@@ -67,7 +69,7 @@ public class Invoice implements Serializable {
     public Invoice() {
     }
 
-    public Invoice(String invoiceNumber, String invoiceDescription, Date invoiceIssueDate, Date invoiceDueDate, InvoiceStatus invoiceStatus, double invoiceAmount, String invoiceCurrency) {
+    public Invoice(String invoiceNumber, String invoiceDescription, Date invoiceIssueDate, Date invoiceDueDate, InvoiceStatus invoiceStatus, double invoiceAmount, InvoiceCurrency invoiceCurrency, Client client, Set<Service> services) {
         this.invoiceNumber = invoiceNumber;
         this.invoiceDescription = invoiceDescription;
         this.invoiceIssueDate = invoiceIssueDate;
@@ -75,10 +77,13 @@ public class Invoice implements Serializable {
         this.invoiceStatus = invoiceStatus;
         this.invoiceAmount = invoiceAmount;
         this.invoiceCurrency = invoiceCurrency;
+        this.client = client;
+        this.services = services;
     }
 
-    public Invoice(String invoiceNumber, Date invoiceIssueDate, Date invoiceDueDate, String invoiceCurrency) {
+    public Invoice(String invoiceNumber, String invoiceDescription, Date invoiceIssueDate, Date invoiceDueDate, InvoiceCurrency invoiceCurrency) {
         this.invoiceNumber = invoiceNumber;
+        this.invoiceDescription = invoiceDescription;
         this.invoiceIssueDate = invoiceIssueDate;
         this.invoiceDueDate = invoiceDueDate;
         this.invoiceCurrency = invoiceCurrency;
@@ -140,11 +145,11 @@ public class Invoice implements Serializable {
         this.invoiceAmount = invoiceAmount;
     }
 
-    public String getInvoiceCurrency() {
+    public InvoiceCurrency getInvoiceCurrency() {
         return invoiceCurrency;
     }
 
-    public void setInvoiceCurrency(String invoiceCurrency) {
+    public void setInvoiceCurrency(InvoiceCurrency invoiceCurrency) {
         this.invoiceCurrency = invoiceCurrency;
     }
 

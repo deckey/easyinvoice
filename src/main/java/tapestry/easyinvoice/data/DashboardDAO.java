@@ -6,14 +6,19 @@
 package tapestry.easyinvoice.data;
 
 import java.util.List;
+import tapestry.easyinvoice.entities.Invoice;
 import tapestry.easyinvoice.entities.Member;
+import tapestry.easyinvoice.entities.Service;
 
 /**
  *
  * @author Dejan Ivanovic divanovic3d@gmail.com
  */
 public interface DashboardDAO {
-    
+
+    public void addInvoice(Invoice invoice);
+    public void addService(Service service);
+
     public void deleteMember(Integer id);
 
     public Member findMemberByUsername(String uName);

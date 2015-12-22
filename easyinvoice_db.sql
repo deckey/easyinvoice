@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.4.14
+-- version 4.3.11
 -- http://www.phpmyadmin.net
 --
--- Host: localhost
--- Generation Time: Dec 21, 2015 at 04:58 PM
--- Server version: 5.6.26
--- PHP Version: 5.5.28
+-- Host: 127.0.0.1
+-- Generation Time: Dec 22, 2015 at 01:21 AM
+-- Server version: 5.6.24
+-- PHP Version: 5.5.24
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -14,7 +14,7 @@ SET time_zone = "+00:00";
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8mb4 */;
+/*!40101 SET NAMES utf8 */;
 
 --
 -- Database: `easyinvoice.db`
@@ -35,15 +35,14 @@ CREATE TABLE IF NOT EXISTS `client` (
   `clientIndustry` varchar(255) DEFAULT NULL,
   `clientPhone` varchar(255) DEFAULT NULL,
   `clientWebsite` varchar(255) DEFAULT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `client`
 --
 
 INSERT INTO `client` (`clientId`, `clientAmount`, `clientCompany`, `clientContact`, `clientEmail`, `clientIndustry`, `clientPhone`, `clientWebsite`) VALUES
-(10, 0, 'clientCompany1', 'clientContact1', 'clientEmail', 'clientIndustry1', 'clientPhone', 'clientWebsite'),
-(11, 0, 'Client2', 'Client2Contact', 'client2@email.com', 'Industry2', 'Client2Phone', 'client2Website');
+(20, 0, 'clientCompany1', 'clientContact1', 'clientEmail', 'clientIndustry1', 'clientPhone', 'clientWebsite');
 
 -- --------------------------------------------------------
 
@@ -61,17 +60,7 @@ CREATE TABLE IF NOT EXISTS `invoice` (
   `invoiceNumber` varchar(255) DEFAULT NULL,
   `invoiceStatus` varchar(255) DEFAULT NULL,
   `invoiceClientId` int(11) DEFAULT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `invoice`
---
-
-INSERT INTO `invoice` (`invoiceId`, `invoiceAmount`, `invoiceCurrency`, `invoiceDescription`, `invoiceDueDate`, `invoiceIssueDate`, `invoiceNumber`, `invoiceStatus`, `invoiceClientId`) VALUES
-(13, 400, 'USD', 'description1', '2015-12-21', '2015-12-21', 'null', 'Open', 10),
-(14, 0, 'USD', NULL, '2015-12-24', '2015-12-21', '2015-1221', NULL, 10),
-(15, 0, 'USD', NULL, '2015-12-19', '2015-12-21', '2015-1221', NULL, 10),
-(16, 0, 'GBP', NULL, '2015-12-07', '2015-12-01', '2015-1221', NULL, 11);
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -111,13 +100,6 @@ CREATE TABLE IF NOT EXISTS `registration` (
   `registrationShipCountry` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
---
--- Dumping data for table `registration`
---
-
-INSERT INTO `registration` (`registrationId`, `registrationAddress`, `registrationCity`, `registrationCountry`, `registrationNotes`, `registrationShipAddress`, `registrationShipCity`, `registrationShipCountry`) VALUES
-(10, 'client1Address', 'client1City', 'client1 country', 'some notes', 'client1shipping', 'client1ShippingCity', 'client1shipCountry');
-
 -- --------------------------------------------------------
 
 --
@@ -129,18 +111,7 @@ CREATE TABLE IF NOT EXISTS `service` (
   `serviceAmount` double DEFAULT NULL,
   `serviceDescription` varchar(255) DEFAULT NULL,
   `invoiceServiceId` int(11) DEFAULT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `service`
---
-
-INSERT INTO `service` (`serviceId`, `serviceAmount`, `serviceDescription`, `invoiceServiceId`) VALUES
-(5, 400, 'Service 1 description', 13),
-(6, 1000, 'Service 1-2 description', 13),
-(7, 30, 'dawdawd', 14),
-(8, 30, 'dwadwadawd', 15),
-(9, 30, 'fbdfgbedbf', 16);
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Indexes for dumped tables
@@ -156,8 +127,7 @@ ALTER TABLE `client`
 -- Indexes for table `invoice`
 --
 ALTER TABLE `invoice`
-  ADD PRIMARY KEY (`invoiceId`),
-  ADD KEY `FK_roj299l1vk25hjmfnbtktcad5` (`invoiceClientId`);
+  ADD PRIMARY KEY (`invoiceId`), ADD KEY `FK_roj299l1vk25hjmfnbtktcad5` (`invoiceClientId`);
 
 --
 -- Indexes for table `member`
@@ -175,8 +145,7 @@ ALTER TABLE `registration`
 -- Indexes for table `service`
 --
 ALTER TABLE `service`
-  ADD PRIMARY KEY (`serviceId`),
-  ADD KEY `FK_2eyaovgqiq0pre63prev6yeje` (`invoiceServiceId`);
+  ADD PRIMARY KEY (`serviceId`), ADD KEY `FK_2eyaovgqiq0pre63prev6yeje` (`invoiceServiceId`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -186,12 +155,12 @@ ALTER TABLE `service`
 -- AUTO_INCREMENT for table `client`
 --
 ALTER TABLE `client`
-  MODIFY `clientId` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=12;
+  MODIFY `clientId` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=21;
 --
 -- AUTO_INCREMENT for table `invoice`
 --
 ALTER TABLE `invoice`
-  MODIFY `invoiceId` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=17;
+  MODIFY `invoiceId` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `member`
 --
@@ -201,7 +170,7 @@ ALTER TABLE `member`
 -- AUTO_INCREMENT for table `service`
 --
 ALTER TABLE `service`
-  MODIFY `serviceId` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=10;
+  MODIFY `serviceId` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- Constraints for dumped tables
 --
@@ -210,13 +179,13 @@ ALTER TABLE `service`
 -- Constraints for table `invoice`
 --
 ALTER TABLE `invoice`
-  ADD CONSTRAINT `FK_roj299l1vk25hjmfnbtktcad5` FOREIGN KEY (`invoiceClientId`) REFERENCES `client` (`clientId`);
+ADD CONSTRAINT `FK_roj299l1vk25hjmfnbtktcad5` FOREIGN KEY (`invoiceClientId`) REFERENCES `client` (`clientId`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `service`
 --
 ALTER TABLE `service`
-  ADD CONSTRAINT `FK_2eyaovgqiq0pre63prev6yeje` FOREIGN KEY (`invoiceServiceId`) REFERENCES `invoice` (`invoiceId`);
+ADD CONSTRAINT `FK_2eyaovgqiq0pre63prev6yeje` FOREIGN KEY (`invoiceServiceId`) REFERENCES `invoice` (`invoiceId`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

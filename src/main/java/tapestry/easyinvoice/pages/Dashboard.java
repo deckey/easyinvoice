@@ -15,11 +15,12 @@ import org.apache.tapestry5.hibernate.annotations.CommitAfter;
 import org.apache.tapestry5.ioc.annotations.Inject;
 import org.hibernate.Session;
 import tapestry.easyinvoice.data.ClientDAO;
+import tapestry.easyinvoice.data.DashboardDAO;
 import tapestry.easyinvoice.entities.Client;
 import tapestry.easyinvoice.entities.Invoice;
 import tapestry.easyinvoice.entities.Registration;
 import tapestry.easyinvoice.entities.Service;
-import tapestry.easyinvoice.model.InvoiceStatus;
+import tapestry.easyinvoice.model.InvoiceCurrency;
 
 /**
  *
@@ -35,14 +36,26 @@ public class Dashboard {
 
     @Property
     private List<Client> clients;
+
+    @Inject
+    private DashboardDAO dashboardDao;
+
     @Property
     private Invoice invoice;
+    @Property
+    private Set<Invoice> invoices;
+
+    @Property
+    private Registration registration;
 
     @Property
     private List<Registration> registrations;
 
     @Property
-    private List<Service> services;
+    private Service service;
+
+    @Property
+    private Set<Service> services;
 
     @Inject
     private Session dbs;
@@ -51,36 +64,65 @@ public class Dashboard {
         if (clients == null) {
             clients = new ArrayList<>();
         }
+        if (services == null) {
+            services = new HashSet<>();
+        }
+        if (invoices == null) {
+            invoices = new HashSet<>();
+        }
         clients = clientDao.getAllClients();
         registrations = dbs.createCriteria(Registration.class).list();
-        services = dbs.createCriteria(Service.class).list();
+    }
+
+    public List<Invoice> getInvoiceList() {
+        List<Invoice> invoiceList = new ArrayList<>();
+        for (Client client : clients) {
+            for (Invoice invoice : client.getInvoices()) {
+                invoiceList.add(invoice);
+            }
+        }
+        return invoiceList;
+    }
+
+    public List<Service> getServiceList() {
+        List<Service> serviceList = new ArrayList<>();
+        for (Client client : clients) {
+            for (Invoice invoice : client.getInvoices()) {
+                for (Service service : invoice.getServices()) {
+                    serviceList.add(service);
+                }
+            }
+        }
+        return serviceList;
     }
 
     @CommitAfter
     void onCreateClient() {
-        Client client1 = new Client("clientCompany1", "clientContact1", "clientPhone", "clientEmail", "clientIndustry1", "clientWebsite");
-        Registration registration1 = new Registration("client1Address", "client1City", "client1 country", "client1shipping", "client1ShippingCity", "client1shipCountry", "some notes");
-        Set<Invoice> invoices1 = new HashSet<>();
-        Set<Service> services1 = new HashSet<>();
+        client = new Client("clientCompany1", "clientContact1", "clientPhone", "clientEmail", "clientIndustry1", "clientWebsite");
+        registration = new Registration("client1Address", "client1City", "client1 country", "client1shipping", "client1ShippingCity", "client1shipCountry", "some notes");
+        registration.setClient(client);
+        clientDao.addClient(client);
+    }
 
-        Invoice invoice1 = new Invoice("5", new Date(), new Date(), "USD");
+    @CommitAfter
+    void onCreateInvoice() {
+        invoice = new Invoice("12", "Invoice_Description3", new Date(), new Date(), InvoiceCurrency.EUR);
+        invoices = new HashSet<>();
+        invoices.add(invoice);
+        dashboardDao.addInvoice(invoice);
 
-        Service service1_1 = new Service("Service 1 description", 400);
-        Service service1_2 = new Service("Service 1-2 description", 1000);
+    }
 
-        service1_1.setInvoice(invoice1);
-        service1_2.setInvoice(invoice1);
-        services1.add(service1_1);
-        services1.add(service1_2);
+    @CommitAfter
+    void onCreateService() {
+        service = new Service("Service 1 description", 400);
+        services = new HashSet<>();
+        services.add(service);
+        dashboardDao.addService(service);
+    }
 
-        invoice1.setServices(services1);
-        invoice1.setClient(client1);
-        invoices1.add(invoice1);
-
-        registration1.setClient(client1);
-        client1.setRegistration(registration1);
-        client1.setInvoices(invoices1);
-
-        clientDao.addClient(client1);
+    @CommitAfter
+    void onDeleteClient(Integer id) {
+        clientDao.deleteClient(id);
     }
 }

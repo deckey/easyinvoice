@@ -16,7 +16,41 @@
         </div>
         
         <div class="row frame">
-            <form t:type="form" id="addInvoiceForm" t:id="addInvoiceForm">
+            <form t:type="form" t:id="addInvoiceForm" >
+                <t:select t:model="clients" t:value="client"/>
+                <t:textfield t:id="invoiceNumber" t:value="invoiceNumber"/>
+                <t:textfield t:id="invoiceDescription" t:value="invoiceDescription"/>
+                <t:datefield t:id="issueDate" t:value="issueDate"/>
+                <t:datefield t:id="dueDate" t:value="dueDate"/>
+                <t:select t:model="currencies" t:value="currency"/>
+                <br/>
+               
+                <t:submit t:id="addInvoiceBtn"/>
+            </form>
+        </div> 
+        <div class="row frame">
+            <t:form t:id="addServiceForm">
+                 Services
+                <t:textfield t:id="serviceDescription" t:value="serviceDescription"/>
+                <t:textfield t:id="serviceAmount" t:value="serviceAmount"/>
+                <t:submit submitValue="Add service"/>
+                <br/>
+            </t:form>
+        </div>
+        
+        
+        <div class="row">
+            <t:eventlink t:event="deleteServices">Clear</t:eventlink>
+            <br/>
+            <t:grid source="invoice.getServices()" exclude="serviceId" />
+        </div>
+        
+        
+        <div class="row">
+            <h5>Invoice summary</h5>
+            <t:beandisplay t:object="invoice"/>
+            <h3>${invoice.getClient()}</h3>
+<!--            <form t:type="form" id="addInvoiceForm" t:id="addInvoiceForm">
                 <div class="row ">
                     <div class="col-xs-6 col-sm-3 form-group">
                         <label >* Select client</label>
@@ -28,7 +62,7 @@
                     </div> 
                     <div class="col-xs-6  col-sm-2 form-group">
                         <label >* Issue date</label>
-                        <t:datefield  t:value="issueDate" id="issueDateField" class="form-control"/>
+                        <input t:type="datefield"  t:value="issueDate" id="issueDateField" class="form-control"/>
                     </div>
                     <div class="col-xs-6 col-sm-2 form-group">
                         <label >* Due in</label>
@@ -40,23 +74,33 @@
                     </div> 
                 </div>
                 <div class="row ">
-                    <!--SERVICE ENTRY-->
+                    SERVICE ENTRY
                     <div class="form-group col-sm-6">
-                        <label for="serviceDescription">* Invoice description:</label>
-                        <input t:type="textfield" t:id="serviceDescription" value="serviceDescription"/>
+                        <label for="invoiceDescription">* Invoice description:</label>
+                        <input t:type="textfield" t:id="invoiceDescription" value="invoiceDescription"/>
                     </div> 
                     <div class="form-group col-sm-2">
                         <label for="addInvoiceBtn" class="invisible">spacer</label>
                         <t:eventlink t:event="addInvoice" t:id="addInvoiceBtn" class="form-control btn btn-default">Add invoice</t:eventlink>
                     </div>
                 </div>
-            </form>
                    
-            <!--SERVICE LIST-->
-            <div class="row">
-                <t:grid source="invoiceServices"/>
-            </div>
-            
+                SERVICE LIST
+                <div class="row">
+                    <div class="form-group col-sm-6">
+                        <label for="serviceDescription" >* Service description</label>
+                        <input t:type="textfield" t:id="serviceDescription" validate="required" value="serviceDescription"/>
+                    </div> 
+                    <div class="form-group col-sm-2">
+                        <label for="serviceAmount" >* Amount</label>
+                        <input t:type="textfield" t:id="serviceAmount" value="serviceAmount"/>
+                    </div>
+                    <div class="form-group col-sm-2">
+                        <label for="addServiceBtn" class="invisible">spacer</label>
+                        <t:eventlink t:event="addService" t:id="addServiceBtn" class="form-control btn btn-default">Add service</t:eventlink>
+                    </div>
+                </div>  
+            </form>-->
         </div>
     </body>
 </html>

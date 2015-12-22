@@ -40,6 +40,11 @@ public class ClientIMPL implements ClientDAO {
     }
 
     @Override
+    public List<Service> getAllServices() {
+        return dbs.createCriteria(Service.class).list();
+    }
+
+    @Override
     public Client findClientById(Integer id) {
         return (Client) dbs.createCriteria(Client.class).add(Restrictions.eq("clientId", id)).uniqueResult();
     }
