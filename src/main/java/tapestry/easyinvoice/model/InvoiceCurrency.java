@@ -11,11 +11,16 @@ package tapestry.easyinvoice.model;
  */
 public enum InvoiceCurrency {
 
-    USD("$"), EUR("&euro;"), GBP("&pound;");
+    USD("$"), EUR("€"), GBP("£");
 
     private String value;
 
     private InvoiceCurrency(String value) {
         this.value = value;
     }
+
+    public String getValue() {
+        return value;
+    }
+    
 }

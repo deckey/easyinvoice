@@ -17,7 +17,7 @@ import org.apache.tapestry5.ioc.annotations.Inject;
  */
 @Entity
 @Table(name = "service")
-public class Service implements Serializable {
+public class Service implements Serializable, Comparable<Service> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -74,7 +74,12 @@ public class Service implements Serializable {
     public void setInvoice(Invoice invoice) {
         this.invoice = invoice;
     }
-    
-    
 
+    @Override
+    public int compareTo(Service srv) {
+        if (this.serviceId != null) {
+            return (this.serviceId > srv.serviceId) ? 1 : -1;
+        }
+        return 0;
+    }
 }

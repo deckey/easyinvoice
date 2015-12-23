@@ -98,8 +98,8 @@ public class Dashboard {
 
     @CommitAfter
     void onCreateClient() {
-        client = new Client("clientCompany1", "clientContact1", "clientPhone", "clientEmail", "clientIndustry1", "clientWebsite");
-        registration = new Registration("client1Address", "client1City", "client1 country", "client1shipping", "client1ShippingCity", "client1shipCountry", "some notes");
+        client = new Client("clientCompany2", "clientContact2", "clientPhone", "clientEmail", "clientIndustry2", "clientWebsite");
+        registration = new Registration("client1Address", "client2City", "client2 country", "client2shipping", "client2ShippingCity", "client2shipCountry", "some notes");
         registration.setClient(client);
         clientDao.addClient(client);
     }

@@ -10,10 +10,20 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.SortedSet;
+import java.util.TreeSet;
+import org.apache.tapestry5.PersistenceConstants;
+import org.apache.tapestry5.annotations.InjectComponent;
 import org.apache.tapestry5.annotations.Persist;
 import org.apache.tapestry5.annotations.Property;
+import org.apache.tapestry5.beaneditor.BeanModel;
+import org.apache.tapestry5.beaneditor.PropertyModel;
 import org.apache.tapestry5.beaneditor.Validate;
+import org.apache.tapestry5.corelib.components.Form;
+import org.apache.tapestry5.hibernate.HibernatePersistenceConstants;
+import org.apache.tapestry5.ioc.Messages;
 import org.apache.tapestry5.ioc.annotations.Inject;
+import org.apache.tapestry5.services.BeanModelSource;
 import tapestry.easyinvoice.data.ClientDAO;
 import tapestry.easyinvoice.entities.Client;
 import tapestry.easyinvoice.entities.Invoice;
@@ -29,137 +39,180 @@ public class AddInvoice {
     //TODO: Continue CRUD on adding invoices
     //TODO: Logic for adding services 
     // Client service and properties/* Checkbox */
-    @Property
-    @Persist
-    @Validate("required")
-    private Client client;
-
+    @Inject
+    private BeanModelSource beanModelSource;
     @Inject
     private ClientDAO clientDao;
 
     @Property
     private List<Client> clients;
-//
-//    @InjectComponent("addInvoiceForm")
-//    private Form form;
 
-    //Invoice fields:
+    @InjectComponent("addInvoiceForm")
+    private Form invoiceForm;
+
+    @InjectComponent("addServiceForm")
+    private Form serviceForm;
+
     @Property
-    @Persist
     @Validate("required")
-    private InvoiceCurrency currency;
+    @Persist
+    private Client invoiceClient;
 
     @Property
     @Persist
+    private String invoiceDescription;
+
+    @Property
+    @Persist
+    private String invoiceNumber;
+
+    @Property
     @Validate("required")
-    private Date dueDate;
+    @Persist
+    private InvoiceCurrency invoiceCurrency;
 
     @Property
     @Persist
-    @Validate("required")
-    private Date issueDate;
+    private Date invoiceDueDate;
 
     @Property
     @Persist
-    private Invoice invoice;
+    private Date invoiceIssueDate;
 
     @Property
     private Set<Invoice> invoices;
 
     @Property
     @Persist
-    @Validate("required")
-    private String invoiceDescription;
+    private Invoice invoice;
+
+    @Inject
+    private Messages messages;
 
     @Property
-    private String invoiceNumber;
+    @Persist
+    private SortedSet<Service> services;
 
     @Property
-    @Validate("required")
-    private String serviceDescription;
-
-    @Property
-    @Validate("required")
-    private Integer serviceAmount;
+    private BeanModel<Service> servicesGrid;
 
     @Property
     private Service service;
 
     @Property
-    @Persist
-    private Set<Service> services;
+    private double serviceAmount;
+
+    @Property
+    private String serviceDescription;
 
     public InvoiceCurrency[] getCurrencies() {
         return InvoiceCurrency.values();
     }
 
-    public String getInvoiceNumberFormat() {
-        SimpleDateFormat invoiceNumFormat = new SimpleDateFormat("YYYY-MMdd");
-        return invoiceNumFormat.format(issueDate);
-    }
+    void setupRender() {
+        servicesGrid = beanModelSource.createDisplayModel(Service.class, messages);
+        List<String> propertyNames = servicesGrid.getPropertyNames();
+        for (String propertyName : propertyNames) {
+            PropertyModel propertyModel = servicesGrid.get(propertyName);
+            propertyModel.sortable(false);
+        }
+        servicesGrid.include("serviceId", "serviceDescription", "serviceAmount");
+        servicesGrid.get("serviceId").label("#");
+        servicesGrid.get("serviceDescription").label("Service description");
+        servicesGrid.get("serviceAmount").label("Amount");
 
-    void onPrepare() {
-        if (invoice == null) {
-            invoice = new Invoice();
-        }
-        if (client == null) {
-            client = clients.get(0);
-        }
-        issueDate = issueDate == null ? new Date() : issueDate;
-        invoiceNumber = getInvoiceNumberFormat();
     }
 
     void onActivate() {
         clients = clientDao.getAllClients();
-        service = new Service();
+        if (services == null) {
+            services = new TreeSet<>();
+        }
+        if (invoices == null) {
+            invoices = new HashSet<>();
+        }
+        if (invoiceClient == null) {
+            invoiceClient = clients.get(0);
+        }
+        if (invoice == null) {
+            invoice = new Invoice();
+        }
+        if (invoice.getInvoiceCurrency() == null) {
+            invoice.setInvoiceCurrency(getCurrencies()[0]);
+        }
     }
 
-    void onSubmitFromAddInvoiceForm() {
+    public String getFormatDate(Date date) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("MMM dd, YYYY");
+        return (date != null) ? dateFormat.format(date) : "";
+    }
 
+    public String getFormatAmount(double amount) {
+        return String.format("%.2f", amount);
+    }
+
+    public Set<Service> getInvoiceServices() {
+        return (invoice.getServices() == null) ? new TreeSet<>() : invoice.getServices();
+    }
+
+    void onClearServices() {
+        services = new TreeSet<>();
+        invoice.setServices(services);
+        invoice.setInvoiceAmount(getServiceTotal());
     }
 
     void onSubmitFromAddServiceForm() {
-        System.out.println("SERVICE..." + service);
-        service.setServiceAmount(serviceAmount);
-        service.setServiceDescription(serviceDescription);
-        service.setInvoice(invoice);
-        services.add(service);
+        service = new Service();
+        System.out.println("SUBMITTING...");
+        if (validateInput()) {
+            service.setServiceDescription(serviceDescription);
+            service.setServiceAmount(serviceAmount);
+            service.setServiceId(services.size() + 1);
+            services.add(service);
+        }
         invoice.setServices(services);
-        
-        
-        invoice.setInvoiceNumber(invoiceNumber);
+        invoice.setInvoiceAmount(getServiceTotal());
+    }
+
+    void onSubmitFromAddInvoiceForm() {
         invoice.setInvoiceDescription(invoiceDescription);
-        invoice.setInvoiceIssueDate(issueDate);
-        invoice.setInvoiceDueDate(dueDate);
-        invoice.setInvoiceCurrency(currency);
-        invoice.setClient(client);
+        invoice.setInvoiceNumber(invoiceNumber);
+        invoice.setInvoiceIssueDate(invoiceIssueDate);
+        invoice.setInvoiceDueDate(invoiceDueDate);
 
-//        invoice.getServices().add(service);
-//        System.out.println("INVOICE..."+invoice);
+        invoice.setInvoiceCurrency(invoiceCurrency);
+        invoice.setClient(invoiceClient);
     }
 
-    void onDeleteServices() {
-        services.clear();
-        invoice.setServices(services);
-    }
-
-//TODO: FIX ADDING SERVICES AND FINALIZE INVOICE CREATION
-//    @CommitAfter
-//    void onSubmitFromAddInvoiceForm() {
-////        Service service = new Service(serviceDescription, 30);
-////        service.setInvoice(invoice);
-////
-////        invoice.setClient(client);
-////        invoices.add(invoice);
-////
-////        client.setInvoices(invoices);
-////        service = new Service();
-//    }
-    void onAddInvoice() {
-//        System.out.println("ADDING INVOICE...");
-//        Invoice invoice1 = new Invoice(invoiceNumber, issueDate, dueDate, invoiceNumber);
-//        System.out.println("INVOICE..." + invoice1);
+    void onClearInvoiceForm() {
+        invoiceClient = clients.get(0);
+        invoiceNumber = "";
+        invoiceCurrency = getCurrencies()[0];
+        invoiceDescription = "";
+        invoiceDueDate = null;
+        invoiceIssueDate = null;
+        invoice = new Invoice();
 
     }
 
+//    FORM VALIDATION
+    public boolean validateInput() {
+        if (serviceDescription == null || serviceDescription == "") {
+            serviceForm.recordError("Enter service description!");
+            return false;
+        }
+        if (serviceAmount == 0) {
+            serviceForm.recordError("Service amount can't be zero!");
+            return false;
+        }
+        return true;
+    }
+
+    public double getServiceTotal() {
+        double total = 0;
+        for (Service service : services) {
+            total += service.getServiceAmount();
+        }
+        return total;
+    }
 }

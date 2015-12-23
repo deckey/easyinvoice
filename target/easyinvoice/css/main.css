@@ -42,3 +42,11 @@ label{font-weight:normal;}
 
 /* MAIN MENU */
 .nav-pills li a{padding-left:20px; padding-right: 20px;margin-right:2em;}
+
+
+/* TABLES */
+#servicesGrid th{}
+.table-service th{font-weight: normal;font-size:0.9em;}
+.table-service tr td:nth-child(1){width:10%;}
+.table-service tr td:nth-child(2){width:60%;}
+.table-service tr td:nth-child(3){width:30%;}
