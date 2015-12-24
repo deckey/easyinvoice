@@ -24,13 +24,12 @@
             <p:actionCell>
                 <t:eventlink t:event="deleteClient" context="client.clientId">delete</t:eventlink>
             </p:actionCell>
-            </t:grid>
+        </t:grid>
         <br/>
         <t:grid t:source="registrations"/>
         <br/>
         <t:grid t:source="serviceList"/>
         <br/>
         <t:grid t:source="invoiceList"/>
-        
     </body>
 </html>

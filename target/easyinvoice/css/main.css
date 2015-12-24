@@ -22,7 +22,6 @@ p{white-space: pre;}
 #logo-small{}
 .frame{padding:2em;}
 .border{border:#afd9ee 2px solid;}
-
 /* COLORS */ 
 
 .blue{background-color: #afd9ee;}
@@ -31,8 +30,10 @@ p{white-space: pre;}
 .alert-dismissable.alert-danger{background-color: tomato;color:#ffffff}
 .border_btm{border-bottom: #afd9ee 1px solid;}
 
+
 /* FONTS */
 label{font-weight:normal;}
+strong{color:#317eac;}
 
 /* COMPONENTS */
 /* Login Form */
@@ -45,8 +46,14 @@ label{font-weight:normal;}
 
 
 /* TABLES */
-#servicesGrid th{}
-.table-service th{font-weight: normal;font-size:0.9em;}
-.table-service tr td:nth-child(1){width:10%;}
-.table-service tr td:nth-child(2){width:60%;}
-.table-service tr td:nth-child(3){width:30%;}
+.table-service{margin:0;}
+#servicesGrid th{font-weight: normal;color:#317eac;}
+#servicesGrid {font-size:0.8em;}
+#servicesGrid.table tr td{line-height: 0.5em;font-size:1.1em;}
+.table-service tr td:nth-child(1){width:65%;}
+.table-service tr td:nth-child(2){width:35%;}
+.table-service tr td i, b{font-size:1.3em;color:#008cba}
+
+.table-invoice{margin-top:0.5em;font-size:1em;}
+.table-invoice tr{line-height: 1.5em;font-size: 1em;}
+.table-invoice tr td:first-child{color:#317eac;width:120px;}

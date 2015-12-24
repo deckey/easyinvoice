@@ -23,6 +23,9 @@ public class Service implements Serializable, Comparable<Service> {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "serviceId")
     private Integer serviceId;
+    
+    @Column (name="serviceNumber")
+    private Integer serviceNumber;
 
     @Column(name = "serviceDescription")
     private String serviceDescription;
@@ -51,6 +54,15 @@ public class Service implements Serializable, Comparable<Service> {
         this.serviceId = serviceId;
     }
 
+    public Integer getServiceNumber() {
+        return serviceNumber;
+    }
+
+    public void setServiceNumber(Integer serviceNumber) {
+        this.serviceNumber = serviceNumber;
+    }
+
+    
     public String getServiceDescription() {
         return serviceDescription;
     }
@@ -77,8 +89,8 @@ public class Service implements Serializable, Comparable<Service> {
 
     @Override
     public int compareTo(Service srv) {
-        if (this.serviceId != null) {
-            return (this.serviceId > srv.serviceId) ? 1 : -1;
+        if (this.serviceNumber != null) {
+            return (this.serviceNumber > srv.serviceNumber) ? 1 : -1;
         }
         return 0;
     }

@@ -22,5 +22,5 @@ public enum InvoiceCurrency {
     public String getValue() {
         return value;
     }
-    
+
 }

@@ -6,6 +6,10 @@
    
     <body>
         View invoice
+        
+        <h4>${invoice.getClient()}</h4>
+        
+        <t:pagelink t:page="delete/DeleteInvoice" t:context="invoice.invoiceId">Delete</t:pagelink>
     </body>
 </html>
 
