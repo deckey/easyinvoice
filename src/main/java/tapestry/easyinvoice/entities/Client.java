@@ -29,6 +29,9 @@ public class Client implements Serializable {
     @Column(name = "clientCompany")
     private String clientCompany;
     
+    @Column(name="clientTaxId")
+    private Integer clientTaxId;
+    
     @Column(name = "clientContact")
     private String clientContact;
 
@@ -77,6 +80,14 @@ public class Client implements Serializable {
 
     public void setClientCompany(String clientCompany) {
         this.clientCompany = clientCompany;
+    }
+
+    public Integer getClientTaxId() {
+        return clientTaxId;
+    }
+
+    public void setClientTaxId(Integer clientTaxId) {
+        this.clientTaxId = clientTaxId;
     }
 
     public String getClientContact() {

@@ -14,13 +14,13 @@ Changes on top of original theme:
 */
 p{white-space: pre;}
 /* SPACING */ 
-.row{}
+.row{padding-top:10px;}
 .spacer{padding:1em 0;}
 #header-bar{margin-bottom:1em;}
 .sub-menu{margin-left: 1em;background-color: #ffffff;border-color: #ffffff;color:#18bc9c}
-#main-menu{margin-top:1em;padding-bottom: 1em;}
+#main-menu{padding-bottom: 1em;padding-top:0;}
 #logo-small{}
-.frame{padding:2em;}
+.frame{padding:1em;}
 .border{border:#afd9ee 2px solid;}
 /* COLORS */ 
 

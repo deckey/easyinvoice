@@ -46,14 +46,13 @@ public class AddInvoice {
     private Zone invoicePreviewZone;
 
     @Inject
+    private AjaxResponseRenderer ajaxResponse;
+    
+    @Inject
     private Request request;
 
     @Inject
-    private AjaxResponseRenderer ajaxResponse;
-
-    @Inject
     private AlertManager alertManager;
-
 
     //TODO: Continue CRUD on adding invoices
     //TODO: Logic for adding services 
@@ -104,7 +103,7 @@ public class AddInvoice {
     private Set<Invoice> invoices;
 
     @Property
-    @Persist    
+    @Persist
     private Invoice invoice;
 
     @Inject
@@ -211,19 +210,29 @@ public class AddInvoice {
         if (!validateInvoice()) {
             return this;
         }
-        
-        for(Service service: invoice.getServices()){
+
+        for (Service service : invoice.getServices()) {
             dashboardDao.addService(service);
         }
         invoice.setServices(services);
         dashboardDao.addInvoice(invoice);
         viewInvoicePage.set(invoice);
+
+        //TODO: RESET INVOICE PARAMETERS
+//        invoiceClient = null;
+//        invoiceNumber = "";
+//        invoiceCurrency = getCurrencies()[0];
+//        invoiceDescription = "";
+//        invoiceDueDate = null;
+//        invoiceIssueDate = null;
+//        invoice = new Invoice();
         return viewInvoicePage;
     }
 
 //    SERVICES...................
-    void onSubmitFromAddServiceForm() {
-        service = new Service();
+    Object onSubmitFromAddServiceForm() {
+        //TODO: TROUBLESHOOT UPDATE VIA AJAX ZONE
+//        service = new Service();
         if (validateServiceInput()) {
             service.setServiceDescription(serviceDescription);
             service.setServiceAmount(serviceAmount);
@@ -233,6 +242,8 @@ public class AddInvoice {
         }
         invoice.setServices(services);
         invoice.setInvoiceAmount(getServiceTotal());
+        return request.isXHR() ? invoicePreviewZone.getBody() : null;
+//        ajaxResponse.addRender("invoicePreviewZone", invoicePreviewZone);
     }
 
     void onClearServices() {
@@ -280,6 +291,9 @@ public class AddInvoice {
         clients = clientDao.getAllClients();
         if (services == null) {
             services = new TreeSet<>();
+        }
+        if(service==null){
+            service = new Service();
         }
         if (invoices == null) {
             invoices = new HashSet<>();

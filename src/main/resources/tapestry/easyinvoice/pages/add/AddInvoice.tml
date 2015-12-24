@@ -49,22 +49,15 @@
                 </div> 
                 <div class="control-group col-xs-3 col-sm-1">
                     <label for="setBtn" class="invisible">spacer</label>
-                    <t:submit id="setBtn" value="Update"  t:zone="invoicePreviewZone" async="true"/>
+                    <t:submit id="setBtn" value="Update"  zone="invoicePreviewZone"/>
                 </div>
                 <div class="control-group col-xs-3 col-sm-1">
                     <label for="clearBtn" class="invisible">spacer</label>
                     <t:eventlink t:event="resetInvoiceForm" id="clearBtn" class="btn btn-default">Reset</t:eventlink>
                 </div> 
-                
-              
             </div>
-            <div class="row">
-                
-            </div>
-           
         </t:form>
         <!--.......................INVOICE-->
-        
         <div class="row border_btm">
             <div class="col-xs-6">
                 <h4> Add services</h4>
@@ -87,7 +80,7 @@
                 </div>
                 <div class="control-group col-xs-3 col-sm-1">
                     <label class="invisible">spacer</label>
-                    <t:submit value="Include"/>
+                    <t:submit value="Include" zone="invoicePreviewZone" async="true"/>
                 </div>
                 <div class="control-group col-xs-3 col-sm-1">
                     <label class="invisible">spacer</label>
@@ -96,9 +89,7 @@
             </t:form>
         </div>
         <!--...................SERVICE INPUT-->
-        <div class="row spacer"/>
         <!--..............SERVICES-->
-        
         <div class="row border_btm">
             <div class="col-xs-6">
                 <h4>Invoice details:</h4>
@@ -107,8 +98,6 @@
                 <!--<t:pagelink t:page="view/ViewInvoice" t:context="invoice.invoiceId" class="btn btn-success">Confirm</t:pagelink>-->
                 <t:eventlink t:event="previewInvoice" class="btn btn-success">Confirm</t:eventlink>
             </div>
-           
-           
         </div>
         <div class="row well ">
             <t:zone t:id="invoicePreviewZone" id="invoicePreviewZone">
@@ -130,7 +119,6 @@
                     </table>
                 </div> 
                 <!--...............SERVICES TABLE-->
-                
                 
                 <!--INVOICE DETAILS.................-->
                 <div class="col-xs-12 col-sm-6 col-sm-offset-1">
@@ -168,12 +156,7 @@
                     </table>
                 </div>
                 <!--...........................INVOICE DETAILS--> 
-                
-                
             </t:zone>
-        </div>
-        <div class="row">
-          
         </div>
         <!--..................INVOICE PREVIEW-->
     </body>

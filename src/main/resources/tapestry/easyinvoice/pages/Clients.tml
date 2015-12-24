@@ -7,7 +7,16 @@
     <body>
         <t:header/>
         <t:mainmenu/>
-        Clients
+        <div class="row border_btm">
+            <div class="col-xs-6">
+                <h4> Clients</h4>
+            </div>
+            <!--            <div class="col-xs-6">
+                <h4 class='text-right'> Preview icon</h4>
+            </div>-->
+        </div>
+        <br/>
+        <t:grid t:source="clients" add="Action" row="client"/>
     </body>
 </html>
 
