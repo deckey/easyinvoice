@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Dec 23, 2015 at 04:02 PM
+-- Generation Time: Dec 24, 2015 at 07:13 PM
 -- Server version: 5.6.26
 -- PHP Version: 5.5.28
 
@@ -32,7 +32,6 @@ CREATE TABLE IF NOT EXISTS `client` (
   `clientCompany` varchar(255) DEFAULT NULL,
   `clientContact` varchar(255) DEFAULT NULL,
   `clientEmail` varchar(255) DEFAULT NULL,
-  `clientIndustry` varchar(255) DEFAULT NULL,
   `clientPhone` varchar(255) DEFAULT NULL,
   `clientWebsite` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=latin1;
@@ -41,9 +40,9 @@ CREATE TABLE IF NOT EXISTS `client` (
 -- Dumping data for table `client`
 --
 
-INSERT INTO `client` (`clientId`, `clientAmount`, `clientCompany`, `clientContact`, `clientEmail`, `clientIndustry`, `clientPhone`, `clientWebsite`) VALUES
-(11, 0, 'clientCompany1', 'clientContact1', 'clientEmail', 'clientIndustry1', 'clientPhone', 'clientWebsite'),
-(12, 0, 'clientCompany2', 'clientContact2', 'clientEmail', 'clientIndustry2', 'clientPhone', 'clientWebsite');
+INSERT INTO `client` (`clientId`, `clientAmount`, `clientCompany`, `clientContact`, `clientEmail`, `clientPhone`, `clientWebsite`) VALUES
+(11, 0, 'clientCompany1', 'clientContact1', 'clientEmail', 'clientPhone', 'clientWebsite'),
+(12, 0, 'clientCompany2', 'clientContact2', 'clientEmail', 'clientPhone', 'clientWebsite');
 
 -- --------------------------------------------------------
 
@@ -61,14 +60,7 @@ CREATE TABLE IF NOT EXISTS `invoice` (
   `invoiceNumber` varchar(255) DEFAULT NULL,
   `invoiceStatus` varchar(255) DEFAULT NULL,
   `invoiceClientId` int(11) DEFAULT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=35 DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `invoice`
---
-
-INSERT INTO `invoice` (`invoiceId`, `invoiceAmount`, `invoiceCurrency`, `invoiceDescription`, `invoiceDueDate`, `invoiceIssueDate`, `invoiceNumber`, `invoiceStatus`, `invoiceClientId`) VALUES
-(34, 0, 1, 'Invoice_Description3', '2015-12-23', '2015-12-23', '12', NULL, 11);
+) ENGINE=InnoDB AUTO_INCREMENT=54 DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -82,14 +74,15 @@ CREATE TABLE IF NOT EXISTS `member` (
   `memberPassword` varchar(255) DEFAULT NULL,
   `memberRole` varchar(255) DEFAULT NULL,
   `memberUsername` varchar(255) DEFAULT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `member`
 --
 
 INSERT INTO `member` (`memberId`, `memberName`, `memberPassword`, `memberRole`, `memberUsername`) VALUES
-(1, 'Administrator', 'admin', 'Administrator', 'admin');
+(1, 'Administrator', 'admin', 'Administrator', 'admin'),
+(2, 'Account manager', 'manager', 'User', 'manager');
 
 -- --------------------------------------------------------
 
@@ -116,10 +109,11 @@ CREATE TABLE IF NOT EXISTS `registration` (
 
 CREATE TABLE IF NOT EXISTS `service` (
   `serviceId` int(11) NOT NULL,
+  `serviceNumber` int(11) DEFAULT NULL,
   `serviceAmount` double DEFAULT NULL,
   `serviceDescription` varchar(255) DEFAULT NULL,
   `invoiceServiceId` int(11) DEFAULT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=latin1;
 
 --
 -- Indexes for dumped tables
@@ -170,17 +164,17 @@ ALTER TABLE `client`
 -- AUTO_INCREMENT for table `invoice`
 --
 ALTER TABLE `invoice`
-  MODIFY `invoiceId` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=35;
+  MODIFY `invoiceId` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=54;
 --
 -- AUTO_INCREMENT for table `member`
 --
 ALTER TABLE `member`
-  MODIFY `memberId` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
+  MODIFY `memberId` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
 --
 -- AUTO_INCREMENT for table `service`
 --
 ALTER TABLE `service`
-  MODIFY `serviceId` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
+  MODIFY `serviceId` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=23;
 --
 -- Constraints for dumped tables
 --
