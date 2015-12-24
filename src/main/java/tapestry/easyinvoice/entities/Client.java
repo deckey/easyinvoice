@@ -41,9 +41,6 @@ public class Client implements Serializable {
     @Column(name = "clientAmount")
     private double clientAmount;
 
-    @Column(name = "clientIndustry")
-    private String clientIndustry;
-
     @Column(name = "clientWebsite")
     private String clientWebsite;
 
@@ -58,12 +55,11 @@ public class Client implements Serializable {
     public Client() {
     }
 
-    public Client(String clientCompany, String clientContact, String clientPhone, String clientEmail, String clientIndustry, String clientWebsite) {
+    public Client(String clientCompany, String clientContact, String clientPhone, String clientEmail, String clientWebsite) {
         this.clientCompany = clientCompany;
         this.clientContact = clientContact;
         this.clientPhone = clientPhone;
         this.clientEmail = clientEmail;
-        this.clientIndustry = clientIndustry;
         this.clientWebsite = clientWebsite;
     }
 
@@ -113,14 +109,6 @@ public class Client implements Serializable {
 
     public void setClientAmount(double clientAmount) {
         this.clientAmount = clientAmount;
-    }
-
-    public String getClientIndustry() {
-        return clientIndustry;
-    }
-
-    public void setClientIndustry(String clientIndustry) {
-        this.clientIndustry = clientIndustry;
     }
 
     public String getClientWebsite() {

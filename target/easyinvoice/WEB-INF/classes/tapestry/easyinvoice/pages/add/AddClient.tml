@@ -7,6 +7,59 @@
     <body>
         <t:header/>
         <t:mainmenu/>
-        Add client
+        <div class="row border_btm">
+            <div class="col-xs-6">
+                <h4> New client</h4>
+            </div>
+        </div>
+        <!--CLIENT....................-->
+        <div class="row well">
+            <t:form t:object="client">
+                <t:errors/>
+                <div class="control-group col-xs-8 col-sm-3">
+                    <label for="clientCompany">* Company name</label>
+                    <t:textfield id="clientCompany" t:value="clientCompany" />
+                </div>
+                <div class="control-group col-xs-8 col-sm-3">
+                    <label for="clientContact">* Contact name</label>
+                    <t:textfield id="clientContact" t:value="clientContact" />
+                </div>
+                <div class="control-group col-xs-8 col-sm-2">
+                    <label for="clientEmail">* E-mail:</label>
+                    <t:textfield id="clientEmail" t:value="clientEmail" />
+                </div>
+                <div class="control-group col-xs-8 col-sm-2">
+                    <label for="clientPhone">* Phone:</label>
+                    <t:textfield id="clientPhone" t:value="clientPhone" />
+                </div>
+                <div class="control-group col-xs-8 col-sm-2">
+                    <label for="clientWebsite">* Website:</label>
+                    <t:textfield id="clientWebsite" t:value="clientWebsite" />
+                </div>
+                <div class="row spacer"/>
+                <!--REGISTRATION...........................-->
+                <div class="control-group col-xs-8 col-sm-3">
+                    <label for="registrationAddress">* Address</label>
+                    <t:textfield id="registrationAddress" t:value="registrationAddress" />
+                </div>
+                <div class="control-group col-xs-8 col-sm-3">
+                    <label for="registrationCity">* City</label>
+                    <t:textfield id="registrationCity" t:value="registrationCity" />
+                </div>
+                <div class="control-group col-xs-8 col-sm-2">
+                    <label for="registrationCountry">* Country:</label>
+                    <t:textfield id="registrationCountry" t:value="registrationCountry" />
+                </div>
+                
+            </t:form>
+            <t:beaneditform t:object="client">
+                <clientCompany class="col-sm-2"> HEllo
+                    
+                </clientCompany>
+            </t:beaneditform> 
+            <!--TODO: 
+            -->
+            
+        </div>
     </body>
 </html>
