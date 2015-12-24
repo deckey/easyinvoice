@@ -7,7 +7,24 @@
     <body>
         <t:header/>
         <t:mainmenu/>
-        Invoices
+        <div class="row border_btm">
+            <div class="col-xs-6">
+                <h4> Invoices</h4>
+            </div>
+            <!--            <div class="col-xs-6">
+                <h4 class='text-right'> Preview icon</h4>
+            </div>-->
+        </div>
+        <br/>
+        <t:grid t:source="invoices" add="Action" row="invoice">
+            <p:actionCell>
+                <t:pagelink t:page="view/ViewInvoice" t:context="invoice.invoiceId">view</t:pagelink><br/>
+                <t:pagelink t:page="delete/DeleteInvoice" t:context="invoice.invoiceId">delete</t:pagelink>
+            </p:actionCell>
+            <p:empty>
+                No invoices in database
+            </p:empty>
+        </t:grid>
     </body>
 </html>
 

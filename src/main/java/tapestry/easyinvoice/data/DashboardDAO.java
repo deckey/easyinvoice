@@ -6,7 +6,10 @@
 package tapestry.easyinvoice.data;
 
 import java.util.List;
+import tapestry.easyinvoice.entities.Client;
+import tapestry.easyinvoice.entities.Invoice;
 import tapestry.easyinvoice.entities.Member;
+import tapestry.easyinvoice.entities.Service;
 
 /**
  *
@@ -14,10 +17,20 @@ import tapestry.easyinvoice.entities.Member;
  */
 public interface DashboardDAO {
 
+    public void addInvoice(Invoice invoice);
+
+    public void addService(Service service);
+
+    public boolean checkIfInvoiceExists(Client aClient, String aNumber);
+
+    public void deleteInvoice(Integer id);
+    
     public void deleteMember(Integer id);
 
     public Member findMemberByUsername(String uName);
 
+    public List<Invoice> getAllInvoices();
+    
     public List<Member> getAllMembers();
 
     public void updateMember(Member member);

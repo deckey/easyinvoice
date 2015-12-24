@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <html t:type="layout" 
       title="EasyInvoice : Add invoice" 
       xmlns:t="http://tapestry.apache.org/schema/tapestry_5_4.xsd"
@@ -7,7 +6,176 @@
     <body>
         <t:header/>
         <t:mainmenu/>
-        Add invoice
+        <div class="row border_btm">
+            <div class="col-xs-6">
+                <h4> New invoice</h4>
+            </div>
+            <!--            <div class="col-xs-6">
+                <h4 class='text-right'> Preview icon</h4>
+            </div>-->
+        </div>
+        <!--INVOICE..................-->
+        <t:form t:id="addInvoiceForm" t:object="invoice">
+            <div class="row well">
+                <t:errors/>
+                <div class="control-group col-xs-8 col-sm-4">
+                    <label for="invoiceDescription">* Invoice description</label>
+                    <t:textfield id="invoiceDescription" t:value="invoiceDescription" />
+                </div>
+              
+                <div class="control-group col-xs-4 col-sm-2">
+                    <label for="invoiceNumber">* Invoice number 
+                        <a id="autoInvoiceCheck" href="#" onclick="autoInvoiceNumber()">(auto)</a>
+                    </label>
+                    <t:textfield t:id="invoiceNumber" id="invoiceNumber" t:value="invoiceNumber"/>
+                </div>
+                <div class="control-group col-xs-4 col-sm-2">
+                    <label for="invoiceIssueDate">* Issue date</label>
+                    <t:datefield t:id="invoiceIssueDate" id="invoiceIssueDate" t:value="invoiceIssueDate" />
+                </div>
+                <div class="control-group col-xs-4 col-sm-2">
+                    <label for="invoiceDueDate">* Due date</label>
+                    <t:datefield id="invoiceDueDate" t:value="invoiceDueDate"/>
+                </div> 
+                <div class="control-group col-xs-4 col-sm-2">
+                    <label for="invoiceCurrency">Currency:</label>
+                    <t:select id="invoiceCurrency" t:model="currencies" t:value="invoiceCurrency"/>
+                </div> 
+                <div class="row spacer"/>
+                
+                <div class="control-group col-xs-12 col-sm-4">
+                    <label for="invoiceClient">* Select client:</label>
+                    <t:select t:id="invoiceClient" id="invoiceClient" t:model="clients"  t:value="invoiceClient"/>
+                </div> 
+                <div class="control-group col-xs-3 col-sm-1">
+                    <label for="setBtn" class="invisible">spacer</label>
+                    <t:submit id="setBtn" value="Update"  t:zone="invoicePreviewZone" async="true"/>
+                </div>
+                <div class="control-group col-xs-3 col-sm-1">
+                    <label for="clearBtn" class="invisible">spacer</label>
+                    <t:eventlink t:event="resetInvoiceForm" id="clearBtn" class="btn btn-default">Reset</t:eventlink>
+                </div> 
+                
+              
+            </div>
+            <div class="row">
+                
+            </div>
+           
+        </t:form>
+        <!--.......................INVOICE-->
+        
+        <div class="row border_btm">
+            <div class="col-xs-6">
+                <h4> Add services</h4>
+            </div>
+        </div>
+        <!--SERVICES..................--> 
+        <div class="row well">
+            <!--SERVICE INPUT>..................-->
+            <t:form t:id="addServiceForm" >
+                <div class="col-xs-12 col-sm-12">
+                    <t:errors/>
+                </div>
+                <div class="control-group col-xs-8 col-sm-3">
+                    <label for="serviceDescription">Service description</label>
+                    <t:textfield t:id="serviceDescription" value="serviceDescription"/>
+                </div>
+                <div class="control-group col-xs-4 col-sm-1">
+                    <label for="serviceAmount">Amount</label>
+                    <t:textfield t:id="serviceAmount" value="serviceAmount"/>                
+                </div>
+                <div class="control-group col-xs-3 col-sm-1">
+                    <label class="invisible">spacer</label>
+                    <t:submit value="Include"/>
+                </div>
+                <div class="control-group col-xs-3 col-sm-1">
+                    <label class="invisible">spacer</label>
+                    <t:eventlink t:event="clearServices" class="btn btn-default">Clear</t:eventlink>
+                </div>
+            </t:form>
+        </div>
+        <!--...................SERVICE INPUT-->
+        <div class="row spacer"/>
+        <!--..............SERVICES-->
+        
+        <div class="row border_btm">
+            <div class="col-xs-6">
+                <h4>Invoice details:</h4>
+            </div>  
+            <div class="control-group col-xs-2 col-sm-1 pull-right">
+                <!--<t:pagelink t:page="view/ViewInvoice" t:context="invoice.invoiceId" class="btn btn-success">Confirm</t:pagelink>-->
+                <t:eventlink t:event="previewInvoice" class="btn btn-success">Confirm</t:eventlink>
+            </div>
+           
+           
+        </div>
+        <div class="row well ">
+            <t:zone t:id="invoicePreviewZone" id="invoicePreviewZone">
+                <t:alerts />
+                <!--SERVICES TABLE ..........-->
+                <div class="col-xs-12 col-sm-5">
+                    <t:grid source="invoiceServices" class="table table-service" id="servicesGrid" model="servicesGrid">
+                        <p:empty> No service(s) added </p:empty>
+                    </t:grid>
+                    <table class=" table table-service">
+                        <tr>
+                            <td class="text-right">
+                                <i>Total amount:</i> 
+                            </td>
+                            <td>
+                                <b>${getFormatAmount(invoice.invoiceAmount)} ${invoice.invoiceCurrency.getValue()}</b>
+                            </td>
+                        </tr>
+                    </table>
+                </div> 
+                <!--...............SERVICES TABLE-->
+                
+                
+                <!--INVOICE DETAILS.................-->
+                <div class="col-xs-12 col-sm-6 col-sm-offset-1">
+                    <table class="table-invoice">
+                        <tr>
+                            <td >Invoice :#</td>
+                            <td>
+                                ${invoice.getInvoiceNumber()}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Company: </td>
+                            <td>
+                                ${invoice.getClient()}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Description: </td>
+                            <td>
+                                ${invoice.invoiceDescription}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Issue date: </td>
+                            <td>
+                                ${getFormatDate(invoice.invoiceIssueDate)}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Due date:  </td>
+                            <td>
+                                ${getFormatDate(invoice.invoiceDueDate)}
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <!--...........................INVOICE DETAILS--> 
+                
+                
+            </t:zone>
+        </div>
+        <div class="row">
+          
+        </div>
+        <!--..................INVOICE PREVIEW-->
     </body>
 </html>
 

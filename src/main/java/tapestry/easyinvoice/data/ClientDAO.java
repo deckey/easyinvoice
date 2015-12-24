@@ -7,6 +7,7 @@ package tapestry.easyinvoice.data;
 
 import java.util.List;
 import tapestry.easyinvoice.entities.Client;
+import tapestry.easyinvoice.entities.Service;
 
 /**
  *
@@ -16,9 +17,13 @@ public interface ClientDAO {
     
     public void addClient(Client client);
     
+    public void deleteClient(Integer id);
+    
     public List<Client> getAllClients();
+    public List<Service> getAllServices();
     
     public Client findClientById(Integer id);
+    
     
     public Client updateClient(Client client);
 }

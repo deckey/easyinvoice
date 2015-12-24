@@ -12,8 +12,24 @@
         <br/>
         <t:eventlink t:event="createClient">Create client</t:eventlink>
         <br/>
-        <t:grid t:source="clients"/><br/>
+        Invoice test
+        <br/>
+        <t:eventlink t:event="createInvoice">Create invoice</t:eventlink>
+        <br/>
+        Service test
+        <br/>
+        <t:eventlink t:event="createService">Create service</t:eventlink>
+        <br/>
+        <t:grid t:source="clients" add="action" row="client">
+            <p:actionCell>
+                <t:eventlink t:event="deleteClient" context="client.clientId">delete</t:eventlink>
+            </p:actionCell>
+        </t:grid>
+        <br/>
         <t:grid t:source="registrations"/>
-        
+        <br/>
+        <t:grid t:source="serviceList"/>
+        <br/>
+        <t:grid t:source="invoiceList"/>
     </body>
 </html>

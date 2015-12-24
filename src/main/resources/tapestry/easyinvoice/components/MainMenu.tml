@@ -15,7 +15,7 @@
             <nav class="col-xs-12 col-sm-6">
                 <ul class="nav nav-pills pull-right">
                     <t:loop t:source="subPageNames" value="subPageName">
-                        <li class="${classForSubPage}">
+                        <li class="${classForSubPage}" role="presentation">
                             <t:imagelink link="${subPageName}" linkText="${subPageLabel}"/>
                         </li>
                     </t:loop>

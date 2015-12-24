@@ -6,13 +6,14 @@ import org.apache.tapestry5.annotations.Parameter;
 import org.apache.tapestry5.annotations.Property;
 
 /**
- * 
+ *
  * Dejan Ivanovic divanovic3d@gmail.com
  */
 @Import(stylesheet = {
     "context:css/normalize.css",
     "context:css/bootstrap-custom.css",
-    "context:css/main.css"})
+    "context:css/main.css"}, library = "context:js/bootstrap.js")
+
 public class Layout {
 
     @Property

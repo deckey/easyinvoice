@@ -2,6 +2,8 @@ package tapestry.easyinvoice.entities;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -12,10 +14,11 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import org.apache.tapestry5.ioc.annotations.Inject;
-import org.hibernate.annotations.Cascade;
+import tapestry.easyinvoice.model.InvoiceCurrency;
 import tapestry.easyinvoice.model.InvoiceStatus;
 
 /**
@@ -27,9 +30,12 @@ import tapestry.easyinvoice.model.InvoiceStatus;
 public class Invoice implements Serializable {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "invoiceId")
     private Integer invoiceId;
+
+    @Column(name = "invoiceNumber")
+    private String invoiceNumber;
 
     @Column(name = "invoiceDescription")
     private String invoiceDescription;
@@ -50,22 +56,36 @@ public class Invoice implements Serializable {
     private double invoiceAmount;
 
     @Column(name = "invoiceCurrency")
-    private String invoiceCurrency;
+    private InvoiceCurrency invoiceCurrency;
 
     @ManyToOne
     @JoinColumn(name = "invoiceClientId")
     private Client client;
 
+    @OneToMany(mappedBy = "invoice", cascade = CascadeType.ALL)
+    private Set<Service> services;
+
     @Inject
     public Invoice() {
     }
 
-    public Invoice(String invoiceDescription, Date invoiceIssueDate, Date invoiceDueDate, InvoiceStatus invoiceStatus, double invoiceAmount, String invoiceCurrency) {
+    public Invoice(String invoiceNumber, String invoiceDescription, Date invoiceIssueDate, Date invoiceDueDate, InvoiceStatus invoiceStatus, double invoiceAmount, InvoiceCurrency invoiceCurrency, Client client, Set<Service> services) {
+        this.invoiceNumber = invoiceNumber;
         this.invoiceDescription = invoiceDescription;
         this.invoiceIssueDate = invoiceIssueDate;
         this.invoiceDueDate = invoiceDueDate;
         this.invoiceStatus = invoiceStatus;
         this.invoiceAmount = invoiceAmount;
+        this.invoiceCurrency = invoiceCurrency;
+        this.client = client;
+        this.services = services;
+    }
+
+    public Invoice(String invoiceNumber, String invoiceDescription, Date invoiceIssueDate, Date invoiceDueDate, InvoiceCurrency invoiceCurrency) {
+        this.invoiceNumber = invoiceNumber;
+        this.invoiceDescription = invoiceDescription;
+        this.invoiceIssueDate = invoiceIssueDate;
+        this.invoiceDueDate = invoiceDueDate;
         this.invoiceCurrency = invoiceCurrency;
     }
 
@@ -75,6 +95,14 @@ public class Invoice implements Serializable {
 
     public void setInvoiceId(Integer invoiceId) {
         this.invoiceId = invoiceId;
+    }
+
+    public String getInvoiceNumber() {
+        return invoiceNumber;
+    }
+
+    public void setInvoiceNumber(String invoiceNumber) {
+        this.invoiceNumber = invoiceNumber;
     }
 
     public String getInvoiceDescription() {
@@ -117,11 +145,11 @@ public class Invoice implements Serializable {
         this.invoiceAmount = invoiceAmount;
     }
 
-    public String getInvoiceCurrency() {
+    public InvoiceCurrency getInvoiceCurrency() {
         return invoiceCurrency;
     }
 
-    public void setInvoiceCurrency(String invoiceCurrency) {
+    public void setInvoiceCurrency(InvoiceCurrency invoiceCurrency) {
         this.invoiceCurrency = invoiceCurrency;
     }
 
@@ -133,11 +161,16 @@ public class Invoice implements Serializable {
         this.client = client;
     }
 
+    public Set<Service> getServices() {
+        return services;
+    }
+
+    public void setServices(Set<Service> services) {
+        this.services = services;
+    }
+
     @Override
     public String toString() {
         return this.invoiceDescription;
     }
-    
-    
-
 }

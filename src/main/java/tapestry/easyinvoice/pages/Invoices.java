@@ -5,9 +5,28 @@
  */
 package tapestry.easyinvoice.pages;
 
+import java.util.List;
+import org.apache.tapestry5.annotations.Property;
+import org.apache.tapestry5.ioc.annotations.Inject;
+import tapestry.easyinvoice.data.DashboardDAO;
+import tapestry.easyinvoice.entities.Invoice;
+
 /**
  *
  * @author Dejan Ivanovic divanovic3d@gmail.com
  */
 public class Invoices {
+    
+    @Inject 
+    private DashboardDAO dashboardDao;
+    
+    @Property
+    private List<Invoice> invoices;
+    
+    @Property
+    private Invoice invoice;
+    
+    void setupRender(){
+        invoices = dashboardDao.getAllInvoices();
+    }
 }

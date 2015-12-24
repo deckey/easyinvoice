@@ -1,2 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Context antiJARLocking="true" path="/easyinvoice"/>
+<Context antiJARLocking="true" path="/easyinvoice">
+  <Resource auth="Container" driverClassName="com.mysql.jdbc.Driver" maxActive="20" maxIdle="10" maxWait="-1" name="invoice" password="" type="javax.sql.DataSource" url="jdbc:mysql://localhost:3306/easyinvoice.db?zeroDateTimeBehavior=convertToNull" username="root"/>
+  <Resource auth="Container" driverClassName="com.mysql.jdbc.Driver" maxActive="20" maxIdle="10" maxWait="-1" name="Invoice" password="" type="javax.sql.DataSource" url="jdbc:mysql://localhost:3306/easyinvoice.db?zeroDateTimeBehavior=convertToNull" username="root"/>
+</Context>

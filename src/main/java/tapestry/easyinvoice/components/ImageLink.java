@@ -1,5 +1,3 @@
-//TODO: Continue mockup and DB entities
-//TODO: Fix main menu icons and link positions - finish responsive class
 package tapestry.easyinvoice.components;
 
 import org.apache.tapestry5.annotations.Parameter;
