@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.4.14
+-- version 4.3.11
 -- http://www.phpmyadmin.net
 --
--- Host: localhost
--- Generation Time: Dec 24, 2015 at 07:13 PM
--- Server version: 5.6.26
--- PHP Version: 5.5.28
+-- Host: 127.0.0.1
+-- Generation Time: Dec 24, 2015 at 10:44 PM
+-- Server version: 5.6.24
+-- PHP Version: 5.5.24
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -14,7 +14,7 @@ SET time_zone = "+00:00";
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8mb4 */;
+/*!40101 SET NAMES utf8 */;
 
 --
 -- Database: `easyinvoice.db`
@@ -30,19 +30,22 @@ CREATE TABLE IF NOT EXISTS `client` (
   `clientId` int(11) NOT NULL,
   `clientAmount` double DEFAULT NULL,
   `clientCompany` varchar(255) DEFAULT NULL,
+  `clientTaxId` int(11) DEFAULT NULL,
   `clientContact` varchar(255) DEFAULT NULL,
   `clientEmail` varchar(255) DEFAULT NULL,
   `clientPhone` varchar(255) DEFAULT NULL,
   `clientWebsite` varchar(255) DEFAULT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `client`
 --
 
-INSERT INTO `client` (`clientId`, `clientAmount`, `clientCompany`, `clientContact`, `clientEmail`, `clientPhone`, `clientWebsite`) VALUES
-(11, 0, 'clientCompany1', 'clientContact1', 'clientEmail', 'clientPhone', 'clientWebsite'),
-(12, 0, 'clientCompany2', 'clientContact2', 'clientEmail', 'clientPhone', 'clientWebsite');
+INSERT INTO `client` (`clientId`, `clientAmount`, `clientCompany`, `clientTaxId`, `clientContact`, `clientEmail`, `clientPhone`, `clientWebsite`) VALUES
+(11, 0, 'clientCompany1', 121211, 'clientContact1', 'clientEmail', 'clientPhone', 'clientWebsite'),
+(12, 0, 'clientCompany2', 21211551, 'clientContact2', 'clientEmail', 'clientPhone', 'clientWebsite'),
+(13, 0, 'aafafpjapfoaks', NULL, 'dgskdgskdg[', 'sdgsd;lgsk', 'sdkgs;dglk', 'dslsd;sl'),
+(14, 0, 'Paragon Inc.', NULL, 'Mark', 'apofjdfposjdg', 'psodgkspdgj', 'spdogjspdg');
 
 -- --------------------------------------------------------
 
@@ -60,7 +63,15 @@ CREATE TABLE IF NOT EXISTS `invoice` (
   `invoiceNumber` varchar(255) DEFAULT NULL,
   `invoiceStatus` varchar(255) DEFAULT NULL,
   `invoiceClientId` int(11) DEFAULT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=54 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=56 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `invoice`
+--
+
+INSERT INTO `invoice` (`invoiceId`, `invoiceAmount`, `invoiceCurrency`, `invoiceDescription`, `invoiceDueDate`, `invoiceIssueDate`, `invoiceNumber`, `invoiceStatus`, `invoiceClientId`) VALUES
+(54, 1200, 0, 'Invoice 1', '2015-12-29', '2015-12-24', '2015-1224', NULL, 13),
+(55, 1200, 0, 'Invoice 2', '2015-12-31', '2015-12-24', '2015-1224', NULL, 14);
 
 -- --------------------------------------------------------
 
@@ -101,6 +112,14 @@ CREATE TABLE IF NOT EXISTS `registration` (
   `registrationShipCountry` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Dumping data for table `registration`
+--
+
+INSERT INTO `registration` (`registrationId`, `registrationAddress`, `registrationCity`, `registrationCountry`, `registrationNotes`, `registrationShipAddress`, `registrationShipCity`, `registrationShipCountry`) VALUES
+(13, 'ssgskgpk', 'gsdgsdgk', 'gsdgksdgk', NULL, NULL, NULL, NULL),
+(14, 'asdapsfokas', 'pdoksdpgo', 'USA', NULL, NULL, NULL, NULL);
+
 -- --------------------------------------------------------
 
 --
@@ -113,7 +132,15 @@ CREATE TABLE IF NOT EXISTS `service` (
   `serviceAmount` double DEFAULT NULL,
   `serviceDescription` varchar(255) DEFAULT NULL,
   `invoiceServiceId` int(11) DEFAULT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `service`
+--
+
+INSERT INTO `service` (`serviceId`, `serviceNumber`, `serviceAmount`, `serviceDescription`, `invoiceServiceId`) VALUES
+(23, 1, 1200, 'Supervision', 54),
+(24, 1, 1200, 'Supervision', 55);
 
 --
 -- Indexes for dumped tables
@@ -129,8 +156,7 @@ ALTER TABLE `client`
 -- Indexes for table `invoice`
 --
 ALTER TABLE `invoice`
-  ADD PRIMARY KEY (`invoiceId`),
-  ADD KEY `FK_roj299l1vk25hjmfnbtktcad5` (`invoiceClientId`);
+  ADD PRIMARY KEY (`invoiceId`), ADD KEY `FK_roj299l1vk25hjmfnbtktcad5` (`invoiceClientId`);
 
 --
 -- Indexes for table `member`
@@ -148,8 +174,7 @@ ALTER TABLE `registration`
 -- Indexes for table `service`
 --
 ALTER TABLE `service`
-  ADD PRIMARY KEY (`serviceId`),
-  ADD KEY `FK_2eyaovgqiq0pre63prev6yeje` (`invoiceServiceId`);
+  ADD PRIMARY KEY (`serviceId`), ADD KEY `FK_2eyaovgqiq0pre63prev6yeje` (`invoiceServiceId`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -159,12 +184,12 @@ ALTER TABLE `service`
 -- AUTO_INCREMENT for table `client`
 --
 ALTER TABLE `client`
-  MODIFY `clientId` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=13;
+  MODIFY `clientId` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=15;
 --
 -- AUTO_INCREMENT for table `invoice`
 --
 ALTER TABLE `invoice`
-  MODIFY `invoiceId` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=54;
+  MODIFY `invoiceId` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=56;
 --
 -- AUTO_INCREMENT for table `member`
 --
@@ -174,7 +199,7 @@ ALTER TABLE `member`
 -- AUTO_INCREMENT for table `service`
 --
 ALTER TABLE `service`
-  MODIFY `serviceId` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=23;
+  MODIFY `serviceId` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=25;
 --
 -- Constraints for dumped tables
 --
@@ -183,13 +208,13 @@ ALTER TABLE `service`
 -- Constraints for table `invoice`
 --
 ALTER TABLE `invoice`
-  ADD CONSTRAINT `FK_roj299l1vk25hjmfnbtktcad5` FOREIGN KEY (`invoiceClientId`) REFERENCES `client` (`clientId`);
+ADD CONSTRAINT `FK_roj299l1vk25hjmfnbtktcad5` FOREIGN KEY (`invoiceClientId`) REFERENCES `client` (`clientId`);
 
 --
 -- Constraints for table `service`
 --
 ALTER TABLE `service`
-  ADD CONSTRAINT `FK_2eyaovgqiq0pre63prev6yeje` FOREIGN KEY (`invoiceServiceId`) REFERENCES `invoice` (`invoiceId`);
+ADD CONSTRAINT `FK_2eyaovgqiq0pre63prev6yeje` FOREIGN KEY (`invoiceServiceId`) REFERENCES `invoice` (`invoiceId`);
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
