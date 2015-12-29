@@ -45,12 +45,19 @@
             <version>1.2</version>
         </dependency>
         
-        <!--JQUERY-->
+        <!--UPLOAD--> 
         <dependency>
+            <groupId>org.apache.tapestry</groupId>
+            <artifactId>tapestry-upload</artifactId>
+            <version>${tapestry-release-version}</version>
+        </dependency>
+        
+        <!--JQUERY-->
+        <!--        <dependency>
             <groupId>org.got5</groupId>
             <artifactId>tapestry5-jquery</artifactId>
             <version>4.0.1-SNAPSHOT</version>
-        </dependency>
+        </dependency>-->
 
         <!-- Uncomment this to add support resource minification and runtime compilation -->
         <!--
@@ -198,7 +205,7 @@
     </repositories>
 
     <properties>
-        <tapestry-release-version>5.4-beta-26</tapestry-release-version>
+        <tapestry-release-version>5.4-rc-1</tapestry-release-version>
         <servlet-api-release-version>2.5</servlet-api-release-version>
         <testng-release-version>6.5.2</testng-release-version>
         <easymock-release-version>3.0</easymock-release-version>

@@ -24,6 +24,8 @@ public interface ClientDAO {
     
     public Client findClientById(Integer id);
     
+    public Client findClientByCompanyName(String companyName);
+    
     
     public Client updateClient(Client client);
 }

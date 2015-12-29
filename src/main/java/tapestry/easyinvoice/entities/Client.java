@@ -1,6 +1,7 @@
 package tapestry.easyinvoice.entities;
 
 import java.io.Serializable;
+import java.util.HashSet;
 import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -11,7 +12,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import org.apache.tapestry5.ioc.annotations.Inject;
-import org.hibernate.annotations.Cascade;
 
 /**
  *
@@ -28,10 +28,10 @@ public class Client implements Serializable {
 
     @Column(name = "clientCompany")
     private String clientCompany;
-    
-    @Column(name="clientTaxId")
+
+    @Column(name = "clientTaxId")
     private Integer clientTaxId;
-    
+
     @Column(name = "clientContact")
     private String clientContact;
 
@@ -49,13 +49,19 @@ public class Client implements Serializable {
 
     @OneToOne(mappedBy = "client", cascade = CascadeType.ALL)
     private Registration registration;
-    
+
     @OneToMany(mappedBy = "client", cascade = CascadeType.ALL)
     private Set<Invoice> invoices;
 
-
     @Inject
     public Client() {
+        this.invoices = new HashSet<>();
+    }
+
+    public Client(String clientCompany, String clientEmail) {
+        this.clientCompany = clientCompany;
+        this.clientEmail = clientEmail;
+        this.invoices = new HashSet<>();
     }
 
     public Client(String clientCompany, String clientContact, String clientPhone, String clientEmail, String clientWebsite) {
@@ -64,6 +70,7 @@ public class Client implements Serializable {
         this.clientPhone = clientPhone;
         this.clientEmail = clientEmail;
         this.clientWebsite = clientWebsite;
+        this.invoices = new HashSet<>();
     }
 
     public Integer getClientId() {
@@ -148,9 +155,7 @@ public class Client implements Serializable {
 
     @Override
     public String toString() {
-        return this.clientCompany +" company";
+        return this.clientCompany + " company";
     }
-    
-    
-    
+
 }

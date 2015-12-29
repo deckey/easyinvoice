@@ -67,6 +67,8 @@ public class Invoice implements Serializable {
 
     @Inject
     public Invoice() {
+        this.client = new Client();
+        this.services = new HashSet<>();
     }
 
     public Invoice(String invoiceNumber, String invoiceDescription, Date invoiceIssueDate, Date invoiceDueDate, InvoiceStatus invoiceStatus, double invoiceAmount, InvoiceCurrency invoiceCurrency, Client client, Set<Service> services) {
@@ -77,8 +79,8 @@ public class Invoice implements Serializable {
         this.invoiceStatus = invoiceStatus;
         this.invoiceAmount = invoiceAmount;
         this.invoiceCurrency = invoiceCurrency;
-        this.client = client;
-        this.services = services;
+        this.client = new Client();
+        this.services = new HashSet<>();
     }
 
     public Invoice(String invoiceNumber, String invoiceDescription, Date invoiceIssueDate, Date invoiceDueDate, InvoiceCurrency invoiceCurrency) {
@@ -87,6 +89,8 @@ public class Invoice implements Serializable {
         this.invoiceIssueDate = invoiceIssueDate;
         this.invoiceDueDate = invoiceDueDate;
         this.invoiceCurrency = invoiceCurrency;
+        this.client = new Client();
+        this.services = new HashSet<>();
     }
 
     public Integer getInvoiceId() {

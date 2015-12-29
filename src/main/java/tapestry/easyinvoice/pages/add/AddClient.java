@@ -93,9 +93,13 @@ public class AddClient {
         client.setClientPhone(clientPhone);
         client.setClientWebsite(clientWebsite);
         
-        registration.setRegistrationCity(registrationCity);
-        registration.setRegistrationCountry(registrationCountry);
         registration.setRegistrationAddress(registrationAddress);
+        registration.setRegistrationShipAddress(registrationCountry);
+        registration.setRegistrationCity(registrationCity);
+        registration.setRegistrationShipCity(registrationCity);
+        registration.setRegistrationCountry(registrationCountry);
+        registration.setRegistrationShipCountry(registrationCountry);
+        
         if(separateShipTo){
             registration.setRegistrationShipAddress(registrationShipAddress);
             registration.setRegistrationShipCity(registrationShipCity);

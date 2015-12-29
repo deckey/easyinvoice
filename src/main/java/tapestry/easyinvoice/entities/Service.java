@@ -23,8 +23,8 @@ public class Service implements Serializable, Comparable<Service> {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "serviceId")
     private Integer serviceId;
-    
-    @Column (name="serviceNumber")
+
+    @Column(name = "serviceNumber")
     private Integer serviceNumber;
 
     @Column(name = "serviceDescription")
@@ -46,6 +46,12 @@ public class Service implements Serializable, Comparable<Service> {
         this.serviceAmount = serviceAmount;
     }
 
+    public Service(String serviceDescription, double serviceAmount, Integer serviceNumber) {
+        this.serviceNumber = serviceNumber;
+        this.serviceDescription = serviceDescription;
+        this.serviceAmount = serviceAmount;
+    }
+
     public Integer getServiceId() {
         return serviceId;
     }
@@ -62,7 +68,6 @@ public class Service implements Serializable, Comparable<Service> {
         this.serviceNumber = serviceNumber;
     }
 
-    
     public String getServiceDescription() {
         return serviceDescription;
     }
@@ -94,4 +99,5 @@ public class Service implements Serializable, Comparable<Service> {
         }
         return 0;
     }
+    
 }

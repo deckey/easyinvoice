@@ -50,6 +50,13 @@ public class ClientIMPL implements ClientDAO {
     }
 
     @Override
+    public Client findClientByCompanyName(String companyName) {
+        return (Client) dbs.createCriteria(Client.class).add(Restrictions.eq("clientCompany", companyName)).uniqueResult();
+    }
+    
+    
+
+    @Override
     public Client updateClient(Client client) {
         return (Client) dbs.merge(client);
     }
