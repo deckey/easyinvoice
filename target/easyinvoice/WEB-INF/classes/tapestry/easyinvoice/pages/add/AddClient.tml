@@ -87,6 +87,24 @@
                     <label for="clientWebsite">Website:</label>
                     <t:textfield t:id="clientWebsite" id="clientWebsite" t:value="clientWebsite" />
                 </div>
+                
+            </div>
+            
+            <!--Additional details...............................-->
+            <div class="row border_btm">
+                <div class="col-xs-6">
+                    <h4> Additional information</h4>
+                </div>
+            </div>
+            <div class="row well">
+                <div class="control-group col-xs-6 col-sm-3">
+                    <label for="registrationNotes">Notes</label>
+                    <t:textarea t:id="registrationNotes" id="registrationNotes" t:value="registrationNotes" />
+                </div>
+                <div class="control-group col-xs-6 col-sm-2 col-sm-offset-1 ">
+                    <label for="clientLogo">Upload logo</label>
+                    <t:textfield t:id="clientLogo" id="clientLogo" t:value="clientLogo" />
+                </div>
                 <div class="control-group col-xs-6 col-sm-1 ">
                     <label for="cancelClientBtn" class="invisible">spacer</label>
                     <t:pagelink t:page="Clients" id="cancelClientBtn" class="btn btn-default">Cancel</t:pagelink>

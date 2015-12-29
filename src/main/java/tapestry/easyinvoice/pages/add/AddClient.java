@@ -70,6 +70,11 @@ public class AddClient {
     @Property
     @Validate("required")
     private String registrationShipCountry;
+    @Property
+    private String registrationNotes;
+    @Property
+    private String clientLogo;
+    
     @Persist
     @Property
     private boolean separateShipTo;
