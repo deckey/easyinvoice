@@ -45,12 +45,27 @@ public class ClientIMPL implements ClientDAO {
     }
 
     @Override
+    public double getClientTotalAmount(Client client) {
+        double amount = 0;
+        for (Invoice invoice : client.getInvoices()) {
+            amount += invoice.getInvoiceAmount();
+        }
+        return amount;
+    }
+
+    @Override
     public Client findClientById(Integer id) {
         return (Client) dbs.createCriteria(Client.class).add(Restrictions.eq("clientId", id)).uniqueResult();
+    }
+
+    @Override
+    public Client findClientByCompanyName(String companyName) {
+        return (Client) dbs.createCriteria(Client.class).add(Restrictions.eq("clientCompany", companyName)).uniqueResult();
     }
 
     @Override
     public Client updateClient(Client client) {
         return (Client) dbs.merge(client);
     }
+
 }

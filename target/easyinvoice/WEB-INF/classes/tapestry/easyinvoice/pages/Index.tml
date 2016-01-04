@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html t:type="layout" 
       title="Welcome to Easy Invoice App" 
-      xmlns:t="http://tapestry.apache.org/schema/tapestry_5_4.xsd"
+      xmlns:t="http://tapestry.apache.org/schema/tapestry_5_3.xsd"
       xmlns:p="tapestry:parameter">
    
     <body>

@@ -5,14 +5,14 @@
  */
 
 if (typeof jQuery === 'undefined') {
-  throw new Error('Bootstrap\'s JavaScript requires jQuery')
+  throw new Error('Bootstrap\'s JavaScript requires jQuery');
 }
 
 +function ($) {
   'use strict';
-  var version = $.fn.jquery.split(' ')[0].split('.')
+  var version = $.fn.jquery.split(' ')[0].split('.');
   if ((version[0] < 2 && version[1] < 9) || (version[0] == 1 && version[1] == 9 && version[2] < 1)) {
-    throw new Error('Bootstrap\'s JavaScript requires jQuery version 1.9.1 or higher')
+    throw new Error('Bootstrap\'s JavaScript requires jQuery version 1.9.1 or higher');
   }
 }(jQuery);
 
@@ -32,22 +32,22 @@ if (typeof jQuery === 'undefined') {
   // ============================================================
 
   function transitionEnd() {
-    var el = document.createElement('bootstrap')
+    var el = document.createElement('bootstrap');
 
     var transEndEventNames = {
       WebkitTransition : 'webkitTransitionEnd',
       MozTransition    : 'transitionend',
       OTransition      : 'oTransitionEnd otransitionend',
       transition       : 'transitionend'
-    }
+    };
 
     for (var name in transEndEventNames) {
       if (el.style[name] !== undefined) {
-        return { end: transEndEventNames[name] }
+        return { end: transEndEventNames[name] };
       }
     }
 
-    return false // explicit for ie8 (  ._.)
+    return false ;// explicit for ie8 (  ._.)
   }
 
   // http://blog.alexmaccaw.com/css-transitions

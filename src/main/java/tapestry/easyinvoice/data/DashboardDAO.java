@@ -21,12 +21,14 @@ public interface DashboardDAO {
 
     public void addService(Service service);
 
-    public boolean checkIfInvoiceExists(Client aClient, String aNumber);
+    public boolean checkIfInvoiceExists(String clientCompany, String aNumber);
 
     public void deleteInvoice(Integer id);
     
     public void deleteMember(Integer id);
 
+    public Member findMemberById(Integer id);
+    
     public Member findMemberByUsername(String uName);
 
     public List<Invoice> getAllInvoices();

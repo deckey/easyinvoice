@@ -1,6 +1,7 @@
 package tapestry.easyinvoice.entities;
 
 import java.io.Serializable;
+import java.util.HashSet;
 import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -11,7 +12,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import org.apache.tapestry5.ioc.annotations.Inject;
-import org.hibernate.annotations.Cascade;
 
 /**
  *
@@ -28,7 +28,10 @@ public class Client implements Serializable {
 
     @Column(name = "clientCompany")
     private String clientCompany;
-    
+
+    @Column(name = "clientTaxId")
+    private Integer clientTaxId;
+
     @Column(name = "clientContact")
     private String clientContact;
 
@@ -38,33 +41,33 @@ public class Client implements Serializable {
     @Column(name = "clientEmail")
     private String clientEmail;
 
-    @Column(name = "clientAmount")
-    private double clientAmount;
-
-    @Column(name = "clientIndustry")
-    private String clientIndustry;
-
     @Column(name = "clientWebsite")
     private String clientWebsite;
 
     @OneToOne(mappedBy = "client", cascade = CascadeType.ALL)
     private Registration registration;
-    
+
     @OneToMany(mappedBy = "client", cascade = CascadeType.ALL)
     private Set<Invoice> invoices;
 
-
     @Inject
     public Client() {
+        this.invoices = new HashSet<>();
     }
 
-    public Client(String clientCompany, String clientContact, String clientPhone, String clientEmail, String clientIndustry, String clientWebsite) {
+    public Client(String clientCompany, String clientEmail) {
+        this.clientCompany = clientCompany;
+        this.clientEmail = clientEmail;
+        this.invoices = new HashSet<>();
+    }
+
+    public Client(String clientCompany, String clientContact, String clientPhone, String clientEmail, String clientWebsite) {
         this.clientCompany = clientCompany;
         this.clientContact = clientContact;
         this.clientPhone = clientPhone;
         this.clientEmail = clientEmail;
-        this.clientIndustry = clientIndustry;
         this.clientWebsite = clientWebsite;
+        this.invoices = new HashSet<>();
     }
 
     public Integer getClientId() {
@@ -81,6 +84,14 @@ public class Client implements Serializable {
 
     public void setClientCompany(String clientCompany) {
         this.clientCompany = clientCompany;
+    }
+
+    public Integer getClientTaxId() {
+        return clientTaxId;
+    }
+
+    public void setClientTaxId(Integer clientTaxId) {
+        this.clientTaxId = clientTaxId;
     }
 
     public String getClientContact() {
@@ -105,22 +116,6 @@ public class Client implements Serializable {
 
     public void setClientEmail(String clientEmail) {
         this.clientEmail = clientEmail;
-    }
-
-    public double getClientAmount() {
-        return clientAmount;
-    }
-
-    public void setClientAmount(double clientAmount) {
-        this.clientAmount = clientAmount;
-    }
-
-    public String getClientIndustry() {
-        return clientIndustry;
-    }
-
-    public void setClientIndustry(String clientIndustry) {
-        this.clientIndustry = clientIndustry;
     }
 
     public String getClientWebsite() {
@@ -149,9 +144,8 @@ public class Client implements Serializable {
 
     @Override
     public String toString() {
-        return this.clientCompany +" company";
+        return clientCompany; //To change body of generated methods, choose Tools | Templates.
     }
-    
-    
-    
+
+
 }

@@ -1,11 +1,25 @@
 <!DOCTYPE html>
 <html t:type="layout" 
       title="EasyInvoice : View client" 
-      xmlns:t="http://tapestry.apache.org/schema/tapestry_5_4.xsd"
+      xmlns:t="http://tapestry.apache.org/schema/tapestry_5_3.xsd"
       xmlns:p="tapestry:parameter">
    
     <body>
-        View client
+        <t:header/>
+        <t:mainmenu/>
+        <div class="row border_btm">
+            <div class="col-xs-6">
+                <h4> View client</h4>
+            </div>
+        </div>
+        <!--CLIENT....................-->
+        <t:beandisplay t:object="client"/>
+        <t:grid t:source="invoices" row="invoice">
+            <p:invoiceNumberCell>
+                <t:pagelink t:page="view/ViewInvoice" t:context="invoice.invoiceId">${invoice.invoiceNumber}</t:pagelink>
+            </p:invoiceNumberCell>
+        </t:grid>
+        <t:pagelink t:page="edit/EditClient" t:context="client">Edit</t:pagelink>
     </body>
 </html>
 

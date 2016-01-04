@@ -10,8 +10,9 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import org.apache.tapestry5.annotations.Import;
 import org.apache.tapestry5.annotations.Property;
+import org.apache.tapestry5.grid.GridDataSource;
+import org.apache.tapestry5.hibernate.HibernateGridDataSource;
 import org.apache.tapestry5.hibernate.annotations.CommitAfter;
 import org.apache.tapestry5.ioc.annotations.Inject;
 import org.hibernate.Session;
@@ -50,9 +51,6 @@ public class Dashboard {
     private Registration registration;
 
     @Property
-    private List<Registration> registrations;
-
-    @Property
     private Service service;
 
     @Property
@@ -72,7 +70,10 @@ public class Dashboard {
             invoices = new HashSet<>();
         }
         clients = clientDao.getAllClients();
-        registrations = dbs.createCriteria(Registration.class).list();
+    }
+
+    public GridDataSource getRegistrations() {
+        return new HibernateGridDataSource(dbs, Registration.class);
     }
 
     public List<Invoice> getInvoiceList() {
@@ -99,7 +100,7 @@ public class Dashboard {
 
     @CommitAfter
     void onCreateClient() {
-        client = new Client("clientCompany2", "clientContact2", "clientPhone", "clientEmail", "clientIndustry2", "clientWebsite");
+        client = new Client("clientCompany2", "clientContact2", "clientPhone", "clientEmail", "clientWebsite");
         registration = new Registration("client1Address", "client2City", "client2 country", "client2shipping", "client2ShippingCity", "client2shipCountry", "some notes");
         registration.setClient(client);
         clientDao.addClient(client);

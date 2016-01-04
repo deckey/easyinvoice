@@ -1,14 +1,24 @@
 <!DOCTYPE html>
 <html t:type="layout" 
       title="EasyInvoice : View invoice" 
-      xmlns:t="http://tapestry.apache.org/schema/tapestry_5_4.xsd"
+      xmlns:t="http://tapestry.apache.org/schema/tapestry_5_3.xsd"
       xmlns:p="tapestry:parameter">
    
     <body>
-        View invoice
-        
-        <h4>${invoice.getClient()}</h4>
-        
+         <t:header/>
+        <t:mainmenu/>
+        <div class="row border_btm">
+            <div class="col-xs-6">
+                <h4> Invoice details</h4>
+            </div>
+            
+            <!--            <div class="col-xs-6">
+                <h4 class='text-right'> Preview icon</h4>
+            </div>-->
+        </div>
+        <div class="row ">
+            <t:beandisplay t:object="invoice"/>
+        </div>
         <t:pagelink t:page="delete/DeleteInvoice" t:context="invoice.invoiceId">Delete</t:pagelink>
     </body>
 </html>

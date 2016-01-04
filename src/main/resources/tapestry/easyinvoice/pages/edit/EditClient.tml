@@ -1,10 +1,116 @@
 <!DOCTYPE html>
 <html t:type="layout" 
       title="EasyInvoice : Edit client" 
-      xmlns:t="http://tapestry.apache.org/schema/tapestry_5_4.xsd"
+      xmlns:t="http://tapestry.apache.org/schema/tapestry_5_3.xsd"
       xmlns:p="tapestry:parameter">
    
     <body>
-        Edit client
+        <t:header/>
+        <t:mainmenu/>
+        <div class="row border_btm">
+            <div class="col-xs-6">
+                <h4> Update client</h4>
+            </div>
+        </div>
+        <!--CLIENT....................-->
+        <t:form t:object="client" t:id="editClientForm">
+            <div class="row well">
+                <t:errors class="col-xs-12"/>
+                <!--1st row.......................-->
+                <div class="control-group col-xs-6 col-sm-3">
+                    <label for="clientCompany">* Company name</label>
+                    <t:textfield t:id="clientCompany" id="clientCompany" t:value="clientCompany" />
+                </div>
+                <div class="control-group col-xs-6 col-sm-1">
+                    <label for="clientTaxId">Tax ID</label>
+                    <t:textfield t:id="clientTaxId" id="clientTaxId" t:value="clientTaxId" />
+                </div>
+                <!--REGISTRATION...........................-->
+                <div class="control-group col-xs-6 col-sm-2">
+                    <label for="registrationAddress">* Address</label>
+                    <t:textfield t:id="registrationAddress" id="registrationAddress" t:value="registrationAddress" />
+                </div> 
+                <div class="control-group col-xs-6 col-sm-2">
+                    <label for="registrationCity">* City</label>
+                    <t:textfield t:id="registrationCity" id="registrationCity" t:value="registrationCity" />
+                </div>
+                <div class="control-group col-xs-6 col-sm-2">
+                    <label for="registrationCountry">* Country:</label>
+                    <t:textfield  t:id="registrationCountry" id="registrationCountry" t:value="registrationCountry" />
+                </div> 
+                <div class="control-group col-xs-6 col-sm-2">
+                    <t:label for="separateShipTo">
+                        Separate Shipping Address?
+                    </t:label>
+                    <t:checkbox t:id="separateShipTo" 
+                                t:mixins="triggerfragment" TriggerFragment.fragment="seperateShippingAddress"/> 
+                </div><!--2nd row...............................-->
+                <div class="row ">
+                    <t:formfragment t:id="seperateShippingAddress" visible="separateShipTo">
+                        <!--SHIPPING...............................>-->
+                        <div class="control-group col-xs-6 col-sm-2 col-sm-offset-4">
+                            <label for="registrationShipAddress">* Shipping address</label>
+                            <t:textfield t:id="registrationShipAddress" id="registrationShipAddress" t:value="registrationShipAddress" />
+                        </div>
+                        <div class="control-group col-xs-6 col-sm-2">
+                            <label for="registrationShipCity">* Shipping city</label>
+                            <t:textfield t:id="registrationShipCity" id="registrationShipCity" t:value="registrationShipCity" />
+                        </div>
+                        <div class="control-group col-xs-6 col-sm-2">
+                            <label for="registrationShipCountry">* Shipping country</label>
+                            <t:textfield t:id="registrationShipCountry"  id="registrationShipCountry" t:value="registrationShipCountry" />
+                        </div>
+                    </t:formfragment>
+                </div>
+            </div>
+            
+            <!--Contact details...............................-->
+            <div class="row border_btm">
+                <div class="col-xs-6">
+                    <h4> Contact details</h4>
+                </div>
+            </div>
+            <div class="row well">
+                <div class="control-group col-xs-6 col-sm-3">
+                    <label for="clientContact">* Contact name</label>
+                    <t:textfield t:id="clientContact" id="clientContact" t:value="clientContact" />
+                </div>
+                <div class="control-group col-xs-6 col-sm-2 col-sm-offset-1 ">
+                    <label for="clientEmail">* E-mail:</label>
+                    <t:textfield t:id="clientEmail" id="clientEmail" t:value="clientEmail" />
+                </div>
+                <div class="control-group col-xs-6 col-sm-2">
+                    <label for="clientPhone">Phone:</label>
+                    <t:textfield t:id="clientPhone" id="clientPhone" t:value="clientPhone" />
+                </div>
+                <div class="control-group col-xs-6 col-sm-2 ">
+                    <label for="clientWebsite">Website:</label>
+                    <t:textfield t:id="clientWebsite" id="clientWebsite" t:value="clientWebsite" />
+                </div>
+                
+            </div>
+            
+            <!--Additional details...............................-->
+            <div class="row border_btm">
+                <div class="col-xs-6">
+                    <h4> Additional information</h4>
+                </div>
+            </div>
+            <div class="row well">
+                <div class="control-group col-xs-6 col-sm-3">
+                    <label for="registrationNotes">Notes</label>
+                    <t:textarea t:id="registrationNotes" id="registrationNotes" t:value="registrationNotes" />
+                </div>
+                
+                <div class="control-group col-xs-6 col-sm-1 ">
+                    <label for="cancelClientBtn" class="invisible">spacer</label>
+                    <t:pagelink t:page="Clients" id="cancelClientBtn" class="btn btn-default">Cancel</t:pagelink>
+                </div>
+                <div class="control-group col-xs-6 col-sm-1 ">
+                    <label for="addClientBtn" class="invisible">spacer</label>
+                    <t:submit id="addClientBtn" value="Update"/>
+                </div>
+            </div>
+        </t:form>
     </body>
 </html>

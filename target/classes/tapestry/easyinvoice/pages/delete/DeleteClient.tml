@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html t:type="layout" 
+      title="EasyInvoice : Delete invoice" 
+      xmlns:t="http://tapestry.apache.org/schema/tapestry_5_3.xsd"
+      xmlns:p="tapestry:parameter">
+   
+    <body>
+        Delete client?
+        
+        <t:beandisplay t:object="client"/>
+        <t:eventlink t:event="deleteClient" context="client.clientId">Delete</t:eventlink>
+    </body>
+</html>
+
+
+
+

@@ -6,6 +6,7 @@
 package tapestry.easyinvoice.data;
 
 import java.util.List;
+import org.apache.tapestry5.annotations.SessionState;
 import org.apache.tapestry5.ioc.annotations.Inject;
 import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;
@@ -34,10 +35,10 @@ public class DashboardIMPL implements DashboardDAO {
     }
 
     @Override
-    public boolean checkIfInvoiceExists(Client aClient, String aNumber) {
+    public boolean checkIfInvoiceExists(String clientCompany, String aNumber) {
         List<Invoice> invoices = dbs.createCriteria(Invoice.class).list();
         for (Invoice invoice : invoices) {
-            if (invoice.getClient().equals(aClient) && invoice.getInvoiceNumber().equals(aNumber)) {
+            if (invoice.getClient().getClientCompany().equals(clientCompany) && invoice.getInvoiceNumber().equals(aNumber)) {
                 return true;
             }
         }
@@ -59,6 +60,14 @@ public class DashboardIMPL implements DashboardDAO {
         dbs.delete(member);
     }
 
+    @Override
+    public Member findMemberById(Integer id) {
+        return (Member) dbs.createCriteria(Member.class).add(Restrictions.eq("memberId", id)).uniqueResult();
+    }
+
+    
+    
+    
     @Override
     public Member findMemberByUsername(String uName) {
         return (Member) dbs.createCriteria(Member.class).add(Restrictions.eq("memberUsername", uName)).uniqueResult();

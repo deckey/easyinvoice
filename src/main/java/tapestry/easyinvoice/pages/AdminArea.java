@@ -9,6 +9,7 @@ import org.apache.tapestry5.alerts.Severity;
 import org.apache.tapestry5.annotations.InjectComponent;
 import org.apache.tapestry5.annotations.Persist;
 import org.apache.tapestry5.annotations.Property;
+import org.apache.tapestry5.annotations.SessionState;
 import org.apache.tapestry5.corelib.components.BeanEditForm;
 import org.apache.tapestry5.hibernate.annotations.CommitAfter;
 import org.apache.tapestry5.ioc.Messages;
@@ -68,7 +69,7 @@ public class AdminArea {
     @CommitAfter
     Object onSuccessFromAddMemberForm() {
         dashboardDao.updateMember(member);
-        alertManager.alert(Duration.TRANSIENT, Severity.SUCCESS, "User "+member.getMemberUsername()+" successfully updated!");
+        alertManager.alert(Duration.TRANSIENT, Severity.SUCCESS, "User "+member.getMemberName()+" successfully updated!");
         member = new Member();
         return this;
     }

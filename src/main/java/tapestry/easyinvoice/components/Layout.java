@@ -12,7 +12,7 @@ import org.apache.tapestry5.annotations.Property;
 @Import(stylesheet = {
     "context:css/normalize.css",
     "context:css/bootstrap-custom.css",
-    "context:css/main.css"}, library = "context:js/bootstrap.js")
+    "context:css/main.css"})
 
 public class Layout {
 

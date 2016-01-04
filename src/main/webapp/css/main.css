@@ -15,12 +15,13 @@ Changes on top of original theme:
 p{white-space: pre;}
 /* SPACING */ 
 .row{}
+.control-group{margin-bottom: 1em;}
 .spacer{padding:1em 0;}
 #header-bar{margin-bottom:1em;}
 .sub-menu{margin-left: 1em;background-color: #ffffff;border-color: #ffffff;color:#18bc9c}
-#main-menu{margin-top:1em;padding-bottom: 1em;}
+#main-menu{padding-bottom: 1em;padding-top:0;}
 #logo-small{}
-.frame{padding:2em;}
+.frame{padding:1em;}
 .border{border:#afd9ee 2px solid;}
 /* COLORS */ 
 
@@ -50,10 +51,19 @@ strong{color:#317eac;}
 #servicesGrid th{font-weight: normal;color:#317eac;}
 #servicesGrid {font-size:0.8em;}
 #servicesGrid.table tr td{line-height: 0.5em;font-size:1.1em;}
-.table-service tr td:nth-child(1){width:65%;}
-.table-service tr td:nth-child(2){width:35%;}
-.table-service tr td i, b{font-size:1.3em;color:#008cba}
+
+.table-service {font-size: 1em;}
+.table tr{border-top:none;}
+.table-service th {border-bottom: #afd9ee 3px solid;height:2em;}
+.table-service tr{height:1.4em;}
+
+.table-service tr :nth-child(1){width:10%;border-top:none;}
+.table-service tr :nth-child(2){width:60;}
+.table-service tr :nth-child(3){width:30%;}
+.table-service tr td i, b{font-size:1.2em;color:#008cba}
 
 .table-invoice{margin-top:0.5em;font-size:1em;}
 .table-invoice tr{line-height: 1.5em;font-size: 1em;}
 .table-invoice tr td:first-child{color:#317eac;width:120px;}
+
+#serviceListZone table tr:last-child{height:2em;border-top:#afd9ee 1px solid;}
