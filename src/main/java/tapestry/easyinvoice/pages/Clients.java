@@ -30,5 +30,9 @@ public class Clients {
     void onActivate() {
         clients = clientDao.getAllClients();
     }
+    
+    public double getTotalAmount(){
+        return clientDao.getClientTotalAmount(client);
+    }
 
 }

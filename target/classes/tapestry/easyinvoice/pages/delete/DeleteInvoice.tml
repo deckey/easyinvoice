@@ -9,7 +9,6 @@
         
         <t:beandisplay t:object="invoice"/>
         <t:eventlink t:event="deleteInvoice" context="invoice.invoiceId">Delete</t:eventlink>
-        <!--<t:pagelink t:page="delete/DeleteInvoice" t:context="invoice.invoiceId">Delete</t:pagelink>-->
     </body>
 </html>
 

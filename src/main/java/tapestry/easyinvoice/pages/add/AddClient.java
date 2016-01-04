@@ -93,6 +93,7 @@ public class AddClient {
     @CommitAfter
     Object onSuccessFromAddClientForm(){
         client.setClientCompany(clientCompany);
+        client.setClientTaxId(clientTaxId);
         client.setClientContact(clientContact);
         client.setClientEmail(clientEmail);
         client.setClientPhone(clientPhone);

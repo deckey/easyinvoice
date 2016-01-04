@@ -27,7 +27,6 @@
                         <a id="autoInvoiceCheck" href="#" onclick="autoInvoiceNumber()">(auto)</a>
                     </label>
                     <input t:type="textfield" t:id="invoiceNumber" id="invoiceNumber" t:value="invoiceNumber"/>
-                    <!--TODO: ONCHANGE EVENTS ON DATES-->
                 </div>
                 <div class=" form-group col-xs-6 col-md-3">
                     <label for="invoiceIssueDate">Issue date</label>
@@ -60,12 +59,11 @@
                     </div>
                     <div class="form-group col-xs-8 col-md-3">
                         <label for="invoiceClient">Select client:</label>
-                        <t:select t:id="invoiceClient" id="invoiceClient" t:model="clientCompanies"  t:value="invoiceClient"/>
+                        <t:select t:model="clients" t:id="invoiceClient" id="invoiceClient" value="invoiceClient" zone="currencyZone"/>
                     </div> 
                     <div class="form-group col-xs-4 col-md-3">
                         <label for="invoiceCurrency">Currency</label>
-                        <t:select t:model="currencies" t:id="invoiceCurrency" id="invoiceCurrency"  value="invoiceCurrency"
-                                  onchange="updateCurrency()"/>
+                        <t:select t:model="currencies" t:id="invoiceCurrency" id="invoiceCurrency"  value="invoiceCurrency" zone="currencyZone"/>
                     </div>
                     <div class="clearfix"/>
                 </form>
@@ -82,27 +80,28 @@
                         <th>Price</th>
                     </thead>
                     <tbody> 
-                    <t:if test="!checkServices">
-                        <tr t:type="loop" t:source="tempServices" value="service">
-                            <td>
-                                ${service.serviceNumber}
-                            </td>
-                            <td>
-                                ${service.serviceDescription}
-                        
-                            </td>
-                            <td>                       
-                                ${service.serviceAmount}
-                            </td>    
-                        </tr> 
-                        <tr>
-                            <td/>
-                            <td/>
-                            <td>
-                                <b>${totalAmount} <strong id="invoiceCurrencyInfo">${invoiceCurrency}</strong></b>
-                            </td>
-                        </tr>
-                    </t:if>
+                        <t:if test="!checkServices">
+                            <tr t:type="loop" t:source="tempServices" value="service">
+                                <td>
+                                    ${service.serviceNumber}
+                                </td>
+                                <td>
+                                    ${service.serviceDescription}
+                                </td>
+                                <td>                       
+                                    ${service.serviceAmount}
+                                </td>    
+                            </tr> 
+                            <tr>
+                                <td/>
+                                <td/>
+                                <td>
+                                    <t:zone t:id="currencyZone" id="currencyZone">
+                                        <b>${invoiceAmount}</b>
+                                    </t:zone>
+                                </td>
+                            </tr>
+                        </t:if>
                     </tbody>
                 </table>
                 <!--................................................SERVICES LIST-->

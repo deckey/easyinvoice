@@ -16,7 +16,14 @@
             </div>-->
         </div>
         <br/>
-        <t:grid t:source="clients" add="Action" row="client"/>
+        <t:grid t:source="clients" add="Action" row="client">
+            <p:clientCompanyCell>
+                <t:pagelink t:page="view/ViewClient" t:context="client.clientId">${client.clientCompany}</t:pagelink>
+            </p:clientCompanyCell>
+            <p:actionCell>
+                <t:pagelink t:page="edit/EditClient" t:context="client.clientId">edit</t:pagelink>
+            </p:actionCell>
+        </t:grid>
     </body>
 </html>
 

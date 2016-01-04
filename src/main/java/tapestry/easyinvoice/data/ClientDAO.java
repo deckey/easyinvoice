@@ -21,11 +21,11 @@ public interface ClientDAO {
     
     public List<Client> getAllClients();
     public List<Service> getAllServices();
+    public double getClientTotalAmount(Client client);
     
     public Client findClientById(Integer id);
     
     public Client findClientByCompanyName(String companyName);
-    
     
     public Client updateClient(Client client);
 }

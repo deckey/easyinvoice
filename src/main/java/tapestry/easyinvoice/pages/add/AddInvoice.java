@@ -1,23 +1,23 @@
 package tapestry.easyinvoice.pages.add;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.List;
 import java.util.SortedSet;
 import java.util.TreeSet;
 import org.apache.tapestry5.alerts.AlertManager;
-import org.apache.tapestry5.alerts.Duration;
-import org.apache.tapestry5.alerts.Severity;
 import org.apache.tapestry5.annotations.Import;
 import org.apache.tapestry5.annotations.InjectComponent;
+import org.apache.tapestry5.annotations.InjectPage;
+import org.apache.tapestry5.annotations.OnEvent;
 import org.apache.tapestry5.annotations.PageLoaded;
 import org.apache.tapestry5.annotations.Persist;
 import org.apache.tapestry5.annotations.Property;
 import org.apache.tapestry5.beaneditor.Validate;
 import org.apache.tapestry5.corelib.components.Form;
 import org.apache.tapestry5.corelib.components.Zone;
-import org.apache.tapestry5.ioc.OrderConstraintBuilder;
+import org.apache.tapestry5.hibernate.annotations.CommitAfter;
 import org.apache.tapestry5.ioc.annotations.Inject;
 import org.apache.tapestry5.services.Request;
 import org.apache.tapestry5.services.ajax.AjaxResponseRenderer;
@@ -27,6 +27,8 @@ import tapestry.easyinvoice.entities.Client;
 import tapestry.easyinvoice.entities.Invoice;
 import tapestry.easyinvoice.entities.Service;
 import tapestry.easyinvoice.model.InvoiceCurrency;
+import tapestry.easyinvoice.model.InvoiceStatus;
+import tapestry.easyinvoice.pages.view.ViewInvoice;
 
 /**
  *
@@ -50,6 +52,9 @@ public class AddInvoice {
     @Property
     private List<Client> clients;
 
+    @InjectComponent
+    private Zone currencyZone;
+
     @Inject
     private DashboardDAO dashboardDao;
 
@@ -58,10 +63,12 @@ public class AddInvoice {
     private Invoice invoice;
 
     @Property
+    @Persist
     @Validate("required")
-    private String invoiceClient;
+    private Client invoiceClient;
 
     @Property
+    @Persist
     @Validate("required")
     private InvoiceCurrency invoiceCurrency;
 
@@ -106,8 +113,22 @@ public class AddInvoice {
     @Property
     private SortedSet<Service> tempServices;
 
+    @InjectPage
+    private ViewInvoice viewInvoicePage;
+
     public InvoiceCurrency[] getCurrencies() {
         return InvoiceCurrency.values();
+    }
+
+    public Object onValueChangedFromInvoiceCurrency(InvoiceCurrency currency) {
+        this.invoiceCurrency = currency;
+        return currencyZone.getBody();
+    }
+    
+    public Object onValueChangedFromInvoiceClient(Client client){
+        this.invoiceClient=client;
+        System.out.println("INVOICE CLIENT.........."+invoiceClient.getClientCompany());
+        return currencyZone.getBody();
     }
 
     Object onValidateFromAddServiceForm() {
@@ -136,12 +157,12 @@ public class AddInvoice {
     }
 
     public String getInvoiceAmount() {
-        return getTotalAmount() + invoiceCurrency.toString();
+        DecimalFormat formatter = new DecimalFormat("#,###.00");
+        return invoiceCurrency.getValue() + formatter.format(getTotalAmount());
     }
 
     Object onClearServices() {
         tempServices.clear();
-        //TODO: Clear services not clearing amount
         if (!request.isXHR()) {
             return this;
         }
@@ -157,8 +178,11 @@ public class AddInvoice {
     }
 
     void onValidateFromAddInvoiceForm() {
+        System.out.println("ADD INVOICE:VALIDATE...............");
         List<Invoice> invoices = dashboardDao.getAllInvoices();
-        if (dashboardDao.checkIfInvoiceExists(clientDao.findClientByCompanyName(invoiceClient), invoiceNumber)) {
+        System.out.println("INVOICE CLIENT.........."+invoiceClient);
+        System.out.println("INVOICE NUMBER.........."+invoiceNumber);
+        if (dashboardDao.checkIfInvoiceExists(invoiceClient.getClientCompany(), invoiceNumber)) {
             addInvoiceForm.recordError("Invoice with number " + invoiceNumber + " for client " + invoiceClient + " already exists!");
             return;
         }
@@ -169,18 +193,46 @@ public class AddInvoice {
         if (tempServices.isEmpty()) {
             addInvoiceForm.recordError("Invoice must have at least one service!");
         }
-//        invoice.setInvoiceDescription(invoiceDescription);
-//        invoice.setClient(clientDao.findClientByCompanyName(invoiceClient));
-//        return ViewInvoice.class;
+        System.out.println(".....................VALIDATED");
+    }
+
+    @CommitAfter
+    Object onSuccessFromAddInvoiceForm() {
+        System.out.println("ADD INVOICE:SUCCESS............................");
+        //set invoice parameters:
+        invoice.setInvoiceDescription(invoiceDescription);
+        invoice.setInvoiceNumber(invoiceNumber);
+        invoice.setInvoiceIssueDate(invoiceIssueDate);
+        invoice.setInvoiceDueDate(invoiceDueDate);
+        invoice.setInvoiceCurrency(invoiceCurrency);
+        invoice.setInvoiceAmount(getTotalAmount());
+        invoice.setInvoiceStatus(InvoiceStatus.Open);
+
+//      INVOICE <> CLIENT 
+        invoice.setClient(invoiceClient);
+        clientDao.findClientByCompanyName(invoiceClient.getClientCompany()).getInvoices().add(invoice);
+//      INVOICE <> SERVICE
+        for (Service service : tempServices) {
+            service.setInvoice(invoice);
+            invoice.getServices().add(service);
+        }
+        //add / update client:
+        clientDao.updateClient(invoiceClient);
+        //add invoice:
+        dashboardDao.addInvoice(invoice);
+
+        //reset invoice form
+        tempServices.clear();
+        System.out.println("..........................INVOICE CREATED");
+
+        viewInvoicePage.set(invoice);
+        return viewInvoicePage;
     }
 
     @PageLoaded
     void onPageLoaded() {
         tempServices = new TreeSet<>();
-        clients = clientDao.getAllClients();
-        if(invoiceCurrency==null){
-            invoiceCurrency = InvoiceCurrency.USD;
-        }
+
     }
 
     void onActivate() {
@@ -188,28 +240,9 @@ public class AddInvoice {
         if (invoiceIssueDate == null || invoiceIssueDate.toString() == "mm/dd/yyyy") {
             invoiceIssueDate = new Date();
         }
-    }
-
-    void onSubmitFromAddInvoiceForm() {
-    }
-
-//    @CommitAfter
-    void onCreateInvoice() {
-        invoice.setInvoiceDescription(invoiceDescription);
-        System.out.println("INVOICE DESCRIPTION......." + invoice.getInvoiceDescription());
-//        
-//
-////        INVOICE <> CLIENT 
-//        invoice.setClient(clientDao.findClientByCompanyName(invoiceClient));
-//        clientDao.findClientByCompanyName(invoiceClient).getInvoices().add(invoice);
-//
-////        INVOICE <> SERVICE
-//        for (Service service : tempServices) {
-//            service.setInvoice(invoice);
-//            invoice.getServices().add(service);
-//        }
-//
-//        clientDao.addClient(clientDao.findClientByCompanyName(invoiceClient));
-//        dashboardDao.addInvoice(invoice);
+        clients = clientDao.getAllClients();
+        if (invoiceClient == null) {
+            invoiceClient = clients.get(0);
+        }
     }
 }

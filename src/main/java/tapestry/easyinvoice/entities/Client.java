@@ -41,9 +41,6 @@ public class Client implements Serializable {
     @Column(name = "clientEmail")
     private String clientEmail;
 
-    @Column(name = "clientAmount")
-    private double clientAmount;
-
     @Column(name = "clientWebsite")
     private String clientWebsite;
 
@@ -121,14 +118,6 @@ public class Client implements Serializable {
         this.clientEmail = clientEmail;
     }
 
-    public double getClientAmount() {
-        return clientAmount;
-    }
-
-    public void setClientAmount(double clientAmount) {
-        this.clientAmount = clientAmount;
-    }
-
     public String getClientWebsite() {
         return clientWebsite;
     }
@@ -155,7 +144,8 @@ public class Client implements Serializable {
 
     @Override
     public String toString() {
-        return this.clientCompany + " company";
+        return clientCompany; //To change body of generated methods, choose Tools | Templates.
     }
+
 
 }
