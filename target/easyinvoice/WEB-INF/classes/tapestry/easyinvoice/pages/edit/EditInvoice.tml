@@ -35,7 +35,7 @@
                         </div>
                         <div class="form-group col-xs-6 col-md-3">
                             <label for="invoiceDueDate">Due date</label>
-                            <input type="date" t:type="datefield" t:id="invoiceDueDate" id="invoiceDueDate"  value="invoiceDueDate"/>
+                            <t:datefield t:id="invoiceDueDate" id="invoiceDueDate"  value="invoiceDueDate"/>
                         </div>
                     </div>
                 </div>

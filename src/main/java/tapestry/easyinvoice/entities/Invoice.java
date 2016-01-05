@@ -28,7 +28,7 @@ import tapestry.easyinvoice.model.InvoiceStatus;
  */
 @Entity
 @Table(name = "invoice")
-public class Invoice implements Serializable {
+public class Invoice implements Serializable, Comparable<Invoice> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -193,4 +193,10 @@ public class Invoice implements Serializable {
     public String toString() {
         return this.invoiceDescription;
     }
+
+    @Override
+    public int compareTo(Invoice o) {
+        return (this.invoiceCreationDate.after(o.invoiceCreationDate)) ? -1 : 1;
+    }
+
 }

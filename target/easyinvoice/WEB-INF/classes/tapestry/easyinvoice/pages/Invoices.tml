@@ -1,27 +1,33 @@
 <!DOCTYPE html>
 <html t:type="layout" 
       title="EasyInvoice : Invoices" 
-      xmlns:t="http://tapestry.apache.org/schema/tapestry_5_3.xsd"
+      xmlns:t="http://tapestry.apache.org/schema/tapestry_5_4.xsd"
       xmlns:p="tapestry:parameter">
    
     <body>
         <t:header/>
         <t:mainmenu/>
-        <div class="row border_btm">
-            <div class="col-xs-6">
-                <h4> Invoices</h4>
+        
+        <div class="row">
+            <div class="col-xs-12 dashboard-module " >
+                <div class=" border_btm">
+                    <h4 >
+                        Invoices <span class="badge">${invoices.size()}</span>
+                    </h4> 
+                </div>
             </div>
-            <!--            <div class="col-xs-6">
-                <h4 class='text-right'> Preview icon</h4>
-            </div>-->
         </div>
-        <br/>
-        <t:grid t:source="invoices" add="Action" row="invoice">
+        
+        <t:grid t:source="sortedInvoices" add="Action" row="invoice" class="table display-grid" id="invoiceGrid"
+                    rowsperpage="5"
+                    exclude="invoiceId"
+                    model="invoiceGridModel">
             <p:invoiceNumberCell>
                 <t:pagelink t:page="view/ViewInvoice" t:context="invoice.invoiceId">${invoice.invoiceNumber}</t:pagelink>
             </p:invoiceNumberCell>
             <p:actionCell>
-                <t:pagelink t:page="edit/EditInvoice" t:context="invoice.invoiceId">edit</t:pagelink><br/>
+                <t:pagelink t:page="edit/EditInvoice" t:context="invoice.invoiceId">edit</t:pagelink>
+                <br/>
                 <t:pagelink t:page="delete/DeleteInvoice" t:context="invoice.invoiceId">delete</t:pagelink>
             </p:actionCell>
             <p:empty>
