@@ -5,7 +5,7 @@
  */
 package tapestry.easyinvoice.pages;
 
-import java.util.List;
+import java.util.Set;
 import org.apache.tapestry5.annotations.Property;
 import org.apache.tapestry5.ioc.annotations.Inject;
 import tapestry.easyinvoice.data.DashboardDAO;
@@ -21,12 +21,13 @@ public class Invoices {
     private DashboardDAO dashboardDao;
     
     @Property
-    private List<Invoice> invoices;
+    private Set<Invoice> invoices;
     
     @Property
     private Invoice invoice;
     
     void setupRender(){
         invoices = dashboardDao.getAllInvoices();
+        dashboardDao.updateInvoices();
     }
 }

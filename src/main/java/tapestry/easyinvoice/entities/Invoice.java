@@ -17,6 +17,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import org.apache.tapestry5.ioc.annotations.Inject;
 import tapestry.easyinvoice.model.InvoiceCurrency;
 import tapestry.easyinvoice.model.InvoiceStatus;
@@ -52,6 +53,10 @@ public class Invoice implements Serializable {
     @Enumerated(EnumType.STRING)
     private InvoiceStatus invoiceStatus;
 
+    @Column(name = "invoiceCreationDate")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date invoiceCreationDate;
+
     @Column(name = "invoiceAmount")
     private double invoiceAmount;
 
@@ -69,6 +74,7 @@ public class Invoice implements Serializable {
     public Invoice() {
         this.client = new Client();
         this.services = new HashSet<>();
+        this.invoiceCreationDate = new Date();
     }
 
     public Invoice(String invoiceNumber, String invoiceDescription, Date invoiceIssueDate, Date invoiceDueDate, InvoiceStatus invoiceStatus, double invoiceAmount, InvoiceCurrency invoiceCurrency, Client client, Set<Service> services) {
@@ -81,6 +87,7 @@ public class Invoice implements Serializable {
         this.invoiceCurrency = invoiceCurrency;
         this.client = new Client();
         this.services = new HashSet<>();
+        this.invoiceCreationDate = new Date();
     }
 
     public Invoice(String invoiceNumber, String invoiceDescription, Date invoiceIssueDate, Date invoiceDueDate, InvoiceCurrency invoiceCurrency) {
@@ -91,6 +98,7 @@ public class Invoice implements Serializable {
         this.invoiceCurrency = invoiceCurrency;
         this.client = new Client();
         this.services = new HashSet<>();
+        this.invoiceCreationDate = new Date();
     }
 
     public Integer getInvoiceId() {
@@ -139,6 +147,14 @@ public class Invoice implements Serializable {
 
     public void setInvoiceStatus(InvoiceStatus invoiceStatus) {
         this.invoiceStatus = invoiceStatus;
+    }
+
+    public Date getInvoiceCreationDate() {
+        return invoiceCreationDate;
+    }
+
+    public void setInvoiceCreationDate(Date invoiceCreationDate) {
+        this.invoiceCreationDate = invoiceCreationDate;
     }
 
     public double getInvoiceAmount() {

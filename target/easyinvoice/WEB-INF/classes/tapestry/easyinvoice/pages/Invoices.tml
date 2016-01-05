@@ -17,8 +17,11 @@
         </div>
         <br/>
         <t:grid t:source="invoices" add="Action" row="invoice">
+            <p:invoiceNumberCell>
+                <t:pagelink t:page="view/ViewInvoice" t:context="invoice.invoiceId">${invoice.invoiceNumber}</t:pagelink>
+            </p:invoiceNumberCell>
             <p:actionCell>
-                <t:pagelink t:page="view/ViewInvoice" t:context="invoice.invoiceId">view</t:pagelink><br/>
+                <t:pagelink t:page="edit/EditInvoice" t:context="invoice.invoiceId">edit</t:pagelink><br/>
                 <t:pagelink t:page="delete/DeleteInvoice" t:context="invoice.invoiceId">delete</t:pagelink>
             </p:actionCell>
             <p:empty>

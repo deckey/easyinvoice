@@ -16,5 +16,3 @@ function autoInvoiceNumber() {
 $('#addInvoiceBtn').click(function () {
     $("#addInvoiceForm").submit();
 });
-
-

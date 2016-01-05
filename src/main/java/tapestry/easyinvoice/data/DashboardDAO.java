@@ -6,7 +6,7 @@
 package tapestry.easyinvoice.data;
 
 import java.util.List;
-import tapestry.easyinvoice.entities.Client;
+import java.util.Set;
 import tapestry.easyinvoice.entities.Invoice;
 import tapestry.easyinvoice.entities.Member;
 import tapestry.easyinvoice.entities.Service;
@@ -31,9 +31,11 @@ public interface DashboardDAO {
     
     public Member findMemberByUsername(String uName);
 
-    public List<Invoice> getAllInvoices();
+    public Set<Invoice> getAllInvoices();
     
     public List<Member> getAllMembers();
+    
+    public void updateInvoices();
 
     public void updateMember(Member member);
 

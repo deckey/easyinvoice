@@ -5,15 +5,17 @@
  */
 package tapestry.easyinvoice.data;
 
+import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
-import org.apache.tapestry5.annotations.SessionState;
+import java.util.Set;
 import org.apache.tapestry5.ioc.annotations.Inject;
 import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;
-import tapestry.easyinvoice.entities.Client;
 import tapestry.easyinvoice.entities.Invoice;
 import tapestry.easyinvoice.entities.Member;
 import tapestry.easyinvoice.entities.Service;
+import tapestry.easyinvoice.model.InvoiceStatus;
 
 /**
  *
@@ -74,8 +76,8 @@ public class DashboardIMPL implements DashboardDAO {
     }
 
     @Override
-    public List<Invoice> getAllInvoices() {
-        return dbs.createCriteria(Invoice.class).list();
+    public Set<Invoice> getAllInvoices() {
+        return new HashSet<>(dbs.createCriteria(Invoice.class).list());
     }
 
     
@@ -85,6 +87,20 @@ public class DashboardIMPL implements DashboardDAO {
         return dbs.createCriteria(Member.class).list();
     }
 
+    @Override
+    public void updateInvoices() {
+       Date today = new Date();
+       Set<Invoice> invoices = getAllInvoices();
+       for(Invoice invoice:invoices){
+           if(invoice.getInvoiceDueDate().before(today)){
+               invoice.setInvoiceStatus(InvoiceStatus.Overdue);
+           }
+       }
+    }
+
+    
+    
+    
     @Override
     public void updateMember(Member member) {
         dbs.merge(member);

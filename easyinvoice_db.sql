@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Dec 29, 2015 at 12:46 PM
+-- Generation Time: Jan 05, 2016 at 12:40 PM
 -- Server version: 5.6.26
 -- PHP Version: 5.5.28
 
@@ -28,23 +28,23 @@ SET time_zone = "+00:00";
 
 CREATE TABLE IF NOT EXISTS `client` (
   `clientId` int(11) NOT NULL,
-  `clientAmount` double DEFAULT NULL,
   `clientCompany` varchar(255) DEFAULT NULL,
   `clientTaxId` int(11) DEFAULT NULL,
   `clientContact` varchar(255) DEFAULT NULL,
   `clientEmail` varchar(255) DEFAULT NULL,
   `clientPhone` varchar(255) DEFAULT NULL,
-  `clientWebsite` varchar(255) DEFAULT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=latin1;
+  `clientWebsite` varchar(255) DEFAULT NULL,
+  `clientCreationDate` date DEFAULT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `client`
 --
 
-INSERT INTO `client` (`clientId`, `clientAmount`, `clientCompany`, `clientTaxId`, `clientContact`, `clientEmail`, `clientPhone`, `clientWebsite`) VALUES
-(14, 0, 'Paragon Inc.', NULL, 'Mark', 'apofjdfposjdg', 'psodgkspdgj', 'spdogjspdg'),
-(15, 0, 'dwdaw', NULL, 'dawdad', 'wadawdaw', 'dawdaw', 'adawd'),
-(16, 0, 'eweqw', NULL, 'qwdqwd', 'qwdqwdq', 'wdqwdqw', 'dqwdqwd');
+INSERT INTO `client` (`clientId`, `clientCompany`, `clientTaxId`, `clientContact`, `clientEmail`, `clientPhone`, `clientWebsite`, `clientCreationDate`) VALUES
+(19, 'Posh & Media', 323, 'Ivanafw', 'fspdfojpo', 'sdpojfsdpfjq', 'spodgjsdpogj', '2016-01-01'),
+(21, 'Adawdwa', 454, 'dawdaw', 'dawdaw', 'dawdaw', 'dawdaw', '2015-12-16'),
+(22, 'dawdaw', NULL, 'awdawd', 'awdawd', 'awdaw', 'awdawdaw', '2015-12-20');
 
 -- --------------------------------------------------------
 
@@ -61,15 +61,25 @@ CREATE TABLE IF NOT EXISTS `invoice` (
   `invoiceIssueDate` date DEFAULT NULL,
   `invoiceNumber` varchar(255) DEFAULT NULL,
   `invoiceStatus` varchar(255) DEFAULT NULL,
+  `invoiceCreationDate` datetime DEFAULT CURRENT_TIMESTAMP,
   `invoiceClientId` int(11) DEFAULT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=56 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=71 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `invoice`
 --
 
-INSERT INTO `invoice` (`invoiceId`, `invoiceAmount`, `invoiceCurrency`, `invoiceDescription`, `invoiceDueDate`, `invoiceIssueDate`, `invoiceNumber`, `invoiceStatus`, `invoiceClientId`) VALUES
-(55, 1200, 0, 'Invoice 2', '2015-12-31', '2015-12-24', '2015-1224', NULL, 14);
+INSERT INTO `invoice` (`invoiceId`, `invoiceAmount`, `invoiceCurrency`, `invoiceDescription`, `invoiceDueDate`, `invoiceIssueDate`, `invoiceNumber`, `invoiceStatus`, `invoiceCreationDate`, `invoiceClientId`) VALUES
+(60, 367, 1, 'sstt', '2016-01-12', '2016-01-01', '2016-10347', 'Closed', '2016-01-05 12:19:25', 19),
+(62, 4766, 2, 'dwdawdaw', '2016-01-15', '2016-01-04', '2016-104', 'Open', '2016-01-04 21:34:13', 21),
+(63, 356, 1, 'dwawda', '2016-01-30', '2016-01-01', '2016-1091', 'Open', '2016-01-04 21:19:02', 21),
+(64, 323, 0, 'dawdaw', '2016-01-28', '2016-01-02', '2016-109', 'Closed', '2016-01-05 12:39:29', 19),
+(65, 1090, 1, 'rgergerger', '2016-01-22', '2016-01-06', '2016-106', 'Open', '2016-01-05 12:11:47', 21),
+(66, 323, 1, 'fgwefwef', '2016-01-08', '2016-01-04', '2016-1042', 'Open', '2016-01-04 20:39:35', 22),
+(67, 323, 1, 'dawdw', '2016-01-21', '2016-01-04', '2016-104332', 'Open', '2016-01-04 20:40:50', 22),
+(68, 646, 1, 'dwadwad', '2016-01-01', '2016-01-01', '2016-101', 'Overdue', '2016-01-05 12:17:12', 19),
+(69, 323, 2, 'dasdaww33dd', '2016-01-22', '2016-01-05', '2016-105', 'Closed', '2016-01-05 12:30:51', 21),
+(70, 656, 0, 'c cv cv ', '2016-01-19', '2016-01-05', '2016-105', 'Open', '2016-01-05 12:35:58', 19);
 
 -- --------------------------------------------------------
 
@@ -83,15 +93,15 @@ CREATE TABLE IF NOT EXISTS `member` (
   `memberPassword` varchar(255) DEFAULT NULL,
   `memberRole` varchar(255) DEFAULT NULL,
   `memberUsername` varchar(255) DEFAULT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `member`
 --
 
 INSERT INTO `member` (`memberId`, `memberName`, `memberPassword`, `memberRole`, `memberUsername`) VALUES
-(1, 'Administrator', 'admin', 'Administrator', 'admin'),
-(2, 'Account manager', 'manager', 'User', 'manager');
+(3, 'Administrator', 'admin', 'Administrator', 'admin'),
+(4, 'Account Manager', 'acc', 'User', 'acc');
 
 -- --------------------------------------------------------
 
@@ -115,9 +125,9 @@ CREATE TABLE IF NOT EXISTS `registration` (
 --
 
 INSERT INTO `registration` (`registrationId`, `registrationAddress`, `registrationCity`, `registrationCountry`, `registrationNotes`, `registrationShipAddress`, `registrationShipCity`, `registrationShipCountry`) VALUES
-(14, 'asdapsfokas', 'pdoksdpgo', 'USA', NULL, NULL, NULL, NULL),
-(15, 'dawdaw', 'dawdawd', 'dawdawd', NULL, NULL, NULL, NULL),
-(16, 'eqweq', 'dqwdqw', 'dqwdqwd', NULL, 'dqwdqwd', 'dqwdqw', 'dqwdqwd');
+(19, 'Visnjicka 32', 'Belgrade', 'Serbia', NULL, 'Visnjicka 32', 'Belgrade', 'Serbia'),
+(21, 'dawdwa', 'dawdaw', 'dawda', NULL, 'dawdwadw', 'dawdaw', 'dawda'),
+(22, 'dawdawd', 'awdaw', 'dawda', NULL, 'dawdawd', 'we', 'dawda');
 
 -- --------------------------------------------------------
 
@@ -131,14 +141,28 @@ CREATE TABLE IF NOT EXISTS `service` (
   `serviceAmount` double DEFAULT NULL,
   `serviceDescription` varchar(255) DEFAULT NULL,
   `invoiceServiceId` int(11) DEFAULT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=102 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `service`
 --
 
 INSERT INTO `service` (`serviceId`, `serviceNumber`, `serviceAmount`, `serviceDescription`, `invoiceServiceId`) VALUES
-(24, 1, 1200, 'Supervision', 55);
+(86, 2, 44, 'dadw', 60),
+(87, 1, 323, 'dawdw', 60),
+(89, 2, 4443, 'dwawadwa', 62),
+(90, 1, 323, 'dawwa', 62),
+(91, 1, 323, 'daw', 63),
+(92, 2, 33, 'ffwewf', 63),
+(93, 1, 323, 'dwaw', 64),
+(94, 2, 545, 'gerger', 65),
+(95, 1, 545, 'gerger', 65),
+(96, 1, 323, 'dadw', 66),
+(97, 1, 323, 'dawdaw', 67),
+(98, 2, 323, 'dwadw', 68),
+(99, 1, 323, 'dawd', 68),
+(100, 1, 323, 'daw', 69),
+(101, 1, 656, 'gdfgdfg', 70);
 
 --
 -- Indexes for dumped tables
@@ -184,22 +208,22 @@ ALTER TABLE `service`
 -- AUTO_INCREMENT for table `client`
 --
 ALTER TABLE `client`
-  MODIFY `clientId` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=17;
+  MODIFY `clientId` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=23;
 --
 -- AUTO_INCREMENT for table `invoice`
 --
 ALTER TABLE `invoice`
-  MODIFY `invoiceId` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=56;
+  MODIFY `invoiceId` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=71;
 --
 -- AUTO_INCREMENT for table `member`
 --
 ALTER TABLE `member`
-  MODIFY `memberId` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
+  MODIFY `memberId` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=5;
 --
 -- AUTO_INCREMENT for table `service`
 --
 ALTER TABLE `service`
-  MODIFY `serviceId` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=25;
+  MODIFY `serviceId` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=102;
 --
 -- Constraints for dumped tables
 --

@@ -7,19 +7,155 @@
     <body>
         <t:header/>
         <t:mainmenu/>
-        
+       
         <div class="row">
+            <div class="col-sm-3 dashboard-module " >
+                <a t:type="pagelink" t:page="Invoices">
+                    <div class="col-sm-12 border_btm">
+                        <h4 >
+                            Invoices <span class="badge">${invoices.size()}</span>
+                        </h4> 
+                    </div>
+                </a>
+                <div class="col-sm-2 icon">
+                    <img src="${context:images/dashboard/invoicesIcon.png}" alt="Invoices sent" title="View invoices"/>
+                </div>
+                <div class="col-sm-10 text">
+                    <b>${getOpenInvoices().size()}</b> open<br/>
+                    <b>${getOverdueInvoices().size()}</b> overdue<br/>
+                    <b>${getClosedInvoices().size()}</b> closed
+                </div>
+                    
+            </div>
+            <div class="col-sm-3 col-sm-offset-1 dashboard-module " > 
+                <a t:type="pagelink" t:page="Clients">
+                    <div class="col-sm-12 border_btm">
+                        <h4 >
+                            Clients <span class="badge">${clients.size()}</span>
+                        </h4> 
+                    </div>
+                </a>
+                <div class="col-sm-2 icon">
+                    <img  src="${context:images/dashboard/clientsIcon.png}" alt="View clients" title="View clients"/>
+                </div>
+                <div class="col-sm-10 text">
+                    Latest client:<br/>
+                    <t:pagelink t:page="view/ViewClient" t:context="${latestClient.clientId}">
+                        <b>${latestClient}</b> 
+                    </t:pagelink>
+                </div>
+            </div>
+            <div class="col-sm-3 col-sm-offset-1 dashboard-module " > 
+                <div class="col-sm-12 border_btm">
+                    <h4 >
+                        Income 
+                    </h4> 
+                </div>
+                <div class="col-sm-2 icon">
+                    <img src="${context:images/dashboard/incomeIcon.png}" alt="Invoices sent" title="View invoices"/>
+                </div>
+                <div class="col-sm-10 text">
+                    <b>$ ${closedIncomeUSD} </b>
+                    <br/>
+                    <b>&euro; ${closedIncomeEUR}</b> 
+                    <br/>
+                    <b>&pound; ${closedIncomeGBP}</b> 
+                </div>
+            </div>
             
-            <div class="col-sm-4">
-                Invoices sent
+        </div>
+        <div class="row spacer"/>
+        
+        
+        <!--LATEST INVOICES-->
+        <div class="row">
+            <div class="col-sm-12">
+                <h4> Latest invoices</h4>
+                <table class="table">
+                    <th>Invoice number</th>
+                    <th>Client</th>
+                    <th>Description</th>
+                    <th>Issue date</th>
+                    <th>Due date</th>
+                    <th>Amount</th>
+                    <tr t:type="loop" t:source="latestInvoices" value="invoice">
+                        <td>
+                            <t:pagelink t:page="view/ViewInvoice" t:context="invoice.invoiceId">${invoice.getInvoiceNumber()}</t:pagelink>
+                        </td>
+                        <td>
+                            <t:pagelink t:page="view/ViewClient" t:context="invoice.getClient()">${invoice.getClient()}</t:pagelink>
+                        </td>
+                        <td>${invoice.getInvoiceDescription()}</td>
+                        <td>${invoice.getInvoiceIssueDate()}</td>
+                        <td>${invoice.getInvoiceDueDate()}</td>
+                        <td>${invoiceAmount}</td>
+                    </tr>
+                </table>
             </div>
-            <div class="col-sm-4">
-                Billed clients
+        </div>
+        
+        <!--OVERDUE INVOICES.....................-->
+        <div class="row ">
+            <div class="col-sm-12">
+                <h4> Overdue invoices
+                    <span class="badge">${getOverdueInvoices().size()}
+                    </span>
+                </h4>
+                <t:if test="!checkOverdue">
+                    <table class="table">
+                        <th>Invoice number</th>
+                        <th>Client</th>
+                        <th>Description</th>
+                        <th>Issue date</th>
+                        <th>Due date</th>
+                        <th>Amount</th>
+                        <tr t:type="loop" t:source="overdueInvoices" value="invoice">
+                            <td>
+                                <t:pagelink t:page="view/ViewInvoice" t:context="invoice.invoiceId">${invoice.getInvoiceNumber()}</t:pagelink>
+                            </td>
+                            <td>
+                                <t:pagelink t:page="view/ViewClient" t:context="invoice.getClient()">${invoice.getClient()}</t:pagelink>
+                            </td>
+                            <td>${invoice.getInvoiceDescription()}</td>
+                            <td>${invoice.getInvoiceIssueDate()}</td>
+                            <td>${invoice.getInvoiceDueDate()}</td>
+                            <td>${invoiceAmount}</td>
+                        </tr>
+                    </table>
+                </t:if>
             </div>
-            <div class="col-sm-4">
-                Total income
+        </div>
+        
+        <!--CLOSED INVOICES..............................-->
+        <div class="row ">
+            <div class="col-sm-12">
+                <h4> Closed invoices
+                    <span class="badge">${getClosedInvoices().size()}
+                    </span>
+                </h4>
+                <t:if test="!checkClosed">
+                    <table class="table">
+                        <th>Invoice number</th>
+                        <th>Client</th>
+                        <th>Description</th>
+                        <th>Issue date</th>
+                        <th>Due date</th>
+                        <th>Amount</th>
+                        <tr t:type="loop" t:source="closedInvoices" value="invoice">
+                            <td>
+                                <t:pagelink t:page="view/ViewInvoice" t:context="invoice.invoiceId">${invoice.getInvoiceNumber()}</t:pagelink>
+                            </td>
+                            <td>
+                                <t:pagelink t:page="view/ViewClient" t:context="invoice.getClient()">${invoice.getClient()}</t:pagelink>
+                            </td>
+                            <td>${invoice.getInvoiceDescription()}</td>
+                            <td>${invoice.getInvoiceIssueDate()}</td>
+                            <td>${invoice.getInvoiceDueDate()}</td>
+                            <td>${invoiceAmount}</td>
+                        </tr>
+                    </table>
+                </t:if>
             </div>
-            
         </div>
     </body>
 </html>

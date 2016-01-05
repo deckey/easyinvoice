@@ -19,6 +19,7 @@
         <div class="row ">
             <t:beandisplay t:object="invoice"/>
         </div>
+        <t:pagelink t:page="edit/EditInvoice" t:context="invoice.invoiceId">Edit</t:pagelink><br/>
         <t:pagelink t:page="delete/DeleteInvoice" t:context="invoice.invoiceId">Delete</t:pagelink>
     </body>
 </html>

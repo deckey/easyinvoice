@@ -108,6 +108,7 @@
                 <!--INVOICE SUBMIT................................................-->
             </div>
         </t:zone>
+        <div class="row spacer"/>
         <div class="form-group col-xs-12 ">
             <label for="addInvoiceForm" class="invisible">spacer</label>
             <button type="submit" form="addInvoiceForm" id="addInvoiceBtn" class="btn btn-success pull-right ">Create</button>
