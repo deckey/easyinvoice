@@ -17,11 +17,10 @@
                 </div>
             </div>
         </div>
-        
         <t:grid t:source="sortedInvoices" add="Action" row="invoice" class="table display-grid" id="invoiceGrid"
-                    rowsperpage="5"
-                    exclude="invoiceId"
-                    model="invoiceGridModel">
+                rowsperpage="5"
+                exclude="invoiceId"
+                model="invoiceGridModel">
             <p:invoiceNumberCell>
                 <t:pagelink t:page="view/ViewInvoice" t:context="invoice.invoiceId">${invoice.invoiceNumber}</t:pagelink>
             </p:invoiceNumberCell>
@@ -34,6 +33,26 @@
                 No invoices in database
             </p:empty>
         </t:grid>
+        <div class="row">
+            <div class="col-sm-4 dashboard-module">
+                <h5>Open invoices <span class="badge">
+                        <t:output t:format="numberFormat" value="getInvoiceWithStatus('Open')"/>
+                    </span>
+                </h5>
+            </div>
+            <div class="col-sm-4 dashboard-module">
+                <h5>Overdue invoices <span class="badge">
+                        <t:output t:format="numberFormat" value="getInvoiceWithStatus('Overdue')"/>
+                    </span>
+                </h5>
+            </div>
+            <div class="col-sm-4 dashboard-module">
+                <h5>Closed invoices <span class="badge">
+                        <t:output t:format="numberFormat" value="getInvoiceWithStatus('Closed')"/>
+                    </span>
+                </h5>
+            </div>
+        </div>
     </body>
 </html>
 

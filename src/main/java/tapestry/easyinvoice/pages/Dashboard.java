@@ -72,87 +72,34 @@ public class Dashboard {
         return formatter.format(invoice.getInvoiceAmount()) + " " + invoice.getInvoiceCurrency();
     }
 
-    public List<Invoice> getInvoiceList() {
+     public List<Invoice> getInvoiceWithStatus(InvoiceStatus status) {
         List<Invoice> invoiceList = new ArrayList<>();
-        for (Client client : clients) {
-            for (Invoice invoice : client.getInvoices()) {
+        for (Invoice invoice : invoices) {
+            if (invoice.getInvoiceStatus() == status) {
                 invoiceList.add(invoice);
             }
         }
         return invoiceList;
-    }
-
-    public List<Service> getServiceList() {
-        List<Service> serviceList = new ArrayList<>();
-        for (Client client : clients) {
-            for (Invoice invoice : client.getInvoices()) {
-                for (Service service : invoice.getServices()) {
-                    serviceList.add(service);
-                }
-            }
-        }
-        return serviceList;
-    }
-
-    public List<Invoice> getOverdueInvoices() {
-        List<Invoice> overdues = new ArrayList<>();
-        for (Client client : clients) {
-            for (Invoice invoice : client.getInvoices()) {
-                if (invoice.getInvoiceStatus() == InvoiceStatus.Overdue) {
-                    overdues.add(invoice);
-                }
-            }
-        }
-        return overdues;
     }
 
     public boolean getCheckOverdue() {
-        if (getOverdueInvoices().isEmpty()) {
-            return true;
-        }
-        return false;
-    }
-    
-     public boolean getCheckClosed() {
-        if (getClosedInvoices().isEmpty()) {
+        if (getInvoiceWithStatus(InvoiceStatus.Overdue).isEmpty()) {
             return true;
         }
         return false;
     }
 
-    public List<Invoice> getOpenInvoices() {
-        List<Invoice> invoiceList = new ArrayList<>();
-        for (Invoice invoice : invoices) {
-            if (invoice.getInvoiceStatus() == InvoiceStatus.Open) {
-                invoiceList.add(invoice);
-            }
+    public boolean getCheckClosed() {
+        if (getInvoiceWithStatus(InvoiceStatus.Closed).isEmpty()) {
+            return true;
         }
-        return invoiceList;
-    }
-
-    public List<Invoice> getClosedInvoices() {
-        List<Invoice> invoiceList = new ArrayList<>();
-        for (Invoice invoice : invoices) {
-            if (invoice.getInvoiceStatus() == InvoiceStatus.Closed) {
-                invoiceList.add(invoice);
-            }
-        }
-        return invoiceList;
-    }
-
-    public Map<Client, Double> mapAmountToClient() {
-        Map<Client, Double> clientWithAmount = new HashMap<>();
-        List<Client> clientList = clientDao.getAllClients();
-        for (Client client : clientList) {
-            clientWithAmount.put(client, clientDao.getClientTotalAmount(client));
-        }
-        return clientWithAmount;
+        return false;
     }
 
     public List<Invoice> getLatestInvoices() {
         List<Invoice> latestInvoices = new ArrayList<>();
-        for(Invoice invoice:invoices){
-            if(invoice.getInvoiceStatus()==InvoiceStatus.Open){
+        for (Invoice invoice : invoices) {
+            if (invoice.getInvoiceStatus() == InvoiceStatus.Open) {
                 latestInvoices.add(invoice);
             }
         }
@@ -193,6 +140,7 @@ public class Dashboard {
     public String getClosedIncomeUSD() {
         return getClosedIncome("USD");
     }
+
     public String getClosedIncomeEUR() {
         return getClosedIncome("EUR");
     }
@@ -266,9 +214,6 @@ public class Dashboard {
         }
         clients = clientDao.getAllClients();
         invoices = dashboardDao.getAllInvoices();
-        mapAmountToClient();
         dashboardDao.updateInvoices();
-        System.out.println("MAP AMOUNT TO CLIENT:" + mapAmountToClient().keySet());
-        System.out.println("MAP AMOUNT TO CLIENT:" + mapAmountToClient().values());
     }
 }

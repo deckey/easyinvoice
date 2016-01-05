@@ -5,23 +5,24 @@
  */
 package tapestry.easyinvoice.pages;
 
+import java.text.DecimalFormat;
+import java.text.Format;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
-import org.apache.tapestry5.annotations.InjectComponent;
 import org.apache.tapestry5.annotations.Property;
 import org.apache.tapestry5.beaneditor.BeanModel;
 import org.apache.tapestry5.beaneditor.Validate;
-import org.apache.tapestry5.corelib.components.Zone;
 import org.apache.tapestry5.ioc.Messages;
 import org.apache.tapestry5.ioc.annotations.Inject;
 import org.apache.tapestry5.services.BeanModelSource;
-import org.apache.tapestry5.services.Request;
-import org.apache.tapestry5.services.ajax.AjaxResponseRenderer;
+import tapestry.easyinvoice.data.ClientDAO;
 import tapestry.easyinvoice.data.DashboardDAO;
+import tapestry.easyinvoice.entities.Client;
 import tapestry.easyinvoice.entities.Invoice;
 import tapestry.easyinvoice.model.InvoiceCurrency;
+import tapestry.easyinvoice.model.InvoiceStatus;
 
 /**
  *
@@ -31,9 +32,15 @@ public class Invoices {
 
     @Inject
     private DashboardDAO dashboardDao;
+    
+    @Inject
+    private ClientDAO clientDao;
 
     @Property
     private Set<Invoice> invoices;
+    
+    @Property
+    private List<Client> clients;
 
     @Property
     private Invoice invoice;
@@ -57,8 +64,23 @@ public class Invoices {
         return InvoiceCurrency.values();
     }
 
+    public DecimalFormat getNumberFormat(){
+        return new DecimalFormat("0");
+    }
+
+    public int getInvoiceWithStatus(InvoiceStatus status) {
+        List<Invoice> invoiceList = new ArrayList<>();
+        for (Invoice invoice : invoices) {
+            if (invoice.getInvoiceStatus() == status) {
+                invoiceList.add(invoice);
+            }
+        }
+        return invoiceList.size();
+    }
+    
     void onActivate() {
         dashboardDao.updateInvoices();
+        clients = clientDao.getAllClients();
         invoices = dashboardDao.getAllInvoices();
         sortedInvoices = new ArrayList<>(invoices);
         Collections.sort(sortedInvoices);
