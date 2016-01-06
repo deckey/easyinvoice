@@ -30,6 +30,7 @@ p{white-space: pre;}
 .grey{background-color: rgba(150,150,150,0.2);}
 .alert-dismissable.alert-danger{background-color: tomato;color:#ffffff}
 .border_btm{border-bottom: #afd9ee 1px solid;}
+.text-link-delete{color:#ff0906;}
 
 
 /* FONTS */
@@ -73,7 +74,7 @@ strong{color:#317eac;}
 .dashboard-module .icon{padding:0;}
 .dashboard-module .text{padding-left:4em;margin-top:1.5em;line-height:1.2em;font-size: 1.2em;}
 .dashboard-module img{}
-.dashboard-module h3{}
+.dashboard-module h4 i{font-size: 0.7em;padding-left: 1em;color:#999999}
 .badge{width:2.5em;line-height:1.3em;}
 
 .overdue{border:#ff6666 1px solid}
@@ -84,3 +85,14 @@ strong{color:#317eac;}
 #invoiceGrid td:nth-child(8){width:5%;}
 
 /*ul.pagination{float:right;}*/
+#registration{}
+#registration label{margin:0;}
+#registration h4{margin-bottom: 1em;}
+.client-module{background-color:rgba(153,180,255,0.4);}
+.client-module label{}
+.client-module h4{margin:0.25em 0;}
+.client-module h5{color:#999999;}
+
+.btn-primary, .btn-success{margin-left:0.5em;}
+#addClientBtn{float:right;}
+.image-pagelink{margin-left:5em;}

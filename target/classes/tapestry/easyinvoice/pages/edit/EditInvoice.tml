@@ -100,14 +100,14 @@
                 <!--INVOICE SUBMIT................................................-->
             </div>
         </t:zone>
-        <div class="form-group col-xs-12 "> 
-            <div class="control-group col-xs-6 col-sm-1 pull-right ">
-                <label for="editInvoiceForm" class="invisible">spacer</label>
-                <button type="submit" form="editInvoiceForm" id="editInvoiceBtn" class="btn btn-success pull-right ">Update</button>
-            </div>
-            <div class="control-group col-xs-6 col-sm-1 pull-right ">
-                <label for="cancelClientBtn" class="invisible">spacer</label>
+        <div class="row">
+            <div class="row">
+                <div class="col-sm-9"/>
+                <t:pagelink t:page="delete/DeleteInvoice" t:context="invoice.invoiceId" class=" btn image-pagelink" title="Delete invoice?">
+                    <img src="${context:images/icons/delete-invoice.png}" title="Delete invoice?"/>
+                </t:pagelink>
                 <t:pagelink t:page="Invoices" class="btn btn-default">Cancel</t:pagelink>
+                <button type="submit" form="editInvoiceForm" id="editInvoiceBtn" class="btn btn-success">Update</button>
             </div>
         </div>
         <!--....................................................INVOICE SUBMIT-->

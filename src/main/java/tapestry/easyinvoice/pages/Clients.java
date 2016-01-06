@@ -5,18 +5,28 @@
  */
 package tapestry.easyinvoice.pages;
 
-import java.util.ArrayList;
 import java.util.List;
+import org.apache.tapestry5.annotations.InjectComponent;
 import org.apache.tapestry5.annotations.Property;
+import org.apache.tapestry5.beaneditor.BeanModel;
+import org.apache.tapestry5.corelib.components.Zone;
+import org.apache.tapestry5.ioc.Messages;
 import org.apache.tapestry5.ioc.annotations.Inject;
+import org.apache.tapestry5.services.BeanModelSource;
+import org.apache.tapestry5.services.Request;
+import org.apache.tapestry5.services.ajax.AjaxResponseRenderer;
 import tapestry.easyinvoice.data.ClientDAO;
 import tapestry.easyinvoice.entities.Client;
+import tapestry.easyinvoice.entities.Registration;
 
 /**
  *
  * @author Dejan Ivanovic divanovic3d@gmail.com
  */
 public class Clients {
+
+    @Inject
+    private AjaxResponseRenderer response;
 
     @Inject
     private ClientDAO clientDao;
@@ -27,12 +37,45 @@ public class Clients {
     @Property
     private Client client;
 
+    @Property
+    private BeanModel<Client> clientGridModel;
+
+    @Inject
+    private Messages messages;
+
+    @Inject
+    private BeanModelSource beanModelSource;
+
+    @Property
+    private Registration registration;
+
+    @Inject
+    private Request request;
+
+    @InjectComponent
+    private Zone registrationZone;
+
+//    PAGE ACTIVATION CONTEXT
     void onActivate() {
         clients = clientDao.getAllClients();
-    }
-    
-    public double getTotalAmount(){
-        return clientDao.getClientTotalAmount(client);
+        registration = null;
     }
 
+    public boolean getCheckRegistration() {
+        return registration != null ? true : false;
+    }
+
+    void setupRender() {
+
+        clientGridModel = beanModelSource.createDisplayModel(Client.class, messages);
+        clientGridModel.get("clientCompany").label("Company");
+        clientGridModel.get("clientCompany").sortable(false);
+
+    }
+
+    void onSelectClient(Integer id) {
+        client = clientDao.findClientById(id);
+        registration = client.getRegistration();
+        response.addRender(registrationZone);
+    }
 }
