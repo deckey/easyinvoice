@@ -6,17 +6,19 @@
 package tapestry.easyinvoice.pages;
 
 import java.text.DecimalFormat;
-import java.text.Format;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
+import org.apache.tapestry5.annotations.InjectComponent;
 import org.apache.tapestry5.annotations.Property;
 import org.apache.tapestry5.beaneditor.BeanModel;
 import org.apache.tapestry5.beaneditor.Validate;
+import org.apache.tapestry5.corelib.components.Zone;
 import org.apache.tapestry5.ioc.Messages;
 import org.apache.tapestry5.ioc.annotations.Inject;
 import org.apache.tapestry5.services.BeanModelSource;
+import org.apache.tapestry5.services.Request;
 import tapestry.easyinvoice.data.ClientDAO;
 import tapestry.easyinvoice.data.DashboardDAO;
 import tapestry.easyinvoice.entities.Client;
@@ -32,13 +34,13 @@ public class Invoices {
 
     @Inject
     private DashboardDAO dashboardDao;
-    
+
     @Inject
     private ClientDAO clientDao;
 
     @Property
     private Set<Invoice> invoices;
-    
+
     @Property
     private List<Client> clients;
 
@@ -49,6 +51,12 @@ public class Invoices {
     @Validate("required")
     private InvoiceCurrency invoiceCurrency;
 
+    @InjectComponent
+    private Zone invoiceListZone;
+
+    @Property
+    private InvoiceStatus invoiceStatus;
+
     @Property
     private BeanModel<Invoice> invoiceGridModel;
 
@@ -57,14 +65,21 @@ public class Invoices {
     @Inject
     private BeanModelSource beanModelSource;
 
+    @Inject
+    private Request request;
+
     @Property
     private List<Invoice> sortedInvoices;
+
+    public InvoiceStatus[] getStatuses() {
+        return InvoiceStatus.values();
+    }
 
     public InvoiceCurrency[] getCurrencies() {
         return InvoiceCurrency.values();
     }
 
-    public DecimalFormat getNumberFormat(){
+    public DecimalFormat getNumberFormat() {
         return new DecimalFormat("0");
     }
 
@@ -77,7 +92,18 @@ public class Invoices {
         }
         return invoiceList.size();
     }
-    
+
+
+    public List<Invoice> getFilteredInvoices(InvoiceStatus status) {
+        List<Invoice> filterInvoices = new ArrayList<>();
+        for (Invoice invoice : invoices) {
+            if (invoice.getInvoiceStatus() == status) {
+                filterInvoices.add(invoice);
+            }
+        }
+        return filterInvoices;
+    }
+
     void onActivate() {
         dashboardDao.updateInvoices();
         clients = clientDao.getAllClients();

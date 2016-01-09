@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.4.14
+-- version 4.3.11
 -- http://www.phpmyadmin.net
 --
--- Host: localhost
--- Generation Time: Jan 05, 2016 at 10:08 PM
--- Server version: 5.6.26
--- PHP Version: 5.5.28
+-- Host: 127.0.0.1
+-- Generation Time: Jan 09, 2016 at 09:35 PM
+-- Server version: 5.6.24
+-- PHP Version: 5.5.24
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -14,7 +14,7 @@ SET time_zone = "+00:00";
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8mb4 */;
+/*!40101 SET NAMES utf8 */;
 
 --
 -- Database: `easyinvoice.db`
@@ -64,7 +64,7 @@ CREATE TABLE IF NOT EXISTS `invoice` (
   `invoiceStatus` varchar(255) DEFAULT NULL,
   `invoiceCreationDate` datetime DEFAULT CURRENT_TIMESTAMP,
   `invoiceClientId` int(11) DEFAULT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=74 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=75 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `invoice`
@@ -79,9 +79,9 @@ INSERT INTO `invoice` (`invoiceId`, `invoiceAmount`, `invoiceCurrency`, `invoice
 (67, 323, 1, 'dawdw', '2016-01-21', '2016-01-04', '2016-104332', 'Open', '2016-01-04 20:40:50', 22),
 (68, 646, 1, 'dwadwad', '2016-01-01', '2016-01-01', '2016-101', 'Overdue', '2016-01-05 12:17:12', 19),
 (69, 323, 2, 'dasdaww33dd', '2016-01-22', '2016-01-05', '2016-105', 'Closed', '2016-01-05 12:30:51', 21),
-(70, 656, 0, 'c c3323fefewfwefw wefwefw', '2016-01-22', '2016-01-05', '2016-105', 'Closed', '2016-01-05 15:01:22', 19),
 (71, 3233, 1, 'dadawd', '2016-01-02', '2016-01-01', '2016-101', 'Overdue', '2016-01-05 12:55:33', 22),
-(73, 1200, 0, 'Paragon 3D animation project', '2016-01-17', '2016-01-10', '2016-110', 'Open', '2016-01-05 22:07:09', 24);
+(73, 1200, 0, 'Paragon 3D animation project', '2016-01-17', '2016-01-10', '2016-110', 'Closed', '2016-01-08 11:01:15', 24),
+(74, 434, 2, 'fwefwe', '2016-01-02', '2016-01-01', '2016-1014', 'Overdue', '2016-01-09 21:25:18', 22);
 
 -- --------------------------------------------------------
 
@@ -145,7 +145,7 @@ CREATE TABLE IF NOT EXISTS `service` (
   `serviceAmount` double DEFAULT NULL,
   `serviceDescription` varchar(255) DEFAULT NULL,
   `invoiceServiceId` int(11) DEFAULT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=105 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=106 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `service`
@@ -164,9 +164,9 @@ INSERT INTO `service` (`serviceId`, `serviceNumber`, `serviceAmount`, `serviceDe
 (98, 2, 323, 'dwadw', 68),
 (99, 1, 323, 'dawd', 68),
 (100, 1, 323, 'daw', 69),
-(101, 1, 656, 'gdfgdfg', 70),
 (102, 1, 3233, 'dwawd', 71),
-(104, 1, 1200, '3D animation supervision', 73);
+(104, 1, 1200, '3D animation supervision', 73),
+(105, 1, 434, 'fwefwe', 74);
 
 --
 -- Indexes for dumped tables
@@ -182,8 +182,7 @@ ALTER TABLE `client`
 -- Indexes for table `invoice`
 --
 ALTER TABLE `invoice`
-  ADD PRIMARY KEY (`invoiceId`),
-  ADD KEY `FK_roj299l1vk25hjmfnbtktcad5` (`invoiceClientId`);
+  ADD PRIMARY KEY (`invoiceId`), ADD KEY `FK_roj299l1vk25hjmfnbtktcad5` (`invoiceClientId`);
 
 --
 -- Indexes for table `member`
@@ -201,8 +200,7 @@ ALTER TABLE `registration`
 -- Indexes for table `service`
 --
 ALTER TABLE `service`
-  ADD PRIMARY KEY (`serviceId`),
-  ADD KEY `FK_2eyaovgqiq0pre63prev6yeje` (`invoiceServiceId`);
+  ADD PRIMARY KEY (`serviceId`), ADD KEY `FK_2eyaovgqiq0pre63prev6yeje` (`invoiceServiceId`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -217,7 +215,7 @@ ALTER TABLE `client`
 -- AUTO_INCREMENT for table `invoice`
 --
 ALTER TABLE `invoice`
-  MODIFY `invoiceId` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=74;
+  MODIFY `invoiceId` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=75;
 --
 -- AUTO_INCREMENT for table `member`
 --
@@ -227,7 +225,7 @@ ALTER TABLE `member`
 -- AUTO_INCREMENT for table `service`
 --
 ALTER TABLE `service`
-  MODIFY `serviceId` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=105;
+  MODIFY `serviceId` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=106;
 --
 -- Constraints for dumped tables
 --
@@ -236,13 +234,13 @@ ALTER TABLE `service`
 -- Constraints for table `invoice`
 --
 ALTER TABLE `invoice`
-  ADD CONSTRAINT `FK_roj299l1vk25hjmfnbtktcad5` FOREIGN KEY (`invoiceClientId`) REFERENCES `client` (`clientId`);
+ADD CONSTRAINT `FK_roj299l1vk25hjmfnbtktcad5` FOREIGN KEY (`invoiceClientId`) REFERENCES `client` (`clientId`);
 
 --
 -- Constraints for table `service`
 --
 ALTER TABLE `service`
-  ADD CONSTRAINT `FK_2eyaovgqiq0pre63prev6yeje` FOREIGN KEY (`invoiceServiceId`) REFERENCES `invoice` (`invoiceId`);
+ADD CONSTRAINT `FK_2eyaovgqiq0pre63prev6yeje` FOREIGN KEY (`invoiceServiceId`) REFERENCES `invoice` (`invoiceId`);
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
