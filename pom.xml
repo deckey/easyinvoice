@@ -53,11 +53,11 @@
         </dependency>
         
         <!--JQUERY-->
-        <!--        <dependency>
+        <dependency>
             <groupId>org.got5</groupId>
             <artifactId>tapestry5-jquery</artifactId>
             <version>4.0.1-SNAPSHOT</version>
-        </dependency>-->
+        </dependency>
 
         <!-- Uncomment this to add support resource minification and runtime compilation -->
         <!--

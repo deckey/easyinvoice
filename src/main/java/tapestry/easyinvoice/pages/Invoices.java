@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
+import org.apache.tapestry5.annotations.Import;
 import org.apache.tapestry5.annotations.InjectComponent;
 import org.apache.tapestry5.annotations.Property;
 import org.apache.tapestry5.beaneditor.BeanModel;
@@ -30,6 +31,7 @@ import tapestry.easyinvoice.model.InvoiceStatus;
  *
  * @author Dejan Ivanovic divanovic3d@gmail.com
  */
+@Import(library = {"context:js/invoices.js"})
 public class Invoices {
 
     @Inject
@@ -44,12 +46,18 @@ public class Invoices {
     @Property
     private List<Client> clients;
 
+    @InjectComponent
+    private Zone displayInvoicesZone;
+
     @Property
     private Invoice invoice;
 
     @Property
     @Validate("required")
     private InvoiceCurrency invoiceCurrency;
+
+    @Property
+    private List<Invoice> invoiceList;
 
     @InjectComponent
     private Zone invoiceListZone;
@@ -83,6 +91,12 @@ public class Invoices {
         return new DecimalFormat("0");
     }
 
+    public Object onDisplayInvoices(InvoiceStatus status) {
+        invoiceList = getFilteredInvoices(status);
+        Collections.sort(invoiceList);
+        return displayInvoicesZone.getBody();
+    }
+
     public int getInvoiceWithStatus(InvoiceStatus status) {
         List<Invoice> invoiceList = new ArrayList<>();
         for (Invoice invoice : invoices) {
@@ -93,7 +107,6 @@ public class Invoices {
         return invoiceList.size();
     }
 
-
     public List<Invoice> getFilteredInvoices(InvoiceStatus status) {
         List<Invoice> filterInvoices = new ArrayList<>();
         for (Invoice invoice : invoices) {
@@ -102,6 +115,10 @@ public class Invoices {
             }
         }
         return filterInvoices;
+    }
+
+    public boolean getInvoiceListExists() {
+        return invoiceList != null ? true : false;
     }
 
     void onActivate() {
@@ -115,6 +132,7 @@ public class Invoices {
         invoiceGridModel.get("invoiceNumber").sortable(false);
         invoiceGridModel.get("invoiceDescription").sortable(false);
         invoiceGridModel.get("invoiceCurrency").sortable(false);
+        invoiceGridModel.exclude("invoiceId");
 
 //        LABELS
         invoiceGridModel.get("invoiceNumber").label("Invoice #");

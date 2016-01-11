@@ -6,6 +6,8 @@
 package tapestry.easyinvoice.pages;
 
 import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 import org.apache.tapestry5.annotations.InjectComponent;
 import org.apache.tapestry5.annotations.Property;
 import org.apache.tapestry5.beaneditor.BeanModel;
@@ -17,7 +19,9 @@ import org.apache.tapestry5.services.Request;
 import org.apache.tapestry5.services.ajax.AjaxResponseRenderer;
 import tapestry.easyinvoice.data.ClientDAO;
 import tapestry.easyinvoice.entities.Client;
+import tapestry.easyinvoice.entities.Invoice;
 import tapestry.easyinvoice.entities.Registration;
+import tapestry.easyinvoice.entities.Service;
 
 /**
  *
@@ -36,6 +40,12 @@ public class Clients {
 
     @Property
     private Client client;
+    
+    @Property
+    private Invoice invoice;
+    
+    @Property
+    private Set<Invoice> invoices;
 
     @Property
     private BeanModel<Client> clientGridModel;
@@ -51,6 +61,9 @@ public class Clients {
 
     @Inject
     private Request request;
+    
+    @Property
+    private Service service;
 
     @InjectComponent
     private Zone registrationZone;
@@ -59,6 +72,7 @@ public class Clients {
     void onActivate() {
         clients = clientDao.getAllClients();
         registration = null;
+        invoices=new TreeSet<>();
     }
 
     public boolean getCheckRegistration() {
@@ -70,11 +84,15 @@ public class Clients {
         clientGridModel = beanModelSource.createDisplayModel(Client.class, messages);
         clientGridModel.get("clientCompany").label("Company");
         clientGridModel.get("clientCompany").sortable(false);
-
+        clientGridModel.get("clientTaxId").sortable(false);
+        clientGridModel.get("clientPhone").sortable(false);
+        clientGridModel.get("clientEmail").sortable(false);
+        clientGridModel.get("clientWebsite").sortable(false);
     }
 
     void onSelectClient(Integer id) {
         client = clientDao.findClientById(id);
+        invoices = client.getInvoices();
         registration = client.getRegistration();
         response.addRender(registrationZone);
     }

@@ -17,18 +17,17 @@
                 </div>
             </div>
         </div>
-        <t:grid t:source="clients" add="Action" row="client" class="table display-grid" id="clientGrid" zone="registrationZone" 
+        <t:grid t:source="clients" row="client" class="table display-grid" id="clientGrid" zone="registrationZone" 
                 rowsperpage="5"
                 exclude="clientId,clientContact,clientCreationDate"
+                add="Invoices"
                 model="clientGridModel">
             <p:clientCompanyCell>
                 <t:eventlink t:event="selectClient" t:context="client.clientId" async="true">${client.clientCompany}</t:eventlink>
             </p:clientCompanyCell>
-            <p:actionCell>
-                <t:pagelink t:page="edit/EditClient" t:context="client.clientId">edit</t:pagelink>
-                <br/>
-                <t:pagelink t:page="delete/deleteClient" t:context="client.clientId">delete</t:pagelink>
-            </p:actionCell>
+            <p:invoicesCell>
+                ${client.getInvoices().size()}
+            </p:invoicesCell>
             <p:empty>
                 No clients in database
             </p:empty>
@@ -44,7 +43,7 @@
                         <t:pagelink t:page="delete/DeleteClient" t:context="client.clientId" class=" btn image-pagelink" title="Delete client?">
                             <img src="${context:images/icons/delete-client.png}" title="Delete client?"/>
                         </t:pagelink>
-                        <t:pagelink t:page="edit/EditClient" t:context="client.clientId" class="btn btn-primary ">Edit</t:pagelink>
+                        <t:pagelink t:page="edit/EditClient" t:context="client.clientId" class="btn btn-default " title="Edit client info">Edit</t:pagelink>
                     </div>
                     <div class="row well  client-module">
                         <div class="col-sm-2">
@@ -95,6 +94,30 @@
                             <label>Country:</label>
                             <h4>${registration.registrationShipCountry}</h4>
                         </div>
+                    </div> 
+                    
+                    <h4>Client's invoices:</h4>
+                    <div class="row">
+                        <table class="table display-grid">
+                            <th>Invoice #</th>
+                            <th>Services</th>
+                            <th>Status</th>
+                            <th>Invoice total</th>
+                            <tr t:type="loop" t:source="client.getInvoices()" value="invoice">
+                                <td>
+                                    <t:pagelink t:page="view/ViewInvoice" t:context="invoice.invoiceId">${invoice.invoiceNumber}</t:pagelink>
+                                </td>
+                                <td>
+                                    <t:loop t:source="invoice.getServices()" value="service">
+                                        ${service.serviceDescription}<br/>
+                                    </t:loop>
+                                </td>
+                                <td>${invoice.invoiceStatus}</td>
+                                <td>
+                                    ${invoice.invoiceAmount} ${invoice.getInvoiceCurrency().getValue()}
+                                </td>
+                            </tr>
+                        </table>
                     </div> 
                 </t:if>
             </t:zone>
