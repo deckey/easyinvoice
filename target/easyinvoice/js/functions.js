@@ -16,3 +16,6 @@ function autoInvoiceNumber() {
 $('#addInvoiceBtn').click(function () {
     $("#addInvoiceForm").submit();
 });
+$('#addServiceBtn').click(function () {
+    $('serviceDescription').append("dasdas");
+});

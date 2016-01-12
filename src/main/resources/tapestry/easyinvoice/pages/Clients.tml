@@ -17,7 +17,7 @@
                 </div>
             </div>
         </div>
-        <t:grid t:source="clients" row="client" class="table display-grid" id="clientGrid" zone="registrationZone" 
+        <t:grid t:source="clients" row="client" class="table dashboard-table" id="clientGrid" zone="registrationZone" 
                 rowsperpage="5"
                 exclude="clientId,clientContact,clientCreationDate"
                 add="Invoices"
@@ -25,6 +25,9 @@
             <p:clientCompanyCell>
                 <t:eventlink t:event="selectClient" t:context="client.clientId" async="true">${client.clientCompany}</t:eventlink>
             </p:clientCompanyCell>
+            <p:clientWebsiteCell>
+                <a href="${client.clientWebsite}" target="blank">${client.clientWebsite}</a>
+            </p:clientWebsiteCell>
             <p:invoicesCell>
                 ${client.getInvoices().size()}
             </p:invoicesCell>

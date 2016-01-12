@@ -118,3 +118,11 @@ strong{color:#317eac;}
 
 #bank-table :nth-child(1){width:20%;}
 #bank-table :nth-child(2){width:80; }
+
+
+.dashboard-table td:nth-child(1){width:20%;}
+.dashboard-table td:nth-child(2){width:20%;}
+.dashboard-table td:nth-child(3){width:30%;}
+.dashboard-table td:nth-child(4){width:10%;}
+.dashboard-table td:nth-child(5){width:10%;}
+.dashboard-table td:nth-child(6){width:10%;}

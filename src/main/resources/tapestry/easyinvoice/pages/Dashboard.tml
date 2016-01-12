@@ -70,8 +70,8 @@
         <!--LATEST INVOICES-->
         <div class="row">
             <div class="col-sm-12">
-                <h4> Latest invoices</h4>
-                <table class="table">
+                <h4> Latest open invoices</h4>
+                <table class="table dashboard-table">
                     <th>Invoice number</th>
                     <th>Client</th>
                     <th>Description</th>
@@ -102,7 +102,7 @@
                     </span>
                 </h4>
                 <t:if test="!checkOverdue">
-                    <table class="table">
+                    <table class="table dashboard-table">
                         <th>Invoice number</th>
                         <th>Client</th>
                         <th>Description</th>
@@ -134,7 +134,7 @@
                     </span>
                 </h4>
                 <t:if test="!checkClosed">
-                    <table class="table">
+                    <table class="table dashboard-table">
                         <th>Invoice number</th>
                         <th>Client</th>
                         <th>Description</th>
