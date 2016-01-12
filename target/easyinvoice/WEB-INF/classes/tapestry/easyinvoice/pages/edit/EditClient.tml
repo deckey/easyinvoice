@@ -8,8 +8,11 @@
         <t:header/>
         <t:mainmenu/>
         <div class="row border_btm">
-            <div class="col-xs-6">
+            <div class="col-xs-11">
                 <h4> Update client</h4>
+            </div>
+            <div class="col-xs-1">
+                <label class="invisible">spacer</label>
             </div>
         </div>
         <!--CLIENT....................-->
@@ -97,19 +100,18 @@
                 </div>
             </div>
             <div class="row well">
-                <div class="control-group col-xs-6 col-sm-3">
+                <div class="control-group col-sm-6">
                     <label for="registrationNotes">Notes</label>
                     <t:textarea t:id="registrationNotes" id="registrationNotes" t:value="registrationNotes" />
                 </div>
-                
-                <div class="control-group col-xs-6 col-sm-1 ">
-                    <label for="cancelClientBtn" class="invisible">spacer</label>
-                    <t:pagelink t:page="Clients" id="cancelClientBtn" class="btn btn-default">Cancel</t:pagelink>
-                </div>
-                <div class="control-group col-xs-6 col-sm-1 ">
-                    <label for="addClientBtn" class="invisible">spacer</label>
-                    <t:submit id="addClientBtn" value="Update"/>
-                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-9"/>
+                <t:pagelink t:page="delete/DeleteClient" t:context="client.clientId" class=" btn image-pagelink" title="Delete client?">
+                   <img src="${context:images/icons/delete-client.png}" title="Delete client?"/>
+                </t:pagelink>
+                <t:pagelink t:page="Clients" id="cancelClientBtn" class="btn btn-default">Cancel</t:pagelink>
+                <t:submit id="addClientBtn" value="Update" class="btn btn-primary"/>
             </div>
         </t:form>
     </body>

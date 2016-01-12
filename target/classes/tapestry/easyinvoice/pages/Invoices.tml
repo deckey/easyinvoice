@@ -1,30 +1,102 @@
 <!DOCTYPE html>
 <html t:type="layout" 
       title="EasyInvoice : Invoices" 
-      xmlns:t="http://tapestry.apache.org/schema/tapestry_5_3.xsd"
+      xmlns:t="http://tapestry.apache.org/schema/tapestry_5_4.xsd"
       xmlns:p="tapestry:parameter">
-   
+    
     <body>
         <t:header/>
         <t:mainmenu/>
-        <div class="row border_btm">
-            <div class="col-xs-6">
-                <h4> Invoices</h4>
+        
+        <div class="row">
+            <div class="col-xs-12 dashboard-module border_btm" >
+                <h4 >
+                    All invoices <span class="badge">${invoices.size()}</span>
+                </h4> 
             </div>
-            <!--            <div class="col-xs-6">
-                <h4 class='text-right'> Preview icon</h4>
-            </div>-->
         </div>
-        <br/>
-        <t:grid t:source="invoices" add="Action" row="invoice">
-            <p:actionCell>
-                <t:pagelink t:page="view/ViewInvoice" t:context="invoice.invoiceId">view</t:pagelink><br/>
-                <t:pagelink t:page="delete/DeleteInvoice" t:context="invoice.invoiceId">delete</t:pagelink>
-            </p:actionCell>
-            <p:empty>
-                No invoices in database
-            </p:empty>
-        </t:grid>
+        <t:zone t:id="invoiceListZone" id="invoiceListZone">
+            <t:grid t:source="sortedInvoices" class="table display-grid table-hover invoiceGrid"
+                    row="invoice" 
+                    rowsperpage="10"
+                    exclude="invoiceId,invoiceCurrency,totalIncome"
+                    model="invoiceGridModel">
+                <p:invoiceNumberCell>
+                    <t:pagelink t:page="view/ViewInvoice" t:context="invoice.invoiceId">${invoice.invoiceNumber}</t:pagelink>
+                </p:invoiceNumberCell>
+                <p:invoiceAmountCell>
+                    <p class="text-right">${invoice.totalIncome}</p>
+                </p:invoiceAmountCell>
+                
+                <p:empty>
+                    No invoices in database
+                </p:empty>
+            </t:grid>
+        </t:zone>
+        
+        <div class="row">
+            <t:eventlink class="invoices-link col-sm-4 " 
+                         context="InvoiceStatus.Open" 
+                         t:event="displayInvoices" 
+                         zone="displayInvoicesZone"
+                         onclick="showInvoiceListTitle('Open invoices')">
+                <h5>Open invoices <span class="badge">
+                        <t:output t:format="numberFormat" value="getInvoiceWithStatus('Open')"/>
+                    </span>
+                </h5>
+            </t:eventlink>
+                
+            <t:eventlink class="invoices-link col-sm-4" 
+                         context="InvoiceStatus.Overdue" 
+                         t:event="displayInvoices" 
+                         zone="displayInvoicesZone"
+                         onclick="showInvoiceListTitle('Overdue invoices')">
+                <h5>Overdue invoices <span class="badge">
+                        <t:output t:format="numberFormat" value="getInvoiceWithStatus('Overdue')"/>
+                    </span>
+                </h5>
+            </t:eventlink>
+                
+            <t:eventlink class="invoices-link text-link col-sm-4" 
+                         context="InvoiceStatus.Closed" 
+                         t:event="displayInvoices" 
+                         zone="displayInvoicesZone"
+                         onclick="showInvoiceListTitle('Closed invoices')">
+                <h5>Closed invoices <span class="badge">
+                        <t:output t:format="numberFormat" value="getInvoiceWithStatus('Closed')"/>
+                    </span>
+                </h5>
+            </t:eventlink>
+        </div>
+        <h4 id="invoiceListTitle"/>
+        <t:zone t:id="displayInvoicesZone" id="displayInvoicesZone">
+            <div class="row">
+                <t:if test="invoiceListExists">
+                    <table  class="table invoiceGrid ">
+                        <th>Invoice #</th>
+                        <th>Description</th>
+                        <th>Issue date</th>
+                        <th>Due date</th>
+                        <th>Status</th>
+                        <th>Created on</th>
+                        <th>Amount</th>
+                    
+                        <tr t:type="loop" t:source="invoiceList" value="invoice">
+                            <td>
+                                <t:pagelink t:page="view/ViewInvoice" t:context="invoice.invoiceId">${invoice.invoiceNumber}</t:pagelink>
+                            </td>
+                            <td>${invoice.invoiceDescription}</td>
+                            <td>${invoice.invoiceIssueDate}</td>
+                            <td>${invoice.invoiceDueDate}</td>
+                            <td>${invoice.invoiceStatus}</td>
+                            <td>${invoiceCreationDate}</td>
+                            <td>${invoice.totalIncome}</td>
+                        </tr>
+                    </table>
+                </t:if>
+            </div>
+        </t:zone>
+        
     </body>
 </html>
 

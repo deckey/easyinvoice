@@ -1,6 +1,7 @@
 package tapestry.easyinvoice.entities;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 import javax.persistence.CascadeType;
@@ -43,6 +44,10 @@ public class Client implements Serializable {
 
     @Column(name = "clientWebsite")
     private String clientWebsite;
+    
+    @Column(name="clientCreationDate")
+    private Date clientCreationDate;
+    
 
     @OneToOne(mappedBy = "client", cascade = CascadeType.ALL)
     private Registration registration;
@@ -126,6 +131,14 @@ public class Client implements Serializable {
         this.clientWebsite = clientWebsite;
     }
 
+    public Date getClientCreationDate() {
+        return clientCreationDate;
+    }
+
+    public void setClientCreationDate(Date clientCreationDate) {
+        this.clientCreationDate = clientCreationDate;
+    }
+
     public Registration getRegistration() {
         return registration;
     }
@@ -146,6 +159,5 @@ public class Client implements Serializable {
     public String toString() {
         return clientCompany; //To change body of generated methods, choose Tools | Templates.
     }
-
 
 }

@@ -34,7 +34,7 @@
                 </div>
                 <div class="form-group col-xs-6 col-md-3">
                     <label for="invoiceDueDate">Due date</label>
-                    <input type="date" t:type="datefield" t:id="invoiceDueDate" id="invoiceDueDate"  value="invoiceDueDate"/>
+                    <t:datefield t:id="invoiceDueDate" id="invoiceDueDate"  value="invoiceDueDate"/>
                 </div>
             </div>
         </form>
@@ -108,6 +108,7 @@
                 <!--INVOICE SUBMIT................................................-->
             </div>
         </t:zone>
+        <div class="row spacer"/>
         <div class="form-group col-xs-12 ">
             <label for="addInvoiceForm" class="invisible">spacer</label>
             <button type="submit" form="addInvoiceForm" id="addInvoiceBtn" class="btn btn-success pull-right ">Create</button>

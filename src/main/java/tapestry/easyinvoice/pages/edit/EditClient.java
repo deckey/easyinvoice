@@ -8,6 +8,7 @@ package tapestry.easyinvoice.pages.edit;
 import java.util.Set;
 import org.apache.tapestry5.ComponentResources;
 import org.apache.tapestry5.annotations.InjectComponent;
+import org.apache.tapestry5.annotations.InjectPage;
 import org.apache.tapestry5.annotations.Persist;
 import org.apache.tapestry5.annotations.Property;
 import org.apache.tapestry5.beaneditor.Validate;
@@ -19,6 +20,7 @@ import tapestry.easyinvoice.data.DashboardDAO;
 import tapestry.easyinvoice.entities.Client;
 import tapestry.easyinvoice.entities.Invoice;
 import tapestry.easyinvoice.entities.Registration;
+import tapestry.easyinvoice.pages.view.ViewClient;
 
 /**
  *
@@ -86,15 +88,15 @@ public class EditClient {
     private String registrationShipCountry;
     @Property
     private String registrationNotes;
-    @Property
-    private String clientLogo;
-
+    @InjectPage
+    private ViewClient viewClientPage;
+    
     @Persist
     @Property
     private boolean separateShipTo;
 
     @CommitAfter
-    void onSuccessFromEditClientForm() {
+    Object onSuccessFromEditClientForm() {
 
         //UPDATE CLIENT FIELDS:
         client.setClientCompany(clientCompany);
@@ -121,6 +123,9 @@ public class EditClient {
         client.setClientWebsite(clientWebsite);
 
         System.out.println("UPDATING CLIENT.........");
+        viewClientPage.set(client);
+        return viewClientPage;
+        
     }
 
 //    PAGE ACTIVATION CONTEXT

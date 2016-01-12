@@ -5,15 +5,17 @@
  */
 package tapestry.easyinvoice.pages;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.Date;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import org.apache.tapestry5.annotations.InjectPage;
 import org.apache.tapestry5.annotations.Property;
 import org.apache.tapestry5.grid.GridDataSource;
 import org.apache.tapestry5.hibernate.HibernateGridDataSource;
-import org.apache.tapestry5.hibernate.annotations.CommitAfter;
 import org.apache.tapestry5.ioc.annotations.Inject;
 import org.hibernate.Session;
 import tapestry.easyinvoice.data.ClientDAO;
@@ -23,6 +25,7 @@ import tapestry.easyinvoice.entities.Invoice;
 import tapestry.easyinvoice.entities.Registration;
 import tapestry.easyinvoice.entities.Service;
 import tapestry.easyinvoice.model.InvoiceCurrency;
+import tapestry.easyinvoice.model.InvoiceStatus;
 
 /**
  *
@@ -38,6 +41,9 @@ public class Dashboard {
 
     @Property
     private List<Client> clients;
+    
+    @InjectPage
+    private Clients clientsPage;
 
     @Inject
     private DashboardDAO dashboardDao;
@@ -59,6 +65,145 @@ public class Dashboard {
     @Inject
     private Session dbs;
 
+    public GridDataSource getRegistrations() {
+        return new HibernateGridDataSource(dbs, Registration.class);
+    }
+
+    public String getInvoiceAmount() {
+        DecimalFormat formatter = new DecimalFormat("#,###.00");
+        return formatter.format(invoice.getInvoiceAmount()) + " " + invoice.getInvoiceCurrency();
+    }
+
+     public List<Invoice> getInvoiceWithStatus(InvoiceStatus status) {
+        List<Invoice> invoiceList = new ArrayList<>();
+        for (Invoice invoice : invoices) {
+            if (invoice.getInvoiceStatus() == status) {
+                invoiceList.add(invoice);
+            }
+        }
+        return invoiceList;
+    }
+
+    public boolean getCheckOverdue() {
+        if (getInvoiceWithStatus(InvoiceStatus.Overdue).isEmpty()) {
+            return true;
+        }
+        return false;
+    }
+
+    public boolean getCheckClosed() {
+        if (getInvoiceWithStatus(InvoiceStatus.Closed).isEmpty()) {
+            return true;
+        }
+        return false;
+    }
+
+    public List<Invoice> getLatestInvoices() {
+        List<Invoice> latestInvoices = new ArrayList<>();
+        for (Invoice invoice : invoices) {
+            if (invoice.getInvoiceStatus() == InvoiceStatus.Open) {
+                latestInvoices.add(invoice);
+            }
+        }
+        Collections.sort(latestInvoices, new Comparator<Invoice>() {
+            public int compare(Invoice invoice1, Invoice invoice2) {
+                return invoice1.getInvoiceCreationDate().after(invoice2.getInvoiceCreationDate()) ? 1 : -1;
+            }
+        });
+        Collections.reverse(latestInvoices);
+        if (latestInvoices.size() > 5) {
+            latestInvoices = latestInvoices.subList(0, 5);
+        }
+        return latestInvoices;
+    }
+
+    public Client getLatestClient() {
+        List<Client> latestClients = clientDao.getAllClients();
+
+        Collections.sort(latestClients, new Comparator<Client>() {
+            public int compare(Client client1, Client client2) {
+                return (client1.getClientCreationDate().after(client2.getClientCreationDate())) ? -1 : 1;
+            }
+        });
+        return latestClients.get(0);
+    }
+
+    public String getTotalIncome() {
+        double income = 0;
+        for (Client client : clients) {
+            for (Invoice invoice : client.getInvoices()) {
+                income += invoice.getInvoiceAmount();
+            }
+        }
+        DecimalFormat formatter = new DecimalFormat("#,###.00");
+        return formatter.format(income);
+    }
+
+    public String getClosedIncomeUSD() {
+        return getClosedIncome("USD");
+    }
+
+    public String getClosedIncomeEUR() {
+        return getClosedIncome("EUR");
+    }
+
+    public String getClosedIncomeGBP() {
+        return getClosedIncome("GBP");
+    }
+
+    public String getIncome(String currency) {
+        InvoiceCurrency curr = InvoiceCurrency.EUR;
+        if (currency == "USD") {
+            curr = InvoiceCurrency.USD;
+        } else if (currency == "GBP") {
+            curr = InvoiceCurrency.GBP;
+        } else {
+            curr = InvoiceCurrency.EUR;
+        }
+
+        double amount = 0.0;
+        for (Client client : clients) {
+            for (Invoice invoice : client.getInvoices()) {
+                if (invoice.getInvoiceCurrency() == curr) {
+                    amount += invoice.getInvoiceAmount();
+                }
+            }
+        }
+        DecimalFormat formatter = new DecimalFormat("#,###.00");
+        if (amount == 0) {
+            return "0.00";
+        }
+        return formatter.format(amount);
+    }
+
+    public String getClosedIncome(String currency) {
+        InvoiceCurrency curr = InvoiceCurrency.EUR;
+        if (currency == "USD") {
+            curr = InvoiceCurrency.USD;
+        } else if (currency == "GBP") {
+            curr = InvoiceCurrency.GBP;
+        } else {
+            curr = InvoiceCurrency.EUR;
+        }
+
+        double amount = 0.0;
+        for (Client client : clients) {
+            for (Invoice invoice : client.getInvoices()) {
+                if (invoice.getInvoiceCurrency() == curr) {
+                    if (invoice.getInvoiceStatus() == InvoiceStatus.Closed) {
+                        amount += invoice.getInvoiceAmount();
+                    }
+                }
+            }
+        }
+        DecimalFormat formatter = new DecimalFormat("#,###.00");
+        if (amount == 0) {
+            return "0.00";
+        }
+        return formatter.format(amount);
+    }
+    
+//    PAGE ACTIVATION CONTEXT
     void onActivate() {
         if (clients == null) {
             clients = new ArrayList<>();
@@ -70,61 +215,7 @@ public class Dashboard {
             invoices = new HashSet<>();
         }
         clients = clientDao.getAllClients();
-    }
-
-    public GridDataSource getRegistrations() {
-        return new HibernateGridDataSource(dbs, Registration.class);
-    }
-
-    public List<Invoice> getInvoiceList() {
-        List<Invoice> invoiceList = new ArrayList<>();
-        for (Client client : clients) {
-            for (Invoice invoice : client.getInvoices()) {
-                invoiceList.add(invoice);
-            }
-        }
-        return invoiceList;
-    }
-
-    public List<Service> getServiceList() {
-        List<Service> serviceList = new ArrayList<>();
-        for (Client client : clients) {
-            for (Invoice invoice : client.getInvoices()) {
-                for (Service service : invoice.getServices()) {
-                    serviceList.add(service);
-                }
-            }
-        }
-        return serviceList;
-    }
-
-    @CommitAfter
-    void onCreateClient() {
-        client = new Client("clientCompany2", "clientContact2", "clientPhone", "clientEmail", "clientWebsite");
-        registration = new Registration("client1Address", "client2City", "client2 country", "client2shipping", "client2ShippingCity", "client2shipCountry", "some notes");
-        registration.setClient(client);
-        clientDao.addClient(client);
-    }
-
-    @CommitAfter
-    void onCreateInvoice() {
-        invoice = new Invoice("12", "Invoice_Description3", new Date(), new Date(), InvoiceCurrency.EUR);
-        invoices = new HashSet<>();
-        invoices.add(invoice);
-        dashboardDao.addInvoice(invoice);
-
-    }
-
-    @CommitAfter
-    void onCreateService() {
-        service = new Service("Service 1 description", 400);
-        services = new HashSet<>();
-        services.add(service);
-        dashboardDao.addService(service);
-    }
-
-    @CommitAfter
-    void onDeleteClient(Integer id) {
-        clientDao.deleteClient(id);
+        invoices = dashboardDao.getAllInvoices();
+        dashboardDao.updateInvoices();
     }
 }

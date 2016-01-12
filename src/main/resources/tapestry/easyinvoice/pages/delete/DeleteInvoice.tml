@@ -5,10 +5,19 @@
       xmlns:p="tapestry:parameter">
    
     <body>
-        Delete invoice?
-        
+        <t:header/>
+        <t:mainmenu/>
+        <div class="row border_btm">
+            <div class="col-xs-6">
+                <h4> Delete invoice?</h4>
+            </div>
+        </div>
         <t:beandisplay t:object="invoice"/>
-        <t:eventlink t:event="deleteInvoice" context="invoice.invoiceId">Delete</t:eventlink>
+        <div class="row">
+            <div class="col-sm-10"/>
+            <t:pagelink t:page="view/ViewInvoice" t:context="invoice.invoiceId" style="margin-right:1em" class="btn btn-default ">Cancel</t:pagelink>
+            <t:eventlink t:event="deleteInvoice" context="invoice.invoiceId" class="btn btn-danger ">Delete</t:eventlink>
+        </div>
     </body>
 </html>
 

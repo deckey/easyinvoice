@@ -5,6 +5,7 @@
  */
 package tapestry.easyinvoice.pages.add;
 
+import java.util.Date;
 import org.apache.tapestry5.annotations.InjectComponent;
 import org.apache.tapestry5.annotations.Persist;
 import org.apache.tapestry5.annotations.Property;
@@ -98,6 +99,7 @@ public class AddClient {
         client.setClientEmail(clientEmail);
         client.setClientPhone(clientPhone);
         client.setClientWebsite(clientWebsite);
+        client.setClientCreationDate(new Date());
         
         registration.setRegistrationAddress(registrationAddress);
         registration.setRegistrationShipAddress(registrationCountry);

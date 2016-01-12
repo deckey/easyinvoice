@@ -101,15 +101,11 @@
                     <label for="registrationNotes">Notes</label>
                     <t:textarea t:id="registrationNotes" id="registrationNotes" t:value="registrationNotes" />
                 </div>
-                
-                <div class="control-group col-xs-6 col-sm-1 ">
-                    <label for="cancelClientBtn" class="invisible">spacer</label>
-                    <t:pagelink t:page="Clients" id="cancelClientBtn" class="btn btn-default">Cancel</t:pagelink>
-                </div>
-                <div class="control-group col-xs-6 col-sm-1 ">
-                    <label for="addClientBtn" class="invisible">spacer</label>
-                    <t:submit id="addClientBtn" value="Create"/>
-                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-10"/>
+                <t:pagelink t:page="Clients" id="cancelClientBtn" class="btn btn-default">Cancel</t:pagelink>
+                <t:submit id="addClientBtn" value="Create"/>
             </div>
         </t:form>
     </body>

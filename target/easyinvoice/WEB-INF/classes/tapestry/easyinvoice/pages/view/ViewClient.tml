@@ -14,12 +14,26 @@
         </div>
         <!--CLIENT....................-->
         <t:beandisplay t:object="client"/>
-        <t:grid t:source="invoices" row="invoice">
+        <t:grid t:source="invoices"
+                class="table table-hover"
+                row="invoice"
+                exclude="invoiceId, invoiceCurrency">
             <p:invoiceNumberCell>
                 <t:pagelink t:page="view/ViewInvoice" t:context="invoice.invoiceId">${invoice.invoiceNumber}</t:pagelink>
             </p:invoiceNumberCell>
+            <p:invoiceAmountCell>
+                ${invoice.invoiceAmount} ${invoice.invoiceCurrency}
+            </p:invoiceAmountCell>
+            
+            <p:empty>No invoices for this client</p:empty>
         </t:grid>
-        <t:pagelink t:page="edit/EditClient" t:context="client">Edit</t:pagelink>
+        <div class="row">
+            <div class="col-sm-10"/>
+            <t:pagelink t:page="delete/DeleteClient" t:context="client.clientId" class=" btn image-pagelink" title="Delete client?">
+                <img src="${context:images/icons/delete-client.png}" title="Delete client?"/>
+            </t:pagelink>
+            <t:pagelink t:page="edit/EditClient" t:context="client.clientId" class="btn btn-default " title="Edit client info">Edit</t:pagelink>
+        </div>
     </body>
 </html>
 

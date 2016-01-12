@@ -1,6 +1,7 @@
 package tapestry.easyinvoice.entities;
 
 import java.io.Serializable;
+import java.text.DecimalFormat;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -17,6 +18,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import org.apache.tapestry5.ioc.annotations.Inject;
 import tapestry.easyinvoice.model.InvoiceCurrency;
 import tapestry.easyinvoice.model.InvoiceStatus;
@@ -27,7 +29,7 @@ import tapestry.easyinvoice.model.InvoiceStatus;
  */
 @Entity
 @Table(name = "invoice")
-public class Invoice implements Serializable {
+public class Invoice implements Serializable, Comparable<Invoice> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -52,6 +54,10 @@ public class Invoice implements Serializable {
     @Enumerated(EnumType.STRING)
     private InvoiceStatus invoiceStatus;
 
+    @Column(name = "invoiceCreationDate")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date invoiceCreationDate;
+
     @Column(name = "invoiceAmount")
     private double invoiceAmount;
 
@@ -69,6 +75,7 @@ public class Invoice implements Serializable {
     public Invoice() {
         this.client = new Client();
         this.services = new HashSet<>();
+        this.invoiceCreationDate = new Date();
     }
 
     public Invoice(String invoiceNumber, String invoiceDescription, Date invoiceIssueDate, Date invoiceDueDate, InvoiceStatus invoiceStatus, double invoiceAmount, InvoiceCurrency invoiceCurrency, Client client, Set<Service> services) {
@@ -81,6 +88,7 @@ public class Invoice implements Serializable {
         this.invoiceCurrency = invoiceCurrency;
         this.client = new Client();
         this.services = new HashSet<>();
+        this.invoiceCreationDate = new Date();
     }
 
     public Invoice(String invoiceNumber, String invoiceDescription, Date invoiceIssueDate, Date invoiceDueDate, InvoiceCurrency invoiceCurrency) {
@@ -91,6 +99,7 @@ public class Invoice implements Serializable {
         this.invoiceCurrency = invoiceCurrency;
         this.client = new Client();
         this.services = new HashSet<>();
+        this.invoiceCreationDate = new Date();
     }
 
     public Integer getInvoiceId() {
@@ -141,12 +150,25 @@ public class Invoice implements Serializable {
         this.invoiceStatus = invoiceStatus;
     }
 
+    public Date getInvoiceCreationDate() {
+        return invoiceCreationDate;
+    }
+
+    public void setInvoiceCreationDate(Date invoiceCreationDate) {
+        this.invoiceCreationDate = invoiceCreationDate;
+    }
+
     public double getInvoiceAmount() {
         return invoiceAmount;
     }
 
     public void setInvoiceAmount(double invoiceAmount) {
         this.invoiceAmount = invoiceAmount;
+    }
+
+    public String getTotalIncome() {
+        DecimalFormat formatter = new DecimalFormat("#,###.00");
+        return formatter.format(this.invoiceAmount)+" "+this.invoiceCurrency.getValue();
     }
 
     public InvoiceCurrency getInvoiceCurrency() {
@@ -177,4 +199,10 @@ public class Invoice implements Serializable {
     public String toString() {
         return this.invoiceDescription;
     }
+
+    @Override
+    public int compareTo(Invoice o) {
+        return (this.invoiceCreationDate.after(o.invoiceCreationDate)) ? -1 : 1;
+    }
+
 }

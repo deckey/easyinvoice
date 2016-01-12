@@ -4,13 +4,13 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
 import org.apache.tapestry5.alerts.AlertManager;
 import org.apache.tapestry5.annotations.Import;
 import org.apache.tapestry5.annotations.InjectComponent;
 import org.apache.tapestry5.annotations.InjectPage;
-import org.apache.tapestry5.annotations.OnEvent;
 import org.apache.tapestry5.annotations.PageLoaded;
 import org.apache.tapestry5.annotations.Persist;
 import org.apache.tapestry5.annotations.Property;
@@ -36,101 +36,104 @@ import tapestry.easyinvoice.pages.view.ViewInvoice;
  */
 @Import(library = "context:js/functions.js")
 public class AddInvoice {
-
+    
     @InjectComponent("addInvoiceForm")
     private Form addInvoiceForm;
-
+    
     @InjectComponent("addServiceForm")
     private Form addServiceForm;
-
+    
     @Inject
     private AlertManager alertManager;
-
+    
     @Inject
     private ClientDAO clientDao;
-
+    
     @Property
     private List<Client> clients;
-
+    
     @InjectComponent
     private Zone currencyZone;
-
+    
     @Inject
     private DashboardDAO dashboardDao;
-
+    
     @Property
     @Persist
     private Invoice invoice;
-
+    
     @Property
     @Persist
     @Validate("required")
     private Client invoiceClient;
-
+    
     @Property
     @Persist
     @Validate("required")
     private InvoiceCurrency invoiceCurrency;
-
+    
     @Property
     @Validate("required")
     private String invoiceDescription;
-
+    
     @Property
     @Validate("required")
     private String invoiceNumber;
-
+    
     @Property
     @Validate("required")
     private Date invoiceIssueDate;
-
+    
     @Property
     @Validate("required")
     private Date invoiceDueDate;
-
+    
     @Property
     @Validate("required,min=1")
     private double serviceAmount;
-
+    
     @Property
     @Validate("required")
     private String serviceDescription;
-
+    
+    @Property
+    private InvoiceStatus invoiceStatus = InvoiceStatus.Open;
+    
     @Inject
     private Request request;
-
+    
     @Inject
     private AjaxResponseRenderer response;
-
+    
     @Property
     private Service service;
-
+    
     @InjectComponent
     private Zone serviceListZone;
     @InjectComponent
     private Zone serviceEntryZone;
-
+    
     @Property
     private SortedSet<Service> tempServices;
-
+    
     @InjectPage
     private ViewInvoice viewInvoicePage;
-
+    
     public InvoiceCurrency[] getCurrencies() {
         return InvoiceCurrency.values();
     }
-
+    
     public Object onValueChangedFromInvoiceCurrency(InvoiceCurrency currency) {
         this.invoiceCurrency = currency;
         return currencyZone.getBody();
     }
     
-    public Object onValueChangedFromInvoiceClient(Client client){
-        this.invoiceClient=client;
-        System.out.println("INVOICE CLIENT.........."+invoiceClient.getClientCompany());
+    public Object onValueChangedFromInvoiceClient(Client client) {
+        this.invoiceClient = client;
+        System.out.println("INVOICE CLIENT.........." + invoiceClient.getClientCompany());
         return currencyZone.getBody();
     }
-
+    
     Object onValidateFromAddServiceForm() {
         //Add service to temporary list:
         tempServices.add(new Service(serviceDescription, serviceAmount, tempServices.size() + 1));
@@ -143,11 +146,11 @@ public class AddInvoice {
         response.addRender(serviceEntryZone);
         return serviceListZone.getBody();
     }
-
+    
     public boolean getCheckServices() {
         return tempServices.isEmpty();
     }
-
+    
     public double getTotalAmount() {
         double amount = 0;
         for (Service service : tempServices) {
@@ -155,12 +158,12 @@ public class AddInvoice {
         }
         return amount;
     }
-
+    
     public String getInvoiceAmount() {
         DecimalFormat formatter = new DecimalFormat("#,###.00");
         return invoiceCurrency.getValue() + formatter.format(getTotalAmount());
     }
-
+    
     Object onClearServices() {
         tempServices.clear();
         if (!request.isXHR()) {
@@ -168,7 +171,7 @@ public class AddInvoice {
         }
         return serviceListZone.getBody();
     }
-
+    
     public List<String> getClientCompanies() {
         List<String> clientList = new ArrayList<>();
         for (Client client : clients) {
@@ -176,12 +179,12 @@ public class AddInvoice {
         }
         return clientList;
     }
-
+    
     void onValidateFromAddInvoiceForm() {
         System.out.println("ADD INVOICE:VALIDATE...............");
-        List<Invoice> invoices = dashboardDao.getAllInvoices();
-        System.out.println("INVOICE CLIENT.........."+invoiceClient);
-        System.out.println("INVOICE NUMBER.........."+invoiceNumber);
+        Set<Invoice> invoices = dashboardDao.getAllInvoices();
+        System.out.println("INVOICE CLIENT.........." + invoiceClient);
+        System.out.println("INVOICE NUMBER.........." + invoiceNumber);
         if (dashboardDao.checkIfInvoiceExists(invoiceClient.getClientCompany(), invoiceNumber)) {
             addInvoiceForm.recordError("Invoice with number " + invoiceNumber + " for client " + invoiceClient + " already exists!");
             return;
@@ -190,12 +193,16 @@ public class AddInvoice {
             addInvoiceForm.recordError("Due date can not be before issue date!");
             return;
         }
+        if (invoiceDueDate.before(new Date())) {
+            invoiceStatus = InvoiceStatus.Overdue;
+        }
         if (tempServices.isEmpty()) {
             addInvoiceForm.recordError("Invoice must have at least one service!");
         }
+        
         System.out.println(".....................VALIDATED");
     }
-
+    
     @CommitAfter
     Object onSuccessFromAddInvoiceForm() {
         System.out.println("ADD INVOICE:SUCCESS............................");
@@ -206,7 +213,8 @@ public class AddInvoice {
         invoice.setInvoiceDueDate(invoiceDueDate);
         invoice.setInvoiceCurrency(invoiceCurrency);
         invoice.setInvoiceAmount(getTotalAmount());
-        invoice.setInvoiceStatus(InvoiceStatus.Open);
+        invoice.setInvoiceCreationDate(new Date());
+        invoice.setInvoiceStatus(invoiceStatus);
 
 //      INVOICE <> CLIENT 
         invoice.setClient(invoiceClient);
@@ -224,17 +232,17 @@ public class AddInvoice {
         //reset invoice form
         tempServices.clear();
         System.out.println("..........................INVOICE CREATED");
-
+        
         viewInvoicePage.set(invoice);
         return viewInvoicePage;
     }
-
+    
     @PageLoaded
     void onPageLoaded() {
         tempServices = new TreeSet<>();
-
+        
     }
-
+    
     void onActivate() {
         invoice = new Invoice();
         if (invoiceIssueDate == null || invoiceIssueDate.toString() == "mm/dd/yyyy") {

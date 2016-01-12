@@ -7,23 +7,123 @@
     <body>
         <t:header/>
         <t:mainmenu/>
-        <div class="row border_btm">
-            <div class="col-xs-6">
-                <h4> Clients</h4>
+        <div class="row">
+            <div class="col-xs-12 dashboard-module " >
+                <div class=" border_btm">
+                    <h4 >
+                        Clients <span class="badge">${clients.size()}</span> 
+                        <i>Click company name for more details</i>
+                    </h4> 
+                </div>
             </div>
-            <!--            <div class="col-xs-6">
-                <h4 class='text-right'> Preview icon</h4>
-            </div>-->
         </div>
-        <br/>
-        <t:grid t:source="clients" add="Action" row="client">
+        <t:grid t:source="clients" row="client" class="table display-grid" id="clientGrid" zone="registrationZone" 
+                rowsperpage="5"
+                exclude="clientId,clientContact,clientCreationDate"
+                add="Invoices"
+                model="clientGridModel">
             <p:clientCompanyCell>
-                <t:pagelink t:page="view/ViewClient" t:context="client.clientId">${client.clientCompany}</t:pagelink>
+                <t:eventlink t:event="selectClient" t:context="client.clientId" async="true">${client.clientCompany}</t:eventlink>
             </p:clientCompanyCell>
-            <p:actionCell>
-                <t:pagelink t:page="edit/EditClient" t:context="client.clientId">edit</t:pagelink>
-            </p:actionCell>
+            <p:invoicesCell>
+                ${client.getInvoices().size()}
+            </p:invoicesCell>
+            <p:empty>
+                No clients in database
+            </p:empty>
         </t:grid>
+        <div class="row">
+            <!--DISPLAY REGISTRATION DETAILS-->
+            <t:zone t:id="registrationZone" id="registration">
+                <t:if test="checkRegistration">
+                    <div class="row">
+                        <div class="col-sm-9">
+                            <h4 class="col-sm-3">Client ID: #${client.clientId}</h4>
+                        </div>
+                        <t:pagelink t:page="delete/DeleteClient" t:context="client.clientId" class=" btn image-pagelink" title="Delete client?">
+                            <img src="${context:images/icons/delete-client.png}" title="Delete client?"/>
+                        </t:pagelink>
+                        <t:pagelink t:page="edit/EditClient" t:context="client.clientId" class="btn btn-default " title="Edit client info">Edit</t:pagelink>
+                        <t:pagelink t:page="view/ViewClient" t:context="client.clientId" class="btn btn-primary " title="View client details">View</t:pagelink>
+                    </div>
+                    <div class="row well  client-module">
+                        <div class="col-sm-2">
+                            <label>Company name:</label>
+                            <h4>${client.clientCompany}</h4>
+                        </div>
+                        <div class="col-sm-2">
+                            <label>Contact person:</label>
+                            <h4>${client.clientContact}</h4>
+                        </div>
+                        <div class="col-sm-2">
+                            <label>E-mail:</label>
+                            <h4>${client.clientEmail}</h4>
+                        </div>
+                        <div class="col-sm-2 col-sm-offset-2">
+                            <label>Phone:</label>
+                            <h4>${client.clientPhone}</h4>
+                        </div>
+                        <div class="col-sm-2">
+                            <label>Website:</label>
+                            <h4>${client.clientWebsite}</h4>
+                        </div>
+                    </div>
+                    <div class="row well client-module">
+                        <h5 class="col-sm-6 ">Registration info:</h5>
+                        <h5 class="col-sm-6">Shipping info:</h5>
+                        <div class="col-sm-2">
+                            <label>Address:</label>
+                            <h4>${registration.registrationAddress}</h4>
+                        </div>
+                        <div class="col-sm-2">
+                            <label>City:</label>
+                            <h4>${registration.registrationCity}</h4>
+                        </div>
+                        <div class="col-sm-2">
+                            <label>Country:</label>
+                            <h4>${registration.registrationCountry}</h4>
+                        </div>
+                        <div class="col-sm-2">
+                            <label>Address:</label>
+                            <h4>${registration.registrationShipAddress}</h4>
+                        </div>
+                        <div class="col-sm-2">
+                            <label>City:</label>
+                            <h4>${registration.registrationShipCity}</h4>
+                        </div>
+                        <div class="col-sm-2">
+                            <label>Country:</label>
+                            <h4>${registration.registrationShipCountry}</h4>
+                        </div>
+                    </div> 
+                    
+                    <h4>Client's invoices:</h4>
+                    <div class="row">
+                        <table class="table display-grid">
+                            <th>Invoice #</th>
+                            <th>Services</th>
+                            <th>Status</th>
+                            <th>Invoice total</th>
+                            <tr t:type="loop" t:source="client.getInvoices()" value="invoice">
+                                <td>
+                                    <t:pagelink t:page="view/ViewInvoice" t:context="invoice.invoiceId">${invoice.invoiceNumber}</t:pagelink>
+                                </td>
+                                <td>
+                                    <t:loop t:source="invoice.getServices()" value="service">
+                                        ${service.serviceDescription}<br/>
+                                    </t:loop>
+                                </td>
+                                <td>${invoice.invoiceStatus}</td>
+                                <td>
+                                    ${invoice.invoiceAmount} ${invoice.getInvoiceCurrency().getValue()}
+                                </td>
+                            </tr>
+                        </table>
+                    </div> 
+                </t:if>
+            </t:zone>
+        </div>
+        <div class="row spacer"/>
     </body>
 </html>
 
