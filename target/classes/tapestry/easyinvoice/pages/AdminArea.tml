@@ -8,23 +8,117 @@
         <t:header/>
         <t:mainmenu/>
         <div class="row ">
+            <div class=" border_btm ">
+                <h4>Add new users: </h4>
+            </div>
             <t:alerts/>
-            <h4>Admin area: </h4>
-            <t:beaneditform t:id="addMemberForm" t:object="member" exclude="memberId" submitLabel="Add / Edit member" class="col-sm-4 frame border ">
-                <t:errors/>
+            <t:beaneditform t:id="addMemberForm" t:object="member" exclude="memberId" submitLabel="Add / Edit member" class="col-sm-4 frame ">
+                <t:errors/> 
+                <p:memberPassword>
+                    <t:label for="memberPasswordField">Member Password</t:label>
+                    <t:passwordfield t:id="memberPasswordField" id="memberPasswordField" value="member.memberPassword"/>
+                </p:memberPassword>
             </t:beaneditform>
+            
+            <div class="col-sm-8 ">
+                <h4>Existing users: </h4>
+                <t:grid t:source="members" add="Action" row="rowmember" exclude="memberId" rowsperpage="5" >
+                    <p:memberPasswordCell>
+                        ${getOutputPassword()}
+                    </p:memberPasswordCell>
+                    <p:actionCell>
+                        <t:eventlink t:event="deleteMember" t:context="rowmember.memberId">Delete</t:eventlink>
+                        <br/>
+                        <t:eventlink t:event="EditMember" t:context="rowmember">Edit</t:eventlink>
+                    </p:actionCell>
+                </t:grid>
+            </div>
+            
         </div>
         <div class="row spacer"/>
         <div class="row">
-            <h4>Existing members: </h4>
-            <t:grid t:source="members" add="Action" row="rowmember" >
-                <p:actionCell>
-                    <t:eventlink t:event="deleteMember" t:context="rowmember.memberId">Delete</t:eventlink>
-                    <br/>
-                    <t:eventlink t:event="EditMember" t:context="rowmember">Edit</t:eventlink>
-                </p:actionCell>
-            </t:grid>
+            <div class=" border_btm">
+                <h4>Edit company details: </h4>
+            </div>
+            <t:form t:id="addCompanyForm" id="addCompanyForm"  > 
+                <!--BASIC COMPANY INFO...................-->
+                <div class="row"> 
+                    <h5 class="col-sm-12">
+                        Company information
+                    </h5>
+                    <div class="form-group col-xs-3 ">
+                        <label for="companyName">Company name</label>
+                        <t:textfield t:id="companyName" value="companyName"/>
+                    </div> 
+                    <div class="form-group col-xs-2">
+                        <label for="companyAddress">Address</label>
+                        <t:textfield t:id="companyAddress" value="companyAddress"/>
+                    </div> 
+                    <div class="form-group col-xs-1 ">
+                        <label for="companyZip">Zip code</label>
+                        <t:textfield t:id="companyZip" value="companyZip"/>
+                    </div> 
+                    <div class="form-group col-xs-2 ">
+                        <label for="companyCity">City</label>
+                        <t:textfield t:id="companyCity" value="companyCity"/>
+                    </div>
+                    <div class="form-group col-xs-2 ">
+                        <label for="companyCountry">Country</label>
+                        <t:textfield t:id="companyCountry" value="companyCountry"/>
+                    </div> 
+                    <div class="form-group col-xs-2 ">
+                        <label for="companyPhone">Phone/Fax</label>
+                        <t:textfield t:id="companyPhone" value="companyPhone"/>
+                    </div>
+                </div>
+                <!--COMPANY REGISTER AND TAX NUMBERS.......................-->
+                <div class="row">
+                    <h5 class="col-xs-12">
+                        Company tax details
+                    </h5>
+                    <div class="form-group col-xs-2 ">
+                        <label for="companyCRNumber">Commercial register #</label>
+                        <t:textfield t:id="companyCRNumber" value="companyCRNumber"/>
+                    </div> 
+                    <div class="form-group col-xs-2 col-sm-offset-1">
+                        <label for="companyTaxId">Tax ID #</label>
+                        <t:textfield t:id="companyTaxId" value="companyTaxId"/>
+                    </div> 
+                    <div class="form-group col-xs-2 col-sm-offset-1 ">
+                        <label for="companyBusinessCode">Business code</label>
+                        <t:textfield t:id="companyBusinessCode" value="companyBusinessCode"/>
+                    </div> 
+                </div>
+                <!--COMPANY BANK DETAILS.......................-->
+                <div class="row">
+                    <h5 class="col-xs-12">
+                        Bank account details
+                    </h5>
+                    <div class="form-group col-xs-3 ">
+                        <label for="companyBankName">Bank name</label>
+                        <t:textfield t:id="companyBankName" value="companyBankName"/>
+                    </div> 
+                    <div class="form-group col-xs-3 ">
+                        <label for="companyBankAddress">Bank address</label>
+                        <t:textfield t:id="companyBankAddress" value="companyBankAddress"/>
+                    </div> 
+                    <div class="form-group col-xs-2 ">
+                        <label for="companyIban">IBAN</label>
+                        <t:textfield t:id="companyIban" value="companyIban"/>
+                    </div>  
+                    <div class="form-group col-xs-1">
+                        <label for="companySwiftCode">SWIFT</label>
+                        <t:textfield t:id="companySwiftCode" value="companySwiftCode"/>
+                    </div> 
+                    <div class="form-group col-xs-3 ">
+                        <label for="companyCorrespondent">Correspondent bank</label>
+                        <t:textarea t:id="companyCorrespondent" value="companyCorrespondent"/>
+                    </div> 
+                </div>
+                <t:submit value="Edit company"/>
+            </t:form>
         </div>
+        <div class="row spacer"/>
     </body>
 </html>
 

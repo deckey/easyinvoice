@@ -5,6 +5,8 @@
  */
 package tapestry.easyinvoice.pages;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
@@ -40,12 +42,12 @@ public class Clients {
 
     @Property
     private Client client;
-    
+
     @Property
     private Invoice invoice;
-    
+
     @Property
-    private Set<Invoice> invoices;
+    private List<Invoice> invoices;
 
     @Property
     private BeanModel<Client> clientGridModel;
@@ -61,7 +63,7 @@ public class Clients {
 
     @Inject
     private Request request;
-    
+
     @Property
     private Service service;
 
@@ -72,9 +74,8 @@ public class Clients {
     void onActivate() {
         clients = clientDao.getAllClients();
         registration = null;
-        invoices=new TreeSet<>();
+        invoices = new ArrayList<>();
     }
-
     public boolean getCheckRegistration() {
         return registration != null ? true : false;
     }
@@ -90,9 +91,10 @@ public class Clients {
         clientGridModel.get("clientWebsite").sortable(false);
     }
 
-    void onSelectClient(Integer id) {
+    public void onSelectClient(Integer id) {
         client = clientDao.findClientById(id);
-        invoices = client.getInvoices();
+        invoices = new ArrayList<>(client.getInvoices());
+        Collections.sort(invoices);
         registration = client.getRegistration();
         response.addRender(registrationZone);
     }

@@ -37,13 +37,14 @@
             <t:zone t:id="registrationZone" id="registration">
                 <t:if test="checkRegistration">
                     <div class="row">
-                        <div class="col-sm-10">
-                            <h4 class="col-sm-2">Client ID: #${client.clientId}</h4>
+                        <div class="col-sm-9">
+                            <h4 class="col-sm-3">Client ID: #${client.clientId}</h4>
                         </div>
                         <t:pagelink t:page="delete/DeleteClient" t:context="client.clientId" class=" btn image-pagelink" title="Delete client?">
                             <img src="${context:images/icons/delete-client.png}" title="Delete client?"/>
                         </t:pagelink>
                         <t:pagelink t:page="edit/EditClient" t:context="client.clientId" class="btn btn-default " title="Edit client info">Edit</t:pagelink>
+                        <t:pagelink t:page="view/ViewClient" t:context="client.clientId" class="btn btn-primary " title="View client details">View</t:pagelink>
                     </div>
                     <div class="row well  client-module">
                         <div class="col-sm-2">

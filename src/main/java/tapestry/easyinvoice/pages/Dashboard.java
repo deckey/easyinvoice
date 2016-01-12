@@ -9,11 +9,10 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
+import org.apache.tapestry5.annotations.InjectPage;
 import org.apache.tapestry5.annotations.Property;
 import org.apache.tapestry5.grid.GridDataSource;
 import org.apache.tapestry5.hibernate.HibernateGridDataSource;
@@ -42,6 +41,9 @@ public class Dashboard {
 
     @Property
     private List<Client> clients;
+    
+    @InjectPage
+    private Clients clientsPage;
 
     @Inject
     private DashboardDAO dashboardDao;
@@ -200,7 +202,7 @@ public class Dashboard {
         }
         return formatter.format(amount);
     }
-
+    
 //    PAGE ACTIVATION CONTEXT
     void onActivate() {
         if (clients == null) {

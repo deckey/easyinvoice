@@ -7,6 +7,7 @@ package tapestry.easyinvoice.data;
 
 import java.util.List;
 import tapestry.easyinvoice.entities.Client;
+import tapestry.easyinvoice.entities.Company;
 import tapestry.easyinvoice.entities.Service;
 
 /**
@@ -24,6 +25,9 @@ public interface ClientDAO {
     public double getClientTotalAmount(Client client);
     
     public Client findClientById(Integer id);
+    
+    public List<Company> getAllCompanies();
+    public Company findCompanyByName(String companyName);
     
     public Client findClientByCompanyName(String companyName);
     

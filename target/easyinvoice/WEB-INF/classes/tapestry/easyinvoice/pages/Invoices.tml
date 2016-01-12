@@ -16,16 +16,16 @@
             </div>
         </div>
         <t:zone t:id="invoiceListZone" id="invoiceListZone">
-            <t:grid t:source="sortedInvoices" class="table display-grid" id="invoiceGrid"
+            <t:grid t:source="sortedInvoices" class="table display-grid table-hover invoiceGrid"
                     row="invoice" 
                     rowsperpage="10"
-                    exclude="invoiceId,invoiceCurrency"
+                    exclude="invoiceId,invoiceCurrency,totalIncome"
                     model="invoiceGridModel">
                 <p:invoiceNumberCell>
                     <t:pagelink t:page="view/ViewInvoice" t:context="invoice.invoiceId">${invoice.invoiceNumber}</t:pagelink>
                 </p:invoiceNumberCell>
                 <p:invoiceAmountCell>
-                    ${invoice.invoiceAmount} ${invoice.getInvoiceCurrency()}
+                    <p class="text-right">${invoice.totalIncome}</p>
                 </p:invoiceAmountCell>
                 
                 <p:empty>
@@ -35,7 +35,7 @@
         </t:zone>
         
         <div class="row">
-            <t:eventlink class="invoices-link col-sm-4" 
+            <t:eventlink class="invoices-link col-sm-4 " 
                          context="InvoiceStatus.Open" 
                          t:event="displayInvoices" 
                          zone="displayInvoicesZone"
@@ -72,11 +72,13 @@
         <t:zone t:id="displayInvoicesZone" id="displayInvoicesZone">
             <div class="row">
                 <t:if test="invoiceListExists">
-                    <table  class="table display-grid">
+                    <table  class="table invoiceGrid ">
                         <th>Invoice #</th>
                         <th>Description</th>
                         <th>Issue date</th>
                         <th>Due date</th>
+                        <th>Status</th>
+                        <th>Created on</th>
                         <th>Amount</th>
                     
                         <tr t:type="loop" t:source="invoiceList" value="invoice">
@@ -86,7 +88,9 @@
                             <td>${invoice.invoiceDescription}</td>
                             <td>${invoice.invoiceIssueDate}</td>
                             <td>${invoice.invoiceDueDate}</td>
-                            <td>${invoice.invoiceAmount} ${invoice.getInvoiceCurrency().getValue()}</td>
+                            <td>${invoice.invoiceStatus}</td>
+                            <td>${invoiceCreationDate}</td>
+                            <td>${invoice.totalIncome}</td>
                         </tr>
                     </table>
                 </t:if>

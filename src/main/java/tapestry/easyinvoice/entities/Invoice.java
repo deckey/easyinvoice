@@ -1,6 +1,7 @@
 package tapestry.easyinvoice.entities;
 
 import java.io.Serializable;
+import java.text.DecimalFormat;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -163,6 +164,11 @@ public class Invoice implements Serializable, Comparable<Invoice> {
 
     public void setInvoiceAmount(double invoiceAmount) {
         this.invoiceAmount = invoiceAmount;
+    }
+
+    public String getTotalIncome() {
+        DecimalFormat formatter = new DecimalFormat("#,###.00");
+        return formatter.format(this.invoiceAmount)+" "+this.invoiceCurrency.getValue();
     }
 
     public InvoiceCurrency getInvoiceCurrency() {

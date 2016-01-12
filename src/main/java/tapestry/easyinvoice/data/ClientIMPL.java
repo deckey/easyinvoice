@@ -11,6 +11,7 @@ import org.apache.tapestry5.ioc.annotations.Inject;
 import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;
 import tapestry.easyinvoice.entities.Client;
+import tapestry.easyinvoice.entities.Company;
 import tapestry.easyinvoice.entities.Invoice;
 import tapestry.easyinvoice.entities.Service;
 
@@ -57,6 +58,18 @@ public class ClientIMPL implements ClientDAO {
     public Client findClientById(Integer id) {
         return (Client) dbs.createCriteria(Client.class).add(Restrictions.eq("clientId", id)).uniqueResult();
     }
+
+    @Override
+    public List<Company> getAllCompanies() {
+        return dbs.createCriteria(Company.class).list();
+    }
+
+    @Override
+    public Company findCompanyByName(String companyName) {
+        return (Company) dbs.createCriteria(Company.class).add(Restrictions.eq("companyName", companyName)).uniqueResult();
+    }
+    
+    
 
     @Override
     public Client findClientByCompanyName(String companyName) {

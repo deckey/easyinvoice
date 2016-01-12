@@ -58,7 +58,7 @@ strong{color:#317eac;}
 .table-service th {border-bottom: #afd9ee 3px solid;height:2em;}
 .table-service tr{height:1.4em;}
 
-.table-service tr :nth-child(1){width:10%;border-top:none;}
+.table-service tr :nth-child(1){width:10%;}
 .table-service tr :nth-child(2){width:60;}
 .table-service tr :nth-child(3){width:30%;}
 .table-service tr td i, b{font-size:1.2em;color:#008cba}
@@ -68,9 +68,10 @@ strong{color:#317eac;}
 .table-invoice tr td:first-child{color:#317eac;width:120px;}
 
 .display-grid td:nth-child(1){width:15%;}
-.display-grid td:nth-child(3){width:25%;}
+.display-grid td:nth-child(2){width:35%;}
+.display-grid td:nth-child(3){width:20%;}
 .display-grid td:nth-child(4){width:20%;}
-.display-grid td:nth-child(5){width:20%;}
+.display-grid td:nth-child(5){width:10%;}
 
 #serviceListZone table tr:last-child{height:2em;border-top:#afd9ee 1px solid;}
 
@@ -85,9 +86,14 @@ strong{color:#317eac;}
 .overdue{border:#ff6666 1px solid}
 .closed{border:#666666 1px solid;background-color: #cccccc}
 
-#invoiceGrid td{width:10%;}
-#invoiceGrid td:nth-child(2){width:20%;}
-#invoiceGrid td:nth-child(8){width:5%;}
+.invoiceGrid td:nth-child(1){width:10%;}
+.invoiceGrid td:nth-child(2){width:30%;}
+.invoiceGrid td:nth-child(3){width:12%;}
+.invoiceGrid td:nth-child(4){width:12%;}
+.invoiceGrid td:nth-child(5){width:12%;}
+.invoiceGrid td:nth-child(6){width:12%;}
+.invoiceGrid td:nth-child(7){width:12%;}
+
 
 /*ul.pagination{float:right;}*/
 #registration{}
@@ -103,3 +109,12 @@ strong{color:#317eac;}
 .image-pagelink{margin-left:5em;}
 #openInvoicesGrid,#overdueInvoicesGrid,#closedInvoicesGrid{display:none;}
 .invoices-link:focus, .invoices-link:active{outline-style: none;text-decoration: none;}
+
+#addCompanyForm{margin-top:1em;}
+
+#invoiceTable td:nth-child(1){width:40%;border-right:#cccccc 1px solid;}
+#invoiceTable td:nth-child(2){width:20%;border-right:#cccccc 1px solid;}
+#invoiceTable td:nth-child(3){width:40%;}
+
+#bank-table :nth-child(1){width:20%;}
+#bank-table :nth-child(2){width:80; }

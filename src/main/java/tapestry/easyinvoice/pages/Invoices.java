@@ -6,6 +6,7 @@
 package tapestry.easyinvoice.pages;
 
 import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -89,6 +90,11 @@ public class Invoices {
 
     public DecimalFormat getNumberFormat() {
         return new DecimalFormat("0");
+    }
+    
+    public String getInvoiceCreationDate(){
+        SimpleDateFormat dateFormat = new SimpleDateFormat("MMM DD, YYYY");
+        return dateFormat.format(invoice.getInvoiceCreationDate());
     }
 
     public Object onDisplayInvoices(InvoiceStatus status) {

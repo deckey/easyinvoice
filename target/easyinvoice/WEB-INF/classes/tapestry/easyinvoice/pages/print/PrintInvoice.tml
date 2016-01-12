@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html t:type="layout" 
+      title="EasyInvoice : Print invoice" 
+      xmlns:t="http://tapestry.apache.org/schema/tapestry_5_3.xsd"
+      xmlns:p="tapestry:parameter">
+   
+    <body>
+        <div class="row" id="header-bar">
+            <div class="col-xs-6">
+                <!--LOGO-->
+                <t:pagelink t:page="view/ViewInvoice" t:context="invoice.invoiceId">
+                    <img class="img-responsive" id="logo-small" src="${context:images/easyinvoice_logo_small.png}"/>
+                </t:pagelink>
+            </div>
+        </div>
+        <div class="row ">
+            <table class="col-xs-12 table table-bordered" id="invoiceTable">
+                <!--COMPANY INFO-->
+                <tr>
+                    <td>
+                        <b>${company.companyName}</b>
+                        <br/>
+                        ${company.companyAddress}<br/>
+                        ${company.companyZip} ${company.companyCity}<br/>
+                        ${company.companyCountry}<br/>
+                        Phone/Fax: ${company.companyPhone}<br/>
+                        <br/>
+                        Commercial register number:<br/>
+                        ${company.companyCRNumber}<br/>
+                        Tax identification number:<br/>
+                        ${company.companyTaxId}<br/>
+                        Business code:<br/>
+                        ${company.companyBusinessCode}<br/>
+                    </td>
+                    <td></td>
+                    <td>
+                        <b>${client.clientCompany}</b>
+                        <br/>
+                        ${registration.registrationAddress}<br/>
+                        ${registration.registrationCity} <br/>
+                        ${registration.registrationCountry}<br/>
+                    </td>
+                </tr>
+                <!--DATES-->
+                <tr>
+                    <td>Place and date of invoice:</td>
+                    <td>${company.companyCity} ${company.companyCountry}</td>
+                    <td>${getFormattedDate(invoice.invoiceIssueDate)}</td>
+                </tr>
+                <tr>
+                    <td>Date of commerce:</td>
+                    <td></td>
+                    <td>${getFormattedDate(invoice.invoiceDueDate)}</td>
+                </tr>
+                <tr>
+                    <td>Type of payment: Wire transfer</td>
+                    <td>Invoice number:</td>
+                    <td>${invoice.invoiceNumber}</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>Bank name:</td>
+                    <td>${company.companyBankName}</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>Account number:</td>
+                    <td>${company.companyIban}</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>SWIFT:</td>
+                    <td>${company.companySwiftCode}</td>
+                </tr>
+            </table>
+            <!--SERVICES-->
+            <table class="table table-service">
+                <th>#</th>
+                <th>Service description</th>
+                <th>Amount (${invoice.invoiceCurrency})</th>
+                
+                <tr t:type="loop" t:source="services" value="service">
+                    <td>${service.serviceNumber}</td>
+                    <td>${service.serviceDescription}</td>
+                    <td>${service.serviceAmount}</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td class="text-right">
+                        <i>Total amount:</i>
+                    </td>
+                    <td>
+                        <b>${invoice.invoiceAmount} ${invoice.getInvoiceCurrency().getValue()}</b>
+                    </td>
+                </tr>
+            </table>
+            <div class="row border_btm">
+                <p style="white-space:pre">
+                    VAT due to the recipient
+                    Recipient of the service is liable for VAT according reverse charge mechanism
+                    Please pay as per instructions below (transaction fees handled by the client):
+                </p>
+            </div>
+            <br />
+            <!--BANK TRANSFER INFO-->
+            <table class="col-sm-12" id="bank-table">
+                
+                <tr>
+                    <td>Bank SWIFT code:</td>
+                    <td>${company.companySwiftCode}</td>
+                </tr>
+                <tr>
+                    <td>Bank name:</td>
+                    <td>${company.companyBankName}</td>
+                </tr> 
+                <tr>
+                    <td>Bank address:</td>
+                    <td>${company.companyBankAddress}</td>
+                </tr>
+                <tr>
+                    <td>
+                        <br/>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Account number(IBAN):</td>
+                    <td>${company.companyIban}</td>
+                </tr>
+                <tr>
+                    <td>Company name:</td>
+                    <td>${company.companyName}</td>
+                </tr>
+                <tr>
+                    <td>Company address:</td>
+                    <td>${company.companyAddress}, ${company.companyCity}, ${company.companyCountry}</td>
+                </tr>
+                <tr>
+                    <td>
+                        <br/>
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td >Preffered correspondent:</td>
+                    <td>
+                        <p style="white-space:pre">${company.companyCorrespondent}</p>
+                    </td>
+                </tr>
+                
+            </table>
+            <!--            <div class="col-xs-6">
+                <h4 class='text-right'> Preview icon</h4>
+            </div>-->
+        </div>
+        <div class="row spacer"/>
+    </body>
+</html>
+
+
+
