@@ -87,12 +87,13 @@ strong{color:#317eac;}
 .closed{border:#666666 1px solid;background-color: #cccccc}
 
 .invoiceGrid td:nth-child(1){width:10%;}
-.invoiceGrid td:nth-child(2){width:30%;}
-.invoiceGrid td:nth-child(3){width:12%;}
-.invoiceGrid td:nth-child(4){width:12%;}
-.invoiceGrid td:nth-child(5){width:12%;}
-.invoiceGrid td:nth-child(6){width:12%;}
-.invoiceGrid td:nth-child(7){width:12%;}
+.invoiceGrid td:nth-child(2){width:25%;}
+.invoiceGrid td:nth-child(3){width:15%;}
+.invoiceGrid td:nth-child(4){width:10%;}
+.invoiceGrid td:nth-child(5){width:10%;}
+.invoiceGrid td:nth-child(6){width:10%;}
+.invoiceGrid td:nth-child(7){width:10%;}
+.invoiceGrid td:nth-child(8){width:10%;}
 
 
 /*ul.pagination{float:right;}*/

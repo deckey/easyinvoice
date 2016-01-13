@@ -21,6 +21,11 @@
                     rowsperpage="10"
                     exclude="invoiceId,invoiceCurrency,totalIncome"
                     model="invoiceGridModel">
+                <p:clientCell>
+                    <t:pagelink t:page="view/ViewClient" t:context="invoice.getClient().getClientId()">
+                        ${getClientName(invoice)}
+                    </t:pagelink>
+                </p:clientCell>
                 <p:invoiceNumberCell>
                     <t:pagelink t:page="view/ViewInvoice" t:context="invoice.invoiceId">${invoice.invoiceNumber}</t:pagelink>
                 </p:invoiceNumberCell>
@@ -75,6 +80,7 @@
                     <table  class="table invoiceGrid ">
                         <th>Invoice #</th>
                         <th>Description</th>
+                        <th>Client</th>
                         <th>Issue date</th>
                         <th>Due date</th>
                         <th>Status</th>
@@ -86,6 +92,11 @@
                                 <t:pagelink t:page="view/ViewInvoice" t:context="invoice.invoiceId">${invoice.invoiceNumber}</t:pagelink>
                             </td>
                             <td>${invoice.invoiceDescription}</td>
+                            <td>
+                                <t:pagelink t:page="view/ViewClient" t:context="invoice.getClient().getClientId()">
+                                    ${getClientName(invoice)}
+                                </t:pagelink>
+                            </td>
                             <td>${invoice.invoiceIssueDate}</td>
                             <td>${invoice.invoiceDueDate}</td>
                             <td>${invoice.invoiceStatus}</td>

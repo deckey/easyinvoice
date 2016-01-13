@@ -37,6 +37,9 @@ public class Invoices {
 
     @Inject
     private DashboardDAO dashboardDao;
+    
+    @Property
+    private Client client;
 
     @Inject
     private ClientDAO clientDao;
@@ -126,6 +129,10 @@ public class Invoices {
     public boolean getInvoiceListExists() {
         return invoiceList != null ? true : false;
     }
+    public String getClientName(Invoice aInvoice){
+        Client client = clientDao.findClientById(aInvoice.getClient().getClientId());
+        return client.getClientCompany();
+    }
 
     void onActivate() {
         dashboardDao.updateInvoices();
@@ -139,6 +146,8 @@ public class Invoices {
         invoiceGridModel.get("invoiceDescription").sortable(false);
         invoiceGridModel.get("invoiceCurrency").sortable(false);
         invoiceGridModel.exclude("invoiceId");
+        invoiceGridModel.add("Client");
+        invoiceGridModel.reorder("invoiceNumber","invoiceDescription","Client","invoiceIssueDate","invoiceDueDate","invoiceStatus","invoiceCreationDate","invoiceAmount");
 
 //        LABELS
         invoiceGridModel.get("invoiceNumber").label("Invoice #");
