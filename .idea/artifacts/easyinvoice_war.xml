@@ -1,7 +1,7 @@
 <component name="ArtifactManager">
   <artifact type="war" name="easyinvoice:war">
     <output-path>$PROJECT_DIR$/target</output-path>
-    <root id="archive" name="projecttracker.war">
+    <root id="archive" name="easyinvoice.war">
       <element id="artifact" artifact-name="easyinvoice:war exploded" />
     </root>
   </artifact>

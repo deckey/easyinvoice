@@ -66,6 +66,7 @@ public class AppModule {
     /**
      * Use annotation or method naming convention:
      * <code>contributeApplicationDefaults</code>
+     * @param configuration
      */
     @Contribute(SymbolProvider.class)
     @ApplicationDefaults
@@ -134,7 +135,7 @@ public class AppModule {
      * service(s) that implement RequestFilter (defined in other modules).
      */
     public void contributeRequestHandler(OrderedConfiguration<RequestFilter> configuration,
-            @Local RequestFilter filter) {
+                                         @Local RequestFilter filter) {
         // Each contribution to an ordered configuration has a name, When necessary, you may
         // set constraints to precisely control the invocation order of the contributed filter
         // within the pipeline.
