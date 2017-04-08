@@ -1,0 +1,6 @@
+/*.sql
+/.idea
+/target/
+/.gradle/
+/.elasticbeanstalk/
+/gradle/
